@@ -2942,9 +2942,7 @@
   };
 
   // Import d'image : upload temporaire sur litterbox (expiration 1h côté serveur)
-  // pour obtenir une URL exploitable par la recherche inversée. Effacement de
-  // l'interface au bout de 60 s.
-  var imgExpireTimer = null;
+  // pour obtenir une URL exploitable par la recherche inversée.
   window.importImage = function(input) {
     var file = input.files && input.files[0];
     if (!file) return;
@@ -2957,7 +2955,10 @@
     fd.append('time', '1h');
     fd.append('fileToUpload', file);
 
-    fetch('https://litterbox.catbox.moe/resources/internals/api.php', { method: 'POST', body: fd })
+    var ctrl = new AbortController();
+    var timeout = setTimeout(function() { ctrl.abort(); }, 20000);
+
+    fetch('https://litterbox.catbox.moe/resources/internals/api.php', { method: 'POST', body: fd, signal: ctrl.signal })
       .then(function(r) { return r.text(); })
       .then(function(url) {
         url = (url || '').trim();
@@ -2967,20 +2968,11 @@
         target.dispatchEvent(new Event('input', { bubbles: true }));
         window.generateImage();
         showToast('Image envoyée — recherche prête.');
-
-        if (imgExpireTimer) clearTimeout(imgExpireTimer);
-        imgExpireTimer = setTimeout(function() {
-          target.value = '';
-          target.dispatchEvent(new Event('input', { bubbles: true }));
-          var res = document.getElementById('results');
-          if (res) res.innerHTML = '<div class="empty-state"><span class="prompt-char">_</span>L\'image a été supprimée pour confidentialité, veuillez la réuploader.</div>';
-          showToast('Image supprimée pour confidentialité — réuploadez si besoin.');
-        }, 60000);
       })
       .catch(function() {
         showToast('Échec de l\'envoi (réseau ou blocage CORS). Collez plutôt l\'URL d\'une image.');
       })
-      .then(function() { input.value = ''; });
+      .then(function() { clearTimeout(timeout); input.value = ''; });
   };
 
   window.generateImage = function(silent) {
