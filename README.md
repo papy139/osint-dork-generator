@@ -1,10 +1,24 @@
 # OSINT Dork Generator
 
 [![CI](https://github.com/papy139/osint-dork-generator/actions/workflows/ci.yml/badge.svg)](https://github.com/papy139/osint-dork-generator/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-00e5a0.svg)](LICENSE)
+![Dependencies](https://img.shields.io/badge/dependencies-0-00e5a0.svg)
+![Single file](https://img.shields.io/badge/build-single--file-00e5a0.svg)
+![Tests](https://img.shields.io/badge/tests-48-00e5a0.svg)
 
 Générateur de Google Dorks pour l'audit d'empreinte numérique. Application
 autonome, en un seul fichier HTML, sans dépendance ni serveur : elle s'ouvre
-directement dans un navigateur.
+directement dans un navigateur. Interface bilingue FR / EN, mode enquête et
+export multi-format.
+
+## Sommaire
+
+- [Avertissement légal](#avertissement-légal)
+- [Fonctionnalités](#fonctionnalités)
+- [Utilisation](#utilisation)
+- [Build](#build)
+- [Structure des sources](#structure-des-sources)
+- [Licence](#licence)
 
 ## Avertissement légal
 
