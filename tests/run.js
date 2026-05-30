@@ -63,6 +63,7 @@ ok('phoneVariants invalide → tel quel', JSON.stringify(H.phoneVariants('abc'))
 // pseudoVariants
 ok('pseudoVariants séparateurs', H.pseudoVariants('shadow_killer').indexOf('shadowkiller') !== -1);
 ok('pseudoVariants leet', H.pseudoVariants('shadow_killer').indexOf('5h4d0w_k1ll3r') !== -1);
+ok('pseudoVariants homoglyphes', H.pseudoVariants('lilo').indexOf('1110') !== -1);
 ok('pseudoVariants vide', H.pseudoVariants('').length === 0);
 
 // buildNameQuery

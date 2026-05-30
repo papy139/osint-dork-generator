@@ -46,6 +46,9 @@
     var out = [p, base];
     var leet = base.replace(/a/g, '4').replace(/e/g, '3').replace(/i/g, '1').replace(/o/g, '0').replace(/s/g, '5');
     if (leet !== base) out.push(leet);
+    // Homoglyphes / caractères confusables (l ↔ 1 ↔ i, o ↔ 0)
+    var homo = base.replace(/[il]/g, '1').replace(/o/g, '0');
+    if (homo !== base) out.push(homo);
     var m = base.split(/[._-]/);
     if (m.length > 1) out.push(m.join(''), m.join('.'), m.join('_'), m.join('-'));
     return Array.from(new Set(out));

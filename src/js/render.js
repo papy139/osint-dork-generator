@@ -79,6 +79,9 @@
           html += '<div class="dork-actions">';
           html += '<button class="btn-sm" onclick="handleCopy(\'' + id + '\', this)">Copier</button>';
           html += '<button class="btn-sm" onclick="handleOpen(\'' + id + '\')">Ouvrir ↗</button>';
+          if (entry.url) {
+            html += '<button class="btn-sm" onclick="handleArchive(\'' + id + '\')" title="Voir les archives Wayback Machine">📦</button>';
+          }
           html += '</div>';
           html += '</div>';
         });
@@ -192,6 +195,13 @@
 
   window.handleCopy = function(id, btn) {
     copyText(dorkTextOf(document.getElementById(id)), btn);
+  };
+
+  // Ouvre les archives Wayback Machine d'un lien
+  window.handleArchive = function(id) {
+    var el = document.getElementById(id);
+    var url = el.getAttribute('data-url') || dorkTextOf(el);
+    window.open('https://web.archive.org/web/*/' + url, '_blank');
   };
 
   window.handleOpen = function(id) {

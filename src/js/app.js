@@ -76,6 +76,20 @@
     } catch(e) {}
   })();
 
+  // Insère un opérateur dans la zone Champs perso, au curseur (entre les guillemets si présents)
+  window.insertPreset = function(snippet) {
+    var ta = document.getElementById('customDorks');
+    if (!ta) return;
+    var s = ta.selectionStart != null ? ta.selectionStart : ta.value.length;
+    var e = ta.selectionEnd != null ? ta.selectionEnd : ta.value.length;
+    ta.value = ta.value.slice(0, s) + snippet + ta.value.slice(e);
+    // Place le curseur entre les guillemets si le snippet finit par ""
+    var pos = s + snippet.length - (/""$/.test(snippet) ? 1 : 0);
+    ta.focus();
+    ta.setSelectionRange(pos, pos);
+    ta.dispatchEvent(new Event('input', { bubbles: true }));
+  };
+
   // Génère un lien contenant le formulaire pré-rempli (les valeurs sont dans l'URL)
   window.shareLink = function() {
     var data = {};

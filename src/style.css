@@ -737,3 +737,33 @@
     font-style: normal;
     font-weight: 600;
   }
+
+  /* Barre d'opérateurs (onglet Champs perso) */
+  .preset-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.7rem;
+  }
+  .preset-btn {
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    border-radius: var(--radius);
+    padding: 0.3rem 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .preset-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* Respect de la préférence « mouvement réduit » */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }

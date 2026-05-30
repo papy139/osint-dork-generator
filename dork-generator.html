@@ -3,6 +3,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data: blob: https:; object-src 'none'; base-uri 'none';">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Générateur de Google Dorks OSINT — application autonome en un seul fichier, sans dépendance ni serveur.">
 <meta name="theme-color" content="#0a0e14">
@@ -749,6 +750,36 @@
     font-style: normal;
     font-weight: 600;
   }
+
+  /* Barre d'opérateurs (onglet Champs perso) */
+  .preset-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.7rem;
+  }
+  .preset-btn {
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    border-radius: var(--radius);
+    padding: 0.3rem 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .preset-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* Respect de la préférence « mouvement réduit » */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 </style>
 </head>
 <body>
@@ -1021,6 +1052,20 @@
         </ul>
       </aside>
       <div class="custom-main">
+        <div class="preset-bar" aria-label="Insérer un opérateur">
+          <button type="button" class="preset-btn" onclick="insertPreset('&quot;&quot;')">"…"</button>
+          <button type="button" class="preset-btn" onclick="insertPreset(' OR ')">OR</button>
+          <button type="button" class="preset-btn" onclick="insertPreset(' -')">-mot</button>
+          <button type="button" class="preset-btn" onclick="insertPreset('site:')">site:</button>
+          <button type="button" class="preset-btn" onclick="insertPreset('-site:')">-site:</button>
+          <button type="button" class="preset-btn" onclick="insertPreset('intitle:&quot;&quot;')">intitle:</button>
+          <button type="button" class="preset-btn" onclick="insertPreset('inurl:&quot;&quot;')">inurl:</button>
+          <button type="button" class="preset-btn" onclick="insertPreset('intext:&quot;&quot;')">intext:</button>
+          <button type="button" class="preset-btn" onclick="insertPreset('filetype:pdf')">filetype:</button>
+          <button type="button" class="preset-btn" onclick="insertPreset('AROUND(3)')">AROUND(3)</button>
+          <button type="button" class="preset-btn" onclick="insertPreset('2020..2024')">plage ..</button>
+          <button type="button" class="preset-btn" onclick="insertPreset('*')">*</button>
+        </div>
         <textarea id="customDorks" placeholder=""></textarea>
         <div class="btn-row" style="margin-top:0.8rem">
           <button class="btn-generate" onclick="generateCustom()">Rechercher</button>
@@ -1045,7 +1090,7 @@
   </footer>
 </div>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 (function() {
@@ -1099,6 +1144,9 @@
     var out = [p, base];
     var leet = base.replace(/a/g, '4').replace(/e/g, '3').replace(/i/g, '1').replace(/o/g, '0').replace(/s/g, '5');
     if (leet !== base) out.push(leet);
+    // Homoglyphes / caractères confusables (l ↔ 1 ↔ i, o ↔ 0)
+    var homo = base.replace(/[il]/g, '1').replace(/o/g, '0');
+    if (homo !== base) out.push(homo);
     var m = base.split(/[._-]/);
     if (m.length > 1) out.push(m.join(''), m.join('.'), m.join('_'), m.join('-'));
     return Array.from(new Set(out));
@@ -1785,6 +1833,9 @@
           html += '<div class="dork-actions">';
           html += '<button class="btn-sm" onclick="handleCopy(\'' + id + '\', this)">Copier</button>';
           html += '<button class="btn-sm" onclick="handleOpen(\'' + id + '\')">Ouvrir ↗</button>';
+          if (entry.url) {
+            html += '<button class="btn-sm" onclick="handleArchive(\'' + id + '\')" title="Voir les archives Wayback Machine">📦</button>';
+          }
           html += '</div>';
           html += '</div>';
         });
@@ -1898,6 +1949,13 @@
 
   window.handleCopy = function(id, btn) {
     copyText(dorkTextOf(document.getElementById(id)), btn);
+  };
+
+  // Ouvre les archives Wayback Machine d'un lien
+  window.handleArchive = function(id) {
+    var el = document.getElementById(id);
+    var url = el.getAttribute('data-url') || dorkTextOf(el);
+    window.open('https://web.archive.org/web/*/' + url, '_blank');
   };
 
   window.handleOpen = function(id) {
@@ -3352,6 +3410,20 @@
       showToast('Formulaire chargé depuis le lien.');
     } catch(e) {}
   })();
+
+  // Insère un opérateur dans la zone Champs perso, au curseur (entre les guillemets si présents)
+  window.insertPreset = function(snippet) {
+    var ta = document.getElementById('customDorks');
+    if (!ta) return;
+    var s = ta.selectionStart != null ? ta.selectionStart : ta.value.length;
+    var e = ta.selectionEnd != null ? ta.selectionEnd : ta.value.length;
+    ta.value = ta.value.slice(0, s) + snippet + ta.value.slice(e);
+    // Place le curseur entre les guillemets si le snippet finit par ""
+    var pos = s + snippet.length - (/""$/.test(snippet) ? 1 : 0);
+    ta.focus();
+    ta.setSelectionRange(pos, pos);
+    ta.dispatchEvent(new Event('input', { bubbles: true }));
+  };
 
   // Génère un lien contenant le formulaire pré-rempli (les valeurs sont dans l'URL)
   window.shareLink = function() {

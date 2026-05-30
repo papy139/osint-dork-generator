@@ -266,6 +266,20 @@
         </ul>
       </aside>
       <div class="custom-main">
+        <div class="preset-bar" aria-label="Insérer un opérateur">
+          <button type="button" class="preset-btn" onclick="insertPreset('&quot;&quot;')">"…"</button>
+          <button type="button" class="preset-btn" onclick="insertPreset(' OR ')">OR</button>
+          <button type="button" class="preset-btn" onclick="insertPreset(' -')">-mot</button>
+          <button type="button" class="preset-btn" onclick="insertPreset('site:')">site:</button>
+          <button type="button" class="preset-btn" onclick="insertPreset('-site:')">-site:</button>
+          <button type="button" class="preset-btn" onclick="insertPreset('intitle:&quot;&quot;')">intitle:</button>
+          <button type="button" class="preset-btn" onclick="insertPreset('inurl:&quot;&quot;')">inurl:</button>
+          <button type="button" class="preset-btn" onclick="insertPreset('intext:&quot;&quot;')">intext:</button>
+          <button type="button" class="preset-btn" onclick="insertPreset('filetype:pdf')">filetype:</button>
+          <button type="button" class="preset-btn" onclick="insertPreset('AROUND(3)')">AROUND(3)</button>
+          <button type="button" class="preset-btn" onclick="insertPreset('2020..2024')">plage ..</button>
+          <button type="button" class="preset-btn" onclick="insertPreset('*')">*</button>
+        </div>
         <textarea id="customDorks" placeholder=""></textarea>
         <div class="btn-row" style="margin-top:0.8rem">
           <button class="btn-generate" onclick="generateCustom()">Rechercher</button>
@@ -290,4 +304,4 @@
   </footer>
 </div>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
