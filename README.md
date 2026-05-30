@@ -16,19 +16,26 @@ collectée ni transmise par l'application.
 
 ## Fonctionnalités
 
-- **Cinq contextes de recherche** : identité, pseudonyme, domaine / IP, société,
-  champs personnalisés.
+- **Six contextes de recherche** : identité, pseudonyme, domaine / IP, société,
+  image, champs personnalisés.
+- **Recherche par image** : recherche inversée à partir de l'URL d'une image
+  (Google Lens, Yandex, Bing, TinEye…) et accès aux moteurs de recherche de
+  visages à téléversement manuel.
 - **Multi-moteurs** : génération en syntaxe Google, ouverture adaptée à Google,
   DuckDuckGo ou Yandex.
 - **Liens directs** : URLs prêtes à l'emploi vers les profils et outils OSINT
   (réseaux sociaux par pseudonyme, registres d'entreprises, services d'analyse
   de domaines et d'adresses IP).
-- **Export** : copie globale, export `.txt` par contexte, ou archive ZIP
-  regroupant tous les contextes remplis.
+- **Commandes CLI** : génération de commandes Sherlock / Maigret pour la
+  vérification réseau réelle de l'existence des comptes.
+- **Export** : copie globale, export `.txt`, rapport HTML autonome (liens
+  cliquables), ou archive ZIP regroupant tous les contextes remplis.
 - **Gestion de cibles** : enregistrement, renommage, import et export JSON des
   formulaires.
-- **Filtrage** des résultats, déduplication, normalisation des numéros de
-  téléphone, thème clair / sombre.
+- **Lien partageable** : formulaire encodé dans l'URL pour rejouer une recherche.
+- **Confort** : filtrage et surlignage des résultats, déduplication,
+  normalisation des domaines et des numéros de téléphone, raccourcis clavier
+  (`Alt+1` à `Alt+5`), thème clair / sombre.
 
 ## Utilisation
 
@@ -53,6 +60,12 @@ node build.js
 `build.js` concatène le HTML, le CSS et les fragments JavaScript de `src/` en un
 seul fichier autonome. Ne pas modifier `dork-generator.html` directement :
 éditer les sources puis relancer le build.
+
+Les fonctions pures sont couvertes par une suite de tests sans dépendance :
+
+```bash
+npm test    # ou : node tests/run.js
+```
 
 ## Structure des sources
 

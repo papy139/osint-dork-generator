@@ -708,6 +708,7 @@
     <button class="tab-btn" onclick="switchTab('pseudo', this)">Pseudo</button>
     <button class="tab-btn" onclick="switchTab('domaine', this)">Domaine / IP</button>
     <button class="tab-btn" onclick="switchTab('societe', this)">Société</button>
+    <button class="tab-btn" onclick="switchTab('image', this)">Image</button>
     <button class="tab-btn" onclick="switchTab('perso', this)">Champs perso</button>
   </div>
 
@@ -852,6 +853,20 @@
     <div class="btn-row">
       <button class="btn-generate" onclick="generateSociete()">Générer les dorks société</button>
       <button class="btn-clear" onclick="clearTab('societe')">Clear</button>
+    </div>
+  </div>
+
+  <!-- TAB IMAGE -->
+  <div class="tab-panel" id="tab-image">
+    <div class="form-grid">
+      <div class="form-group full">
+        <label for="imageUrl">URL de l'image <span class="hint">— lien direct vers le fichier image</span></label>
+        <input type="text" id="imageUrl" placeholder="https://exemple.com/photo.jpg">
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-generate" onclick="generateImage()">Rechercher par image</button>
+      <button class="btn-clear" onclick="clearTab('image')">Clear</button>
     </div>
   </div>
 
@@ -1318,6 +1333,18 @@
     return links;
   }
 
+  // Recherche d'image inversée à partir de l'URL d'une image (moteurs acceptant un paramètre URL)
+  function imageLinks(imgUrl) {
+    var e = encodeURIComponent(imgUrl);
+    return [
+      { label: 'Google Lens',          url: 'https://lens.google.com/uploadbyurl?url=' + e },
+      { label: 'Yandex Images',        url: 'https://yandex.com/images/search?rpt=imageview&url=' + e },
+      { label: 'Bing Visual Search',   url: 'https://www.bing.com/images/search?view=detailv2&iss=sbi&q=imgurl:' + e },
+      { label: 'TinEye',               url: 'https://tineye.com/search?url=' + e },
+      { label: 'Karma Decay (Reddit)', url: 'http://karmadecay.com/search?q=' + e }
+    ];
+  }
+
   // Recherches pré-remplies pour une personne (nom/prénom + emails)
   function identiteLinks(nom, prenom, emails) {
     var links = [];
@@ -1645,6 +1672,7 @@
       { label: 'pseudo', fn: window.generatePseudo },
       { label: 'domaine', fn: window.generateDomaine },
       { label: 'société', fn: window.generateSociete },
+      { label: 'image', fn: window.generateImage },
       { label: 'champs-perso', fn: window.generateCustom }
     ];
     var files = [];
@@ -2718,6 +2746,39 @@
     renderResults(categories);
   };
 
+  window.generateImage = function(silent) {
+    var imgUrl = val('imageUrl');
+    if (!imgUrl) {
+      if (silent) return null;
+      showToast('Renseignez l\'URL directe d\'une image.');
+      return;
+    }
+
+    var categories = [];
+
+    categories.push({
+      icon: '🔎', title: 'Recherche inversée — par URL',
+      desc: 'Ouvre la recherche inversée avec l\'URL de l\'image fournie',
+      links: imageLinks(imgUrl)
+    });
+
+    categories.push({
+      icon: '📷', title: 'Moteurs à téléversement manuel',
+      desc: 'Téléverser l\'image manuellement — utile notamment pour la recherche de visages',
+      links: [
+        { label: 'PimEyes (visages)',    url: 'https://pimeyes.com/en' },
+        { label: 'FaceCheck.id (visages)', url: 'https://facecheck.id/' },
+        { label: 'Lenso.ai',             url: 'https://lenso.ai/' },
+        { label: 'Google Images',        url: 'https://images.google.com/' },
+        { label: 'Baidu Images',         url: 'https://image.baidu.com/' },
+        { label: 'Sogou Images',         url: 'https://pic.sogou.com/' }
+      ]
+    });
+
+    if (silent) return { categories: categories, values: [] };
+    renderResults(categories);
+  };
+
   window.generateCustom = function(silent) {
     var raw = document.getElementById('customDorks').value;
     var dorks = raw.split('\n').map(function(l) { return l.trim(); }).filter(Boolean);
@@ -2749,13 +2810,14 @@
 
   // Persistence
 
-  var FIELDS = ['nom','prenom','variations','emails','telephones','dateNaissance','villes','dateDebut','dateFin','exclusions','pseudo','pseudoVariations','pseudoEmails','pseudoPlatforms','pseudoExclusions','domaine','ip','domaineExclusions','societe','siren','domaineSociete','emailsSociete','telephonesSociete','secteur','villeSociete','societeSociete','customDorks'];
+  var FIELDS = ['nom','prenom','variations','emails','telephones','dateNaissance','villes','dateDebut','dateFin','exclusions','pseudo','pseudoVariations','pseudoEmails','pseudoPlatforms','pseudoExclusions','domaine','ip','domaineExclusions','societe','siren','domaineSociete','emailsSociete','telephonesSociete','secteur','villeSociete','societeSociete','imageUrl','customDorks'];
 
   var TAB_FIELDS = {
     identite: ['nom','prenom','variations','emails','telephones','dateNaissance','villes','dateDebut','dateFin','exclusions'],
     pseudo:   ['pseudo','pseudoVariations','pseudoEmails','pseudoPlatforms','pseudoExclusions'],
     domaine:  ['domaine','ip','domaineExclusions'],
     societe:  ['societe','siren','domaineSociete','emailsSociete','telephonesSociete','secteur','villeSociete','societeSociete'],
+    image:    ['imageUrl'],
     perso:    ['customDorks'],
   };
 
@@ -2809,7 +2871,7 @@
 
   // Raccourcis Alt+1..5 : bascule d'onglet
   document.addEventListener('keydown', function(e) {
-    if (e.altKey && !e.ctrlKey && !e.metaKey && e.key >= '1' && e.key <= '5') {
+    if (e.altKey && !e.ctrlKey && !e.metaKey && e.key >= '1' && e.key <= '6') {
       var btns = document.querySelectorAll('.tab-btn');
       var i = parseInt(e.key, 10) - 1;
       if (btns[i]) { e.preventDefault(); btns[i].click(); }
@@ -2823,7 +2885,7 @@
   });
 
   // Entrée dans un champ texte → lance la génération de l'onglet courant (sauf textarea)
-  var GEN_FN = { identite: 'generate', pseudo: 'generatePseudo', domaine: 'generateDomaine', societe: 'generateSociete', perso: 'generateCustom' };
+  var GEN_FN = { identite: 'generate', pseudo: 'generatePseudo', domaine: 'generateDomaine', societe: 'generateSociete', image: 'generateImage', perso: 'generateCustom' };
   FIELDS.forEach(function(id) {
     var el = document.getElementById(id);
     if (el.tagName === 'TEXTAREA') return;

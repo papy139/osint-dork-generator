@@ -123,6 +123,18 @@
     return links;
   }
 
+  // Recherche d'image inversée à partir de l'URL d'une image (moteurs acceptant un paramètre URL)
+  function imageLinks(imgUrl) {
+    var e = encodeURIComponent(imgUrl);
+    return [
+      { label: 'Google Lens',          url: 'https://lens.google.com/uploadbyurl?url=' + e },
+      { label: 'Yandex Images',        url: 'https://yandex.com/images/search?rpt=imageview&url=' + e },
+      { label: 'Bing Visual Search',   url: 'https://www.bing.com/images/search?view=detailv2&iss=sbi&q=imgurl:' + e },
+      { label: 'TinEye',               url: 'https://tineye.com/search?url=' + e },
+      { label: 'Karma Decay (Reddit)', url: 'http://karmadecay.com/search?q=' + e }
+    ];
+  }
+
   // Recherches pré-remplies pour une personne (nom/prénom + emails)
   function identiteLinks(nom, prenom, emails) {
     var links = [];

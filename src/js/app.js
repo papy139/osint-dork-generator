@@ -16,13 +16,14 @@
 
   // Persistence
 
-  var FIELDS = ['nom','prenom','variations','emails','telephones','dateNaissance','villes','dateDebut','dateFin','exclusions','pseudo','pseudoVariations','pseudoEmails','pseudoPlatforms','pseudoExclusions','domaine','ip','domaineExclusions','societe','siren','domaineSociete','emailsSociete','telephonesSociete','secteur','villeSociete','societeSociete','customDorks'];
+  var FIELDS = ['nom','prenom','variations','emails','telephones','dateNaissance','villes','dateDebut','dateFin','exclusions','pseudo','pseudoVariations','pseudoEmails','pseudoPlatforms','pseudoExclusions','domaine','ip','domaineExclusions','societe','siren','domaineSociete','emailsSociete','telephonesSociete','secteur','villeSociete','societeSociete','imageUrl','customDorks'];
 
   var TAB_FIELDS = {
     identite: ['nom','prenom','variations','emails','telephones','dateNaissance','villes','dateDebut','dateFin','exclusions'],
     pseudo:   ['pseudo','pseudoVariations','pseudoEmails','pseudoPlatforms','pseudoExclusions'],
     domaine:  ['domaine','ip','domaineExclusions'],
     societe:  ['societe','siren','domaineSociete','emailsSociete','telephonesSociete','secteur','villeSociete','societeSociete'],
+    image:    ['imageUrl'],
     perso:    ['customDorks'],
   };
 
@@ -76,7 +77,7 @@
 
   // Raccourcis Alt+1..5 : bascule d'onglet
   document.addEventListener('keydown', function(e) {
-    if (e.altKey && !e.ctrlKey && !e.metaKey && e.key >= '1' && e.key <= '5') {
+    if (e.altKey && !e.ctrlKey && !e.metaKey && e.key >= '1' && e.key <= '6') {
       var btns = document.querySelectorAll('.tab-btn');
       var i = parseInt(e.key, 10) - 1;
       if (btns[i]) { e.preventDefault(); btns[i].click(); }
@@ -90,7 +91,7 @@
   });
 
   // Entrée dans un champ texte → lance la génération de l'onglet courant (sauf textarea)
-  var GEN_FN = { identite: 'generate', pseudo: 'generatePseudo', domaine: 'generateDomaine', societe: 'generateSociete', perso: 'generateCustom' };
+  var GEN_FN = { identite: 'generate', pseudo: 'generatePseudo', domaine: 'generateDomaine', societe: 'generateSociete', image: 'generateImage', perso: 'generateCustom' };
   FIELDS.forEach(function(id) {
     var el = document.getElementById(id);
     if (el.tagName === 'TEXTAREA') return;

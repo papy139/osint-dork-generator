@@ -43,6 +43,7 @@
     <button class="tab-btn" onclick="switchTab('pseudo', this)">Pseudo</button>
     <button class="tab-btn" onclick="switchTab('domaine', this)">Domaine / IP</button>
     <button class="tab-btn" onclick="switchTab('societe', this)">Société</button>
+    <button class="tab-btn" onclick="switchTab('image', this)">Image</button>
     <button class="tab-btn" onclick="switchTab('perso', this)">Champs perso</button>
   </div>
 
@@ -187,6 +188,20 @@
     <div class="btn-row">
       <button class="btn-generate" onclick="generateSociete()">Générer les dorks société</button>
       <button class="btn-clear" onclick="clearTab('societe')">Clear</button>
+    </div>
+  </div>
+
+  <!-- TAB IMAGE -->
+  <div class="tab-panel" id="tab-image">
+    <div class="form-grid">
+      <div class="form-group full">
+        <label for="imageUrl">URL de l'image <span class="hint">— lien direct vers le fichier image</span></label>
+        <input type="text" id="imageUrl" placeholder="https://exemple.com/photo.jpg">
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-generate" onclick="generateImage()">Rechercher par image</button>
+      <button class="btn-clear" onclick="clearTab('image')">Clear</button>
     </div>
   </div>
 

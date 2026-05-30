@@ -60,6 +60,7 @@
       { label: 'pseudo', fn: window.generatePseudo },
       { label: 'domaine', fn: window.generateDomaine },
       { label: 'société', fn: window.generateSociete },
+      { label: 'image', fn: window.generateImage },
       { label: 'champs-perso', fn: window.generateCustom }
     ];
     var files = [];

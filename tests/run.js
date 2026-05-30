@@ -22,7 +22,7 @@ const factory = new Function(
   code + '\n;return {' +
     'cleanDomain, phoneVariants, pseudoVariants, buildNameQuery,' +
     'buildEmailVariations, buildLocationQuery, crc32,' +
-    'sherlockLinks, domainLinks, ipLinks, societeLinks, identiteLinks, SHERLOCK' +
+    'sherlockLinks, domainLinks, ipLinks, societeLinks, identiteLinks, imageLinks, SHERLOCK' +
   '};'
 );
 const H = factory(
@@ -73,6 +73,8 @@ ok('domainLinks crt.sh', H.domainLinks('example.com').some(function(l){ return l
 ok('ipLinks shodan host', H.ipLinks('1.2.3.4')[0].url.indexOf('shodan.io/host/1.2.3.4') !== -1);
 ok('societeLinks pappers', H.societeLinks('ACME', null, null).some(function(l){ return l.url.indexOf('pappers.fr') !== -1; }));
 ok('identiteLinks HIBP par email', H.identiteLinks('Dupont','Jean',['a@b.com']).some(function(l){ return l.label.indexOf('HaveIBeenPwned') !== -1; }));
+ok('imageLinks Google Lens', H.imageLinks('http://x/y.jpg')[0].url.indexOf('lens.google.com/uploadbyurl?url=') !== -1);
+ok('imageLinks encode l\'URL', H.imageLinks('http://x/y.jpg').some(function(l){ return l.url.indexOf('http%3A%2F%2Fx%2Fy.jpg') !== -1; }));
 
 console.log('\n' + pass + ' réussis, ' + fail + ' échoués');
 process.exit(fail ? 1 : 0);
