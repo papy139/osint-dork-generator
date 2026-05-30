@@ -311,6 +311,21 @@
   .github-link:hover { color: var(--accent); }
   .github-link svg { display: block; }
 
+  /* Menu déroulant zones géographiques */
+  .geo-select {
+    margin-top: 0.4rem;
+    width: 100%;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    border-radius: var(--radius);
+    padding: 0.45rem 0.6rem;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+  .geo-select:focus { outline: none; border-color: var(--border-focus); color: var(--text-primary); }
+
   .btn-copy-all {
     background: var(--accent-dim);
     border: 1px solid rgba(0,229,160,0.25);

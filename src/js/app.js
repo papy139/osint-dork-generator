@@ -52,6 +52,9 @@
   FIELDS.forEach(function(id) { document.getElementById(id).addEventListener('input', saveFields); });
   restoreFields();
 
+  // Menus déroulants régions / départements / pays
+  if (window.initGeoSelects) window.initGeoSelects();
+
   // Pré-remplissage depuis un lien partageable (#d=<base64 JSON>) — prioritaire sur la restauration
   (function() {
     if (location.hash.indexOf('#d=') !== 0) return;

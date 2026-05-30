@@ -11,7 +11,7 @@ const fs = require('fs');
 const path = require('path');
 
 const srcDir = path.join(__dirname, '..', 'src', 'js');
-const code = ['helpers', 'links', 'zip']
+const code = ['helpers', 'links', 'geo', 'zip']
   .map((f) => fs.readFileSync(path.join(srcDir, f + '.js'), 'utf8'))
   .join('\n\n');
 
@@ -22,7 +22,7 @@ const factory = new Function(
   code + '\n;return {' +
     'cleanDomain, phoneVariants, pseudoVariants, buildNameQuery,' +
     'buildEmailVariations, buildLocationQuery, crc32,' +
-    'sherlockLinks, domainLinks, ipLinks, societeLinks, identiteLinks, imageLinks, SHERLOCK' +
+    'sherlockLinks, domainLinks, ipLinks, societeLinks, identiteLinks, imageLinks, SHERLOCK, GEO' +
   '};'
 );
 const H = factory(
@@ -75,6 +75,12 @@ ok('societeLinks pappers', H.societeLinks('ACME', null, null).some(function(l){ 
 ok('identiteLinks HIBP par email', H.identiteLinks('Dupont','Jean',['a@b.com']).some(function(l){ return l.label.indexOf('HaveIBeenPwned') !== -1; }));
 ok('imageLinks Google Lens', H.imageLinks('http://x/y.jpg')[0].url.indexOf('lens.google.com/uploadbyurl?url=') !== -1);
 ok('imageLinks encode l\'URL', H.imageLinks('http://x/y.jpg').some(function(l){ return l.url.indexOf('http%3A%2F%2Fx%2Fy.jpg') !== -1; }));
+
+// données géographiques
+ok('GEO régions = 18', H.GEO.regions.length === 18);
+ok('GEO départements = 101', H.GEO.departements.length === 101);
+ok('GEO pays >= 190', H.GEO.pays.length >= 190);
+ok('GEO départements format "code nom"', /^\d{2,3} \S/.test(H.GEO.departements[0]));
 
 console.log('\n' + pass + ' réussis, ' + fail + ' échoués');
 process.exit(fail ? 1 : 0);
