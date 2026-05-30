@@ -80,6 +80,7 @@ ok('imageLinks encode l\'URL', H.imageLinks('http://x/y.jpg').some(function(l){ 
 ok('GEO régions = 18', H.GEO.regions.length === 18);
 ok('GEO départements = 101', H.GEO.departements.length === 101);
 ok('GEO pays >= 190', H.GEO.pays.length >= 190);
+ok('GEO pays format "ISO2 nom"', H.GEO.pays.every(function(p){ return /^[A-Z]{2} \S/.test(p); }));
 ok('GEO départements format "code nom"', /^\d{2,3} \S/.test(H.GEO.departements[0]));
 
 console.log('\n' + pass + ' réussis, ' + fail + ' échoués');

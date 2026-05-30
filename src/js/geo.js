@@ -41,64 +41,84 @@
       '971 Guadeloupe', '972 Martinique', '973 Guyane', '974 La Réunion',
       '976 Mayotte'
     ],
+    // Format "ISO2 nom" — le drapeau est calculé depuis le code, la valeur insérée est le nom
     pays: [
-      'Afghanistan', 'Afrique du Sud', 'Albanie', 'Algérie', 'Allemagne',
-      'Andorre', 'Angola', 'Antigua-et-Barbuda', 'Arabie saoudite', 'Argentine',
-      'Arménie', 'Australie', 'Autriche', 'Azerbaïdjan', 'Bahamas', 'Bahreïn',
-      'Bangladesh', 'Barbade', 'Belgique', 'Belize', 'Bénin', 'Bhoutan',
-      'Biélorussie', 'Birmanie (Myanmar)', 'Bolivie', 'Bosnie-Herzégovine',
-      'Botswana', 'Brésil', 'Brunei', 'Bulgarie', 'Burkina Faso', 'Burundi',
-      'Cambodge', 'Cameroun', 'Canada', 'Cap-Vert', 'Chili', 'Chine', 'Chypre',
-      'Colombie', 'Comores', 'Congo (Brazzaville)', 'Congo (RDC)',
-      'Corée du Nord', 'Corée du Sud', 'Costa Rica', 'Côte d\'Ivoire',
-      'Croatie', 'Cuba', 'Danemark', 'Djibouti', 'Dominique', 'Égypte',
-      'Émirats arabes unis', 'Équateur', 'Érythrée', 'Espagne', 'Estonie',
-      'Eswatini', 'États-Unis', 'Éthiopie', 'Fidji', 'Finlande', 'France',
-      'Gabon', 'Gambie', 'Géorgie', 'Ghana', 'Grèce', 'Grenade', 'Guatemala',
-      'Guinée', 'Guinée-Bissau', 'Guinée équatoriale', 'Guyana', 'Haïti',
-      'Honduras', 'Hongrie', 'Inde', 'Indonésie', 'Irak', 'Iran', 'Irlande',
-      'Islande', 'Israël', 'Italie', 'Jamaïque', 'Japon', 'Jordanie',
-      'Kazakhstan', 'Kenya', 'Kirghizistan', 'Kiribati', 'Koweït', 'Laos',
-      'Lesotho', 'Lettonie', 'Liban', 'Liberia', 'Libye', 'Liechtenstein',
-      'Lituanie', 'Luxembourg', 'Macédoine du Nord', 'Madagascar', 'Malaisie',
-      'Malawi', 'Maldives', 'Mali', 'Malte', 'Maroc', 'Îles Marshall',
-      'Maurice', 'Mauritanie', 'Mexique', 'Micronésie', 'Moldavie', 'Monaco',
-      'Mongolie', 'Monténégro', 'Mozambique', 'Namibie', 'Nauru', 'Népal',
-      'Nicaragua', 'Niger', 'Nigeria', 'Norvège', 'Nouvelle-Zélande', 'Oman',
-      'Ouganda', 'Ouzbékistan', 'Pakistan', 'Palaos', 'Palestine', 'Panama',
-      'Papouasie-Nouvelle-Guinée', 'Paraguay', 'Pays-Bas', 'Pérou',
-      'Philippines', 'Pologne', 'Portugal', 'Qatar',
-      'République centrafricaine', 'République dominicaine',
-      'République tchèque', 'Roumanie', 'Royaume-Uni', 'Russie', 'Rwanda',
-      'Saint-Christophe-et-Niévès', 'Saint-Marin',
-      'Saint-Vincent-et-les-Grenadines', 'Sainte-Lucie', 'Îles Salomon',
-      'Salvador', 'Samoa', 'São Tomé-et-Principe', 'Sénégal', 'Serbie',
-      'Seychelles', 'Sierra Leone', 'Singapour', 'Slovaquie', 'Slovénie',
-      'Somalie', 'Soudan', 'Soudan du Sud', 'Sri Lanka', 'Suède', 'Suisse',
-      'Suriname', 'Syrie', 'Tadjikistan', 'Tanzanie', 'Tchad', 'Thaïlande',
-      'Timor oriental', 'Togo', 'Tonga', 'Trinité-et-Tobago', 'Tunisie',
-      'Turkménistan', 'Turquie', 'Tuvalu', 'Ukraine', 'Uruguay', 'Vanuatu',
-      'Vatican', 'Venezuela', 'Viêt Nam', 'Yémen', 'Zambie', 'Zimbabwe'
+      'AF Afghanistan', 'ZA Afrique du Sud', 'AL Albanie', 'DZ Algérie',
+      'DE Allemagne', 'AD Andorre', 'AO Angola', 'AG Antigua-et-Barbuda',
+      'SA Arabie saoudite', 'AR Argentine', 'AM Arménie', 'AU Australie',
+      'AT Autriche', 'AZ Azerbaïdjan', 'BS Bahamas', 'BH Bahreïn',
+      'BD Bangladesh', 'BB Barbade', 'BE Belgique', 'BZ Belize', 'BJ Bénin',
+      'BT Bhoutan', 'BY Biélorussie', 'MM Birmanie (Myanmar)', 'BO Bolivie',
+      'BA Bosnie-Herzégovine', 'BW Botswana', 'BR Brésil', 'BN Brunei',
+      'BG Bulgarie', 'BF Burkina Faso', 'BI Burundi', 'KH Cambodge',
+      'CM Cameroun', 'CA Canada', 'CV Cap-Vert', 'CL Chili', 'CN Chine',
+      'CY Chypre', 'CO Colombie', 'KM Comores', 'CG Congo (Brazzaville)',
+      'CD Congo (RDC)', 'KP Corée du Nord', 'KR Corée du Sud', 'CR Costa Rica',
+      'CI Côte d\'Ivoire', 'HR Croatie', 'CU Cuba', 'DK Danemark', 'DJ Djibouti',
+      'DM Dominique', 'EG Égypte', 'AE Émirats arabes unis', 'EC Équateur',
+      'ER Érythrée', 'ES Espagne', 'EE Estonie', 'SZ Eswatini', 'US États-Unis',
+      'ET Éthiopie', 'FJ Fidji', 'FI Finlande', 'FR France', 'GA Gabon',
+      'GM Gambie', 'GE Géorgie', 'GH Ghana', 'GR Grèce', 'GD Grenade',
+      'GT Guatemala', 'GN Guinée', 'GW Guinée-Bissau', 'GQ Guinée équatoriale',
+      'GY Guyana', 'HT Haïti', 'HN Honduras', 'HU Hongrie', 'IN Inde',
+      'ID Indonésie', 'IQ Irak', 'IR Iran', 'IE Irlande', 'IS Islande',
+      'IL Israël', 'IT Italie', 'JM Jamaïque', 'JP Japon', 'JO Jordanie',
+      'KZ Kazakhstan', 'KE Kenya', 'KG Kirghizistan', 'KI Kiribati',
+      'KW Koweït', 'LA Laos', 'LS Lesotho', 'LV Lettonie', 'LB Liban',
+      'LR Liberia', 'LY Libye', 'LI Liechtenstein', 'LT Lituanie',
+      'LU Luxembourg', 'MK Macédoine du Nord', 'MG Madagascar', 'MY Malaisie',
+      'MW Malawi', 'MV Maldives', 'ML Mali', 'MT Malte', 'MA Maroc',
+      'MH Îles Marshall', 'MU Maurice', 'MR Mauritanie', 'MX Mexique',
+      'FM Micronésie', 'MD Moldavie', 'MC Monaco', 'MN Mongolie',
+      'ME Monténégro', 'MZ Mozambique', 'NA Namibie', 'NR Nauru', 'NP Népal',
+      'NI Nicaragua', 'NE Niger', 'NG Nigeria', 'NO Norvège',
+      'NZ Nouvelle-Zélande', 'OM Oman', 'UG Ouganda', 'UZ Ouzbékistan',
+      'PK Pakistan', 'PW Palaos', 'PS Palestine', 'PA Panama',
+      'PG Papouasie-Nouvelle-Guinée', 'PY Paraguay', 'NL Pays-Bas', 'PE Pérou',
+      'PH Philippines', 'PL Pologne', 'PT Portugal', 'QA Qatar',
+      'CF République centrafricaine', 'DO République dominicaine',
+      'CZ République tchèque', 'RO Roumanie', 'GB Royaume-Uni', 'RU Russie',
+      'RW Rwanda', 'KN Saint-Christophe-et-Niévès', 'SM Saint-Marin',
+      'VC Saint-Vincent-et-les-Grenadines', 'LC Sainte-Lucie', 'SB Îles Salomon',
+      'SV Salvador', 'WS Samoa', 'ST São Tomé-et-Principe', 'SN Sénégal',
+      'RS Serbie', 'SC Seychelles', 'SL Sierra Leone', 'SG Singapour',
+      'SK Slovaquie', 'SI Slovénie', 'SO Somalie', 'SD Soudan',
+      'SS Soudan du Sud', 'LK Sri Lanka', 'SE Suède', 'CH Suisse',
+      'SR Suriname', 'SY Syrie', 'TJ Tadjikistan', 'TZ Tanzanie', 'TD Tchad',
+      'TH Thaïlande', 'TL Timor oriental', 'TG Togo', 'TO Tonga',
+      'TT Trinité-et-Tobago', 'TN Tunisie', 'TM Turkménistan', 'TR Turquie',
+      'TV Tuvalu', 'UA Ukraine', 'UY Uruguay', 'VU Vanuatu', 'VA Vatican',
+      'VE Venezuela', 'VN Viêt Nam', 'YE Yémen', 'ZM Zambie', 'ZW Zimbabwe'
     ]
   };
 
+  // Drapeau emoji depuis un code pays ISO 3166-1 alpha-2
+  function flagEmoji(cc) {
+    return cc.toUpperCase().replace(/[A-Z]/g, function(c) {
+      return String.fromCodePoint(0x1F1E6 + c.charCodeAt(0) - 65);
+    });
+  }
+
   function buildGeoOptions() {
-    function group(label, items, withCode) {
+    // mode : 'plain' (valeur = libellé), 'code' ("CC nom" → libellé "CC — nom"),
+    //        'flag' ("CC nom" → libellé "🏳 nom")
+    function group(label, items, mode) {
       var opts = items.map(function(it) {
         var value = it, text = it;
-        if (withCode) {
+        if (mode === 'code' || mode === 'flag') {
           var sp = it.indexOf(' ');
+          var code = it.slice(0, sp);
           value = it.slice(sp + 1);
-          text = it.slice(0, sp) + ' — ' + value;
+          text = (mode === 'flag' ? flagEmoji(code) + ' ' : code + ' — ') + value;
         }
         return '<option value="' + escapeHtml(value) + '">' + escapeHtml(text) + '</option>';
       }).join('');
       return '<optgroup label="' + label + '">' + opts + '</optgroup>';
     }
     return '<option value="">+ Région / département / pays…</option>'
-      + group('Régions', GEO.regions, false)
-      + group('Départements', GEO.departements, true)
-      + group('Pays', GEO.pays, false);
+      + group('Régions', GEO.regions, 'plain')
+      + group('Départements', GEO.departements, 'code')
+      + group('Pays', GEO.pays, 'flag');
   }
 
   // Alimente chaque <select class="geo-select"> et ajoute la zone choisie à son champ cible

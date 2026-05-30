@@ -694,3 +694,24 @@
 
   /* Badge d'avertissement longueur de dork */
   .dork-warn { cursor: help; font-size: 0.85em; opacity: 0.9; }
+
+  /* Menus déroulants — style unifié (flèche personnalisée) */
+  .topbar-select, .geo-select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7d93' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.6rem center;
+    background-size: 0.7rem;
+    padding-right: 1.9rem;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .topbar-select:hover, .geo-select:hover { border-color: var(--text-muted); }
+  .topbar-select option, .geo-select option { background: var(--bg-surface); color: var(--text-primary); }
+  .topbar-select optgroup, .geo-select optgroup {
+    background: var(--bg-deep);
+    color: var(--text-secondary);
+    font-style: normal;
+    font-weight: 600;
+  }
