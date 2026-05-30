@@ -11,7 +11,7 @@ const fs = require('fs');
 const path = require('path');
 
 const srcDir = path.join(__dirname, '..', 'src', 'js');
-const code = ['helpers', 'i18n', 'links', 'geo', 'zip']
+const code = ['helpers', 'i18n', 'links', 'geo', 'export', 'zip']
   .map((f) => fs.readFileSync(path.join(srcDir, f + '.js'), 'utf8'))
   .join('\n\n');
 
@@ -22,7 +22,7 @@ const factory = new Function(
   code + '\n;return {' +
     'cleanDomain, phoneVariants, pseudoVariants, buildNameQuery,' +
     'buildEmailVariations, buildLocationQuery, crc32,' +
-    'sherlockLinks, domainLinks, ipLinks, societeLinks, identiteLinks, imageLinks, phoneLinks, md5, buildGeoOptions, tCat, I18N, CAT_EN, SHERLOCK, GEO' +
+    'sherlockLinks, domainLinks, ipLinks, societeLinks, identiteLinks, imageLinks, phoneLinks, md5, buildGeoOptions, tCat, I18N, CAT_EN, buildStruct, buildCsv, buildSql, buildMd, SHERLOCK, GEO' +
   '};'
 );
 // Stub d'élément suffisant pour escapeHtml (textContent -> innerHTML échappé)
@@ -111,6 +111,22 @@ ok('buildGeoOptions optgroups', geoHtml.indexOf('<optgroup label="Pays">') !== -
 ok('buildGeoOptions drapeau pays', geoHtml.indexOf('🇫🇷 France') !== -1);
 ok('buildGeoOptions valeur = nom (sans code)', geoHtml.indexOf('value="France"') !== -1 && geoHtml.indexOf('value="Île-de-France"') !== -1);
 ok('GEO départements format "code nom"', /^\d{2,3} \S/.test(H.GEO.departements[0]));
+
+// export multi-format (fonctions pures)
+var sampleCats = [
+  { title: 'Réseaux sociaux', desc: 'desc', entries: [
+    { text: '"Jean" site:linkedin.com', url: null, label: null },
+    { text: 'https://github.com/jean', url: 'https://github.com/jean', label: 'GitHub' }
+  ] }
+];
+var st = H.buildStruct(sampleCats);
+ok('buildStruct structure', st.length === 1 && st[0].entries.length === 2 && st[0].entries[1].url.indexOf('github') !== -1);
+var csv = H.buildCsv(sampleCats);
+ok('buildCsv entête', csv.split('\r\n')[0] === 'categorie,type,valeur,label,verifie');
+ok('buildCsv échappe les guillemets', csv.indexOf('""Jean"" site:linkedin.com') !== -1);
+ok('buildCsv type lien', csv.indexOf(',lien,') !== -1);
+ok('buildSql INSERT', H.buildSql(sampleCats).indexOf('INSERT INTO dorks') !== -1);
+ok('buildMd liens markdown', H.buildMd(sampleCats).indexOf('[GitHub](https://github.com/jean)') !== -1);
 
 // i18n : cohérence des clés FR/EN
 var frKeys = Object.keys(H.I18N.fr).sort(), enKeys = Object.keys(H.I18N.en).sort();

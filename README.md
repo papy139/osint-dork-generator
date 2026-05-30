@@ -36,10 +36,11 @@ collectée ni transmise par l'application.
   de domaines et d'adresses IP).
 - **Commandes CLI** : génération de commandes Sherlock / Maigret pour la
   vérification réseau réelle de l'existence des comptes.
-- **Export** : copie globale, export `.txt`, rapport HTML autonome (liens
-  cliquables), ou archive ZIP regroupant tous les contextes remplis.
-- **Gestion de cibles** : enregistrement, renommage, import et export JSON des
-  formulaires.
+- **Export multi-format** : menu unique exportant les résultats en TXT,
+  Markdown, HTML, JSON, CSV ou SQL (état « vérifié » inclus), plus une archive
+  ZIP de toutes les recherches et un lien partageable.
+- **Gestion de cibles** : enregistrement, renommage, suppression, import et
+  export JSON des formulaires.
 - **Lien partageable** : formulaire encodé dans l'URL pour rejouer une recherche.
 - **Bilingue FR / EN** : détection de la langue du navigateur + bascule par
   curseur (interface, onglets, résultats et titres de catégories traduits).

@@ -26,7 +26,7 @@ const css  = read('src/style.css').replace(/\s+$/, '');
 const body = read('src/body.html').replace(/\s+$/, '');
 
 const JS_ORDER = [
-  'helpers', 'i18n', 'links', 'geo', 'render', 'dashboard', 'palette', 'zip',
+  'helpers', 'i18n', 'links', 'geo', 'render', 'dashboard', 'palette', 'export', 'zip',
   'gen-identite', 'gen-pseudo', 'gen-domaine', 'gen-societe', 'gen-image', 'gen-correlation', 'gen-custom',
   'app', // app DOIT rester en dernier : init DOM (listeners, restoreFields, thème)
 ];

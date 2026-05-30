@@ -766,6 +766,43 @@
   .cmdk-item.active, .cmdk-item:hover { background: var(--accent-dim); color: var(--text-primary); }
   .cmdk-empty { padding: 0.8rem 1rem; color: var(--text-muted); }
 
+  /* Menu Exporter */
+  .export-group { position: relative; }
+  .export-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    z-index: 9000;
+    min-width: 220px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-focus);
+    border-radius: var(--radius);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.45);
+    padding: 0.3rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .export-menu[hidden] { display: none; }
+  .export-menu-head {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    padding: 0.4rem 0.5rem 0.2rem;
+  }
+  .export-menu button {
+    text-align: left;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    padding: 0.4rem 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .export-menu button:hover { background: var(--accent-dim); color: var(--text-primary); }
+
   /* Menus déroulants — style unifié (flèche personnalisée) */
   .topbar-select, .geo-select {
     -webkit-appearance: none;

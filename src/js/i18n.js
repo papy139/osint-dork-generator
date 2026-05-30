@@ -9,7 +9,8 @@
     fr: {
       'app.subtitle': 'Génération de Google Dorks pour l\'audit de l\'empreinte numérique.',
       'tb.engine': 'Moteur', 'tb.target': 'Cible', 'tb.newtarget': '— nouvelle cible —',
-      'tb.save': '💾 Sauver', 'tb.link': '🔗 Lien',
+      'tb.save': 'Enregistrer', 'tb.rename': 'Renommer', 'tb.delete': 'Supprimer',
+      'tb.export': 'Exporter ▾', 'tb.import': 'Importer',
       'tab.identite': 'Identité', 'tab.pseudo': 'Pseudo', 'tab.domaine': 'Domaine / IP',
       'tab.societe': 'Société', 'tab.image': 'Image', 'tab.correlation': 'Corrélation', 'tab.perso': 'Champs perso',
       'f.nom': 'Nom', 'f.prenom': 'Prénom', 'f.dob': 'Date de naissance', 'f.cities': 'Villes / Régions',
@@ -53,12 +54,17 @@
       'pal.placeholder': 'Rechercher une commande…', 'cmd.gotab': 'Aller à l\'onglet', 'cmd.generate': 'Générer (onglet actuel)',
       'cmd.copyall': 'Tout copier', 'cmd.filter': 'Filtrer les résultats', 'cmd.expand': 'Tout déplier / replier',
       'cmd.zip': 'Exporter en ZIP', 'cmd.share': 'Copier le lien partageable', 'cmd.theme': 'Basculer le thème',
-      'cmd.lang': 'Basculer la langue'
+      'cmd.lang': 'Basculer la langue',
+      'ex.results': 'Résultats (onglet courant)', 'ex.other': 'Autre',
+      'ex.allzip': 'Toutes les recherches (ZIP)', 'ex.targets': 'Cibles sauvegardées (JSON)',
+      'ex.link': 'Lien partageable', 'ex.empty': 'Aucun résultat à exporter — lancez une génération.',
+      'ex.done': 'Export téléchargé.'
     },
     en: {
       'app.subtitle': 'Generate Google dorks to audit a digital footprint.',
       'tb.engine': 'Engine', 'tb.target': 'Target', 'tb.newtarget': '— new target —',
-      'tb.save': '💾 Save', 'tb.link': '🔗 Link',
+      'tb.save': 'Save', 'tb.rename': 'Rename', 'tb.delete': 'Delete',
+      'tb.export': 'Export ▾', 'tb.import': 'Import',
       'tab.identite': 'Identity', 'tab.pseudo': 'Username', 'tab.domaine': 'Domain / IP',
       'tab.societe': 'Company', 'tab.image': 'Image', 'tab.correlation': 'Correlation', 'tab.perso': 'Custom',
       'f.nom': 'Last name', 'f.prenom': 'First name', 'f.dob': 'Date of birth', 'f.cities': 'Cities / Regions',
@@ -102,7 +108,11 @@
       'pal.placeholder': 'Search a command…', 'cmd.gotab': 'Go to tab', 'cmd.generate': 'Generate (current tab)',
       'cmd.copyall': 'Copy all', 'cmd.filter': 'Filter results', 'cmd.expand': 'Expand / collapse all',
       'cmd.zip': 'Export as ZIP', 'cmd.share': 'Copy shareable link', 'cmd.theme': 'Toggle theme',
-      'cmd.lang': 'Toggle language'
+      'cmd.lang': 'Toggle language',
+      'ex.results': 'Results (current tab)', 'ex.other': 'Other',
+      'ex.allzip': 'All searches (ZIP)', 'ex.targets': 'Saved targets (JSON)',
+      'ex.link': 'Shareable link', 'ex.empty': 'No results to export — run a generation first.',
+      'ex.done': 'Export downloaded.'
     }
   };
 

@@ -33,17 +33,28 @@
       <select id="targetSelect" class="topbar-select" title="Charger une cible sauvegardée">
         <option value="" data-i18n="tb.newtarget">— nouvelle cible —</option>
       </select>
-      <button class="topbar-btn" onclick="saveTarget()" title="Sauvegarder tous les champs sous un nom" aria-label="Sauvegarder la cible" data-i18n="tb.save">💾 Sauver</button>
-      <button class="topbar-btn" onclick="renameTarget()" title="Renommer la cible sélectionnée" aria-label="Renommer la cible">✏️</button>
-      <button class="topbar-btn" onclick="deleteTarget()" title="Supprimer la cible sélectionnée" aria-label="Supprimer la cible">🗑</button>
-      <button class="topbar-btn" onclick="exportTargets()" title="Exporter toutes les cibles en JSON" aria-label="Exporter les cibles en JSON">⬇ JSON</button>
-      <label class="topbar-btn" title="Importer des cibles depuis un fichier JSON" aria-label="Importer des cibles depuis un JSON">⬆ JSON
+      <button class="topbar-btn" onclick="saveTarget()" title="Enregistrer tous les champs sous un nom" data-i18n="tb.save">Enregistrer</button>
+      <button class="topbar-btn" onclick="renameTarget()" title="Renommer la cible sélectionnée" data-i18n="tb.rename">Renommer</button>
+      <button class="topbar-btn" onclick="deleteTarget()" title="Supprimer la cible sélectionnée" data-i18n="tb.delete">Supprimer</button>
+    </div>
+    <div class="topbar-group export-group">
+      <button class="topbar-btn" id="btnExportMenu" onclick="toggleExportMenu(event)" aria-haspopup="true" title="Exporter les résultats" data-i18n="tb.export">Exporter ▾</button>
+      <div class="export-menu" id="exportMenu" hidden>
+        <div class="export-menu-head" data-i18n="ex.results">Résultats (onglet courant)</div>
+        <button type="button" onclick="exportResults('txt')">TXT</button>
+        <button type="button" onclick="exportResults('md')">Markdown</button>
+        <button type="button" onclick="exportResults('html')">HTML</button>
+        <button type="button" onclick="exportResults('json')">JSON</button>
+        <button type="button" onclick="exportResults('csv')">CSV</button>
+        <button type="button" onclick="exportResults('sql')">SQL</button>
+        <div class="export-menu-head" data-i18n="ex.other">Autre</div>
+        <button type="button" onclick="exportAllZip()" data-i18n="ex.allzip">Toutes les recherches (ZIP)</button>
+        <button type="button" onclick="exportTargets()" data-i18n="ex.targets">Cibles sauvegardées (JSON)</button>
+        <button type="button" onclick="shareLink()" data-i18n="ex.link">Lien partageable</button>
+      </div>
+      <label class="topbar-btn" title="Importer une cible / des cibles (JSON)" data-i18n="tb.import">Importer
         <input type="file" accept="application/json,.json" onchange="importTargets(this)" style="display:none">
       </label>
-    </div>
-    <div class="topbar-group">
-      <button class="topbar-btn" onclick="shareLink()" title="Copier un lien contenant le formulaire pré-rempli (les valeurs figurent dans l'URL)" aria-label="Copier un lien partageable" data-i18n="tb.link">🔗 Lien</button>
-      <button class="topbar-btn btn-export-zip" onclick="exportAllZip()" title="Exporter les dorks de tous les onglets remplis dans une archive ZIP (un .txt par onglet)" aria-label="Exporter tout en ZIP">📦 ZIP</button>
     </div>
   </div>
 

@@ -779,6 +779,43 @@
   .cmdk-item.active, .cmdk-item:hover { background: var(--accent-dim); color: var(--text-primary); }
   .cmdk-empty { padding: 0.8rem 1rem; color: var(--text-muted); }
 
+  /* Menu Exporter */
+  .export-group { position: relative; }
+  .export-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    z-index: 9000;
+    min-width: 220px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-focus);
+    border-radius: var(--radius);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.45);
+    padding: 0.3rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .export-menu[hidden] { display: none; }
+  .export-menu-head {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    padding: 0.4rem 0.5rem 0.2rem;
+  }
+  .export-menu button {
+    text-align: left;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    padding: 0.4rem 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .export-menu button:hover { background: var(--accent-dim); color: var(--text-primary); }
+
   /* Menus déroulants — style unifié (flèche personnalisée) */
   .topbar-select, .geo-select {
     -webkit-appearance: none;
@@ -868,17 +905,28 @@
       <select id="targetSelect" class="topbar-select" title="Charger une cible sauvegardée">
         <option value="" data-i18n="tb.newtarget">— nouvelle cible —</option>
       </select>
-      <button class="topbar-btn" onclick="saveTarget()" title="Sauvegarder tous les champs sous un nom" aria-label="Sauvegarder la cible" data-i18n="tb.save">💾 Sauver</button>
-      <button class="topbar-btn" onclick="renameTarget()" title="Renommer la cible sélectionnée" aria-label="Renommer la cible">✏️</button>
-      <button class="topbar-btn" onclick="deleteTarget()" title="Supprimer la cible sélectionnée" aria-label="Supprimer la cible">🗑</button>
-      <button class="topbar-btn" onclick="exportTargets()" title="Exporter toutes les cibles en JSON" aria-label="Exporter les cibles en JSON">⬇ JSON</button>
-      <label class="topbar-btn" title="Importer des cibles depuis un fichier JSON" aria-label="Importer des cibles depuis un JSON">⬆ JSON
+      <button class="topbar-btn" onclick="saveTarget()" title="Enregistrer tous les champs sous un nom" data-i18n="tb.save">Enregistrer</button>
+      <button class="topbar-btn" onclick="renameTarget()" title="Renommer la cible sélectionnée" data-i18n="tb.rename">Renommer</button>
+      <button class="topbar-btn" onclick="deleteTarget()" title="Supprimer la cible sélectionnée" data-i18n="tb.delete">Supprimer</button>
+    </div>
+    <div class="topbar-group export-group">
+      <button class="topbar-btn" id="btnExportMenu" onclick="toggleExportMenu(event)" aria-haspopup="true" title="Exporter les résultats" data-i18n="tb.export">Exporter ▾</button>
+      <div class="export-menu" id="exportMenu" hidden>
+        <div class="export-menu-head" data-i18n="ex.results">Résultats (onglet courant)</div>
+        <button type="button" onclick="exportResults('txt')">TXT</button>
+        <button type="button" onclick="exportResults('md')">Markdown</button>
+        <button type="button" onclick="exportResults('html')">HTML</button>
+        <button type="button" onclick="exportResults('json')">JSON</button>
+        <button type="button" onclick="exportResults('csv')">CSV</button>
+        <button type="button" onclick="exportResults('sql')">SQL</button>
+        <div class="export-menu-head" data-i18n="ex.other">Autre</div>
+        <button type="button" onclick="exportAllZip()" data-i18n="ex.allzip">Toutes les recherches (ZIP)</button>
+        <button type="button" onclick="exportTargets()" data-i18n="ex.targets">Cibles sauvegardées (JSON)</button>
+        <button type="button" onclick="shareLink()" data-i18n="ex.link">Lien partageable</button>
+      </div>
+      <label class="topbar-btn" title="Importer une cible / des cibles (JSON)" data-i18n="tb.import">Importer
         <input type="file" accept="application/json,.json" onchange="importTargets(this)" style="display:none">
       </label>
-    </div>
-    <div class="topbar-group">
-      <button class="topbar-btn" onclick="shareLink()" title="Copier un lien contenant le formulaire pré-rempli (les valeurs figurent dans l'URL)" aria-label="Copier un lien partageable" data-i18n="tb.link">🔗 Lien</button>
-      <button class="topbar-btn btn-export-zip" onclick="exportAllZip()" title="Exporter les dorks de tous les onglets remplis dans une archive ZIP (un .txt par onglet)" aria-label="Exporter tout en ZIP">📦 ZIP</button>
     </div>
   </div>
 
@@ -1499,7 +1547,8 @@
     fr: {
       'app.subtitle': 'Génération de Google Dorks pour l\'audit de l\'empreinte numérique.',
       'tb.engine': 'Moteur', 'tb.target': 'Cible', 'tb.newtarget': '— nouvelle cible —',
-      'tb.save': '💾 Sauver', 'tb.link': '🔗 Lien',
+      'tb.save': 'Enregistrer', 'tb.rename': 'Renommer', 'tb.delete': 'Supprimer',
+      'tb.export': 'Exporter ▾', 'tb.import': 'Importer',
       'tab.identite': 'Identité', 'tab.pseudo': 'Pseudo', 'tab.domaine': 'Domaine / IP',
       'tab.societe': 'Société', 'tab.image': 'Image', 'tab.correlation': 'Corrélation', 'tab.perso': 'Champs perso',
       'f.nom': 'Nom', 'f.prenom': 'Prénom', 'f.dob': 'Date de naissance', 'f.cities': 'Villes / Régions',
@@ -1543,12 +1592,17 @@
       'pal.placeholder': 'Rechercher une commande…', 'cmd.gotab': 'Aller à l\'onglet', 'cmd.generate': 'Générer (onglet actuel)',
       'cmd.copyall': 'Tout copier', 'cmd.filter': 'Filtrer les résultats', 'cmd.expand': 'Tout déplier / replier',
       'cmd.zip': 'Exporter en ZIP', 'cmd.share': 'Copier le lien partageable', 'cmd.theme': 'Basculer le thème',
-      'cmd.lang': 'Basculer la langue'
+      'cmd.lang': 'Basculer la langue',
+      'ex.results': 'Résultats (onglet courant)', 'ex.other': 'Autre',
+      'ex.allzip': 'Toutes les recherches (ZIP)', 'ex.targets': 'Cibles sauvegardées (JSON)',
+      'ex.link': 'Lien partageable', 'ex.empty': 'Aucun résultat à exporter — lancez une génération.',
+      'ex.done': 'Export téléchargé.'
     },
     en: {
       'app.subtitle': 'Generate Google dorks to audit a digital footprint.',
       'tb.engine': 'Engine', 'tb.target': 'Target', 'tb.newtarget': '— new target —',
-      'tb.save': '💾 Save', 'tb.link': '🔗 Link',
+      'tb.save': 'Save', 'tb.rename': 'Rename', 'tb.delete': 'Delete',
+      'tb.export': 'Export ▾', 'tb.import': 'Import',
       'tab.identite': 'Identity', 'tab.pseudo': 'Username', 'tab.domaine': 'Domain / IP',
       'tab.societe': 'Company', 'tab.image': 'Image', 'tab.correlation': 'Correlation', 'tab.perso': 'Custom',
       'f.nom': 'Last name', 'f.prenom': 'First name', 'f.dob': 'Date of birth', 'f.cities': 'Cities / Regions',
@@ -1592,7 +1646,11 @@
       'pal.placeholder': 'Search a command…', 'cmd.gotab': 'Go to tab', 'cmd.generate': 'Generate (current tab)',
       'cmd.copyall': 'Copy all', 'cmd.filter': 'Filter results', 'cmd.expand': 'Expand / collapse all',
       'cmd.zip': 'Export as ZIP', 'cmd.share': 'Copy shareable link', 'cmd.theme': 'Toggle theme',
-      'cmd.lang': 'Toggle language'
+      'cmd.lang': 'Toggle language',
+      'ex.results': 'Results (current tab)', 'ex.other': 'Other',
+      'ex.allzip': 'All searches (ZIP)', 'ex.targets': 'Saved targets (JSON)',
+      'ex.link': 'Shareable link', 'ex.empty': 'No results to export — run a generation first.',
+      'ex.done': 'Export downloaded.'
     }
   };
 
@@ -2021,8 +2079,6 @@
     html += '<div style="display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center">';
     html += '<input type="text" id="filterInput" class="filter-input" placeholder="' + escapeHtml(t('r.filter')) + '" aria-label="' + escapeHtml(t('r.filter')) + '">';
     html += '<button class="btn-copy-all" id="btnCopyAll">' + escapeHtml(t('r.copyall')) + '</button>';
-    html += '<button class="btn-copy-all" id="btnExport">' + escapeHtml(t('r.exporttxt')) + '</button>';
-    html += '<button class="btn-copy-all" id="btnExportHtml">' + escapeHtml(t('r.reporthtml')) + '</button>';
     html += '<button class="btn-copy-all" id="btnToggleAll">' + escapeHtml(t('r.expand')) + '</button>';
     html += '</div>';
     html += '</div>';
@@ -2103,52 +2159,6 @@
         btn.textContent = '✓';
         setTimeout(function() { btn.textContent = t('r.copyall'); }, 1500);
       }).catch(function() { showToast('Erreur de copie'); });
-    });
-
-    document.getElementById('btnExport').addEventListener('click', function() {
-      var lines = [];
-      categories.forEach(function(cat) {
-        lines.push('=== ' + cat.title + ' ===');
-        cat.entries.forEach(function(e) { lines.push(e.text); });
-        lines.push('');
-      });
-      var blob = new Blob([lines.join('\n')], { type: 'text/plain' });
-      var a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'dorks-' + new Date().toISOString().slice(0, 10) + '.txt';
-      a.click();
-      setTimeout(function() { URL.revokeObjectURL(a.href); }, 100);
-      showToast('Export téléchargé !');
-    });
-
-    document.getElementById('btnExportHtml').addEventListener('click', function() {
-      var parts = ['<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8">',
-        '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
-        '<title>Rapport OSINT</title>',
-        '<style>body{font-family:system-ui,-apple-system,sans-serif;max-width:900px;margin:2rem auto;padding:0 1rem;line-height:1.5;color:#1a1a1a}h1{border-bottom:2px solid #00a37a;padding-bottom:.4rem}h2{margin-top:2rem;color:#00795c}code{background:#f3f3f3;padding:.1rem .35rem;border-radius:3px;word-break:break-all;font-size:.85em}li{margin:.35rem 0}a{color:#0066cc}em{color:#555}</style></head><body>'];
-      parts.push('<h1>Rapport OSINT — ' + escapeHtml(new Date().toLocaleString('fr-FR')) + '</h1>');
-      categories.forEach(function(cat) {
-        parts.push('<h2>' + escapeHtml(cat.title) + '</h2>');
-        if (cat.desc) parts.push('<p><em>' + escapeHtml(cat.desc) + '</em></p>');
-        parts.push('<ul>');
-        cat.entries.forEach(function(e) {
-          if (e.url) {
-            parts.push('<li><a href="' + escapeHtml(e.url) + '" target="_blank" rel="noopener">'
-              + escapeHtml(e.label || e.url) + '</a> — <code>' + escapeHtml(e.url) + '</code></li>');
-          } else {
-            parts.push('<li><code>' + escapeHtml(e.text) + '</code></li>');
-          }
-        });
-        parts.push('</ul>');
-      });
-      parts.push('</body></html>');
-      var blob = new Blob([parts.join('\n')], { type: 'text/html' });
-      var a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'rapport-osint-' + new Date().toISOString().slice(0, 10) + '.html';
-      a.click();
-      setTimeout(function() { URL.revokeObjectURL(a.href); }, 100);
-      showToast('Rapport HTML téléchargé !');
     });
 
     // Tout déplier / replier (bascule globale)
@@ -2422,6 +2432,141 @@
         overlay.style.display === 'none' ? open() : close();
       }
     });
+  };
+
+  // ═══════════════════════════════════════
+  // EXPORT MULTI-FORMAT (résultats affichés)
+  // Formats : TXT, Markdown, HTML, JSON, CSV, SQL.
+  // L'état « vérifié » de chaque entrée est inclus.
+  // ═══════════════════════════════════════
+
+  function entryChecked(text) { return (typeof isChecked === 'function') ? isChecked(text) : false; }
+
+  // Représentation structurée commune : [{title, desc, entries:[{value,url,label,checked}]}]
+  function buildStruct(cats) {
+    return cats.map(function(c) {
+      return {
+        title: c.title,
+        description: c.desc || '',
+        entries: (c.entries || []).map(function(e) {
+          return { value: e.text, url: e.url || null, label: e.label || null, checked: entryChecked(e.text) };
+        })
+      };
+    });
+  }
+
+  function buildTxt(cats) {
+    var lines = [];
+    cats.forEach(function(c) {
+      lines.push('=== ' + c.title + ' ===');
+      (c.entries || []).forEach(function(e) { lines.push((entryChecked(e.text) ? '[x] ' : '[ ] ') + e.text); });
+      lines.push('');
+    });
+    return lines.join('\n');
+  }
+
+  function buildMd(cats) {
+    var out = ['# Rapport OSINT — ' + new Date().toISOString().slice(0, 10), ''];
+    cats.forEach(function(c) {
+      out.push('## ' + c.title);
+      if (c.desc) out.push('_' + c.desc + '_');
+      (c.entries || []).forEach(function(e) {
+        var chk = entryChecked(e.text) ? '[x]' : '[ ]';
+        out.push(e.url ? '- ' + chk + ' [' + (e.label || e.url) + '](' + e.url + ')' : '- ' + chk + ' `' + e.text + '`');
+      });
+      out.push('');
+    });
+    return out.join('\n');
+  }
+
+  function csvCell(s) { return '"' + String(s == null ? '' : s).replace(/"/g, '""') + '"'; }
+  function buildCsv(cats) {
+    var rows = ['categorie,type,valeur,label,verifie'];
+    cats.forEach(function(c) {
+      (c.entries || []).forEach(function(e) {
+        rows.push([csvCell(c.title), e.url ? 'lien' : 'dork', csvCell(e.text), csvCell(e.label || ''), entryChecked(e.text) ? '1' : '0'].join(','));
+      });
+    });
+    return rows.join('\r\n');
+  }
+
+  function sqlStr(s) { return "'" + String(s == null ? '' : s).replace(/'/g, "''") + "'"; }
+  function buildSql(cats) {
+    var out = ['CREATE TABLE IF NOT EXISTS dorks (',
+      '  categorie TEXT, type TEXT, valeur TEXT, label TEXT, verifie INTEGER',
+      ');', ''];
+    cats.forEach(function(c) {
+      (c.entries || []).forEach(function(e) {
+        out.push('INSERT INTO dorks (categorie, type, valeur, label, verifie) VALUES ('
+          + sqlStr(c.title) + ', ' + sqlStr(e.url ? 'lien' : 'dork') + ', ' + sqlStr(e.text) + ', '
+          + sqlStr(e.label || '') + ', ' + (entryChecked(e.text) ? 1 : 0) + ');');
+      });
+    });
+    return out.join('\n');
+  }
+
+  function buildHtmlReport(cats) {
+    var parts = ['<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8">',
+      '<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Rapport OSINT</title>',
+      '<style>body{font-family:system-ui,-apple-system,sans-serif;max-width:900px;margin:2rem auto;padding:0 1rem;line-height:1.5;color:#1a1a1a}h1{border-bottom:2px solid #00a37a;padding-bottom:.4rem}h2{margin-top:2rem;color:#00795c}code{background:#f3f3f3;padding:.1rem .35rem;border-radius:3px;word-break:break-all;font-size:.85em}li{margin:.35rem 0}a{color:#0066cc}em{color:#555}.done{opacity:.55;text-decoration:line-through}</style></head><body>'];
+    parts.push('<h1>Rapport OSINT — ' + escapeHtml(new Date().toLocaleString('fr-FR')) + '</h1>');
+    cats.forEach(function(c) {
+      parts.push('<h2>' + escapeHtml(c.title) + '</h2>');
+      if (c.desc) parts.push('<p><em>' + escapeHtml(c.desc) + '</em></p>');
+      parts.push('<ul>');
+      (c.entries || []).forEach(function(e) {
+        var cls = entryChecked(e.text) ? ' class="done"' : '';
+        if (e.url) parts.push('<li' + cls + '><a href="' + escapeHtml(e.url) + '" target="_blank" rel="noopener">' + escapeHtml(e.label || e.url) + '</a> — <code>' + escapeHtml(e.url) + '</code></li>');
+        else parts.push('<li' + cls + '><code>' + escapeHtml(e.text) + '</code></li>');
+      });
+      parts.push('</ul>');
+    });
+    parts.push('</body></html>');
+    return parts.join('\n');
+  }
+
+  function downloadBlob(filename, mime, content) {
+    var blob = new Blob([content], { type: mime });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+    setTimeout(function() { URL.revokeObjectURL(a.href); }, 100);
+  }
+
+  var EXPORTERS = {
+    txt:  { build: buildTxt, ext: 'txt', mime: 'text/plain' },
+    md:   { build: buildMd, ext: 'md', mime: 'text/markdown' },
+    html: { build: buildHtmlReport, ext: 'html', mime: 'text/html' },
+    json: { build: function(c) { return JSON.stringify({ generated: new Date().toISOString(), categories: buildStruct(c) }, null, 2); }, ext: 'json', mime: 'application/json' },
+    csv:  { build: buildCsv, ext: 'csv', mime: 'text/csv' },
+    sql:  { build: buildSql, ext: 'sql', mime: 'text/plain' }
+  };
+
+  window.exportResults = function(format) {
+    closeExportMenu();
+    var cats = (typeof renderResults === 'function') ? renderResults._cats : null;
+    if (!cats || cats.length === 0) { showToast(t('ex.empty')); return; }
+    var ex = EXPORTERS[format];
+    if (!ex) return;
+    downloadBlob('dorks-' + new Date().toISOString().slice(0, 10) + '.' + ex.ext, ex.mime, ex.build(cats));
+    showToast(t('ex.done'));
+  };
+
+  function closeExportMenu() {
+    var m = document.getElementById('exportMenu');
+    if (m) m.hidden = true;
+  }
+  window.toggleExportMenu = function(evt) {
+    if (evt) evt.stopPropagation();
+    var m = document.getElementById('exportMenu');
+    if (!m) return;
+    m.hidden = !m.hidden;
+    if (!m.hidden) {
+      setTimeout(function() {
+        document.addEventListener('click', function onDoc() { closeExportMenu(); document.removeEventListener('click', onDoc); });
+      }, 0);
+    }
   };
 
   function sanitizeName(s) {
