@@ -1,0 +1,233 @@
+<div class="container">
+  <header>
+    <div class="theme-toggle">
+      <span class="toggle-label" id="themeLabel">Light</span>
+      <label class="toggle-switch" title="Basculer dark / light">
+        <input type="checkbox" id="themeToggle" aria-label="Basculer le thème clair ou sombre">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+    <h1>DORK GENERATOR</h1>
+    <p>Génération de Google Dorks pour l'audit de l'empreinte numérique.</p>
+  </header>
+
+  <div class="topbar">
+    <div class="topbar-group">
+      <label class="topbar-label" for="engine">Moteur</label>
+      <select id="engine" class="topbar-select" title="Moteur utilisé à l'ouverture des dorks">
+        <option value="google">Google</option>
+        <option value="duckduckgo">DuckDuckGo</option>
+        <option value="yandex">Yandex</option>
+      </select>
+    </div>
+    <div class="topbar-group">
+      <label class="topbar-label" for="targetSelect">Cible</label>
+      <select id="targetSelect" class="topbar-select" title="Charger une cible sauvegardée">
+        <option value="">— nouvelle cible —</option>
+      </select>
+      <button class="topbar-btn" onclick="saveTarget()" title="Sauvegarder tous les champs sous un nom" aria-label="Sauvegarder la cible">💾 Sauver</button>
+      <button class="topbar-btn" onclick="renameTarget()" title="Renommer la cible sélectionnée" aria-label="Renommer la cible">✏️</button>
+      <button class="topbar-btn" onclick="deleteTarget()" title="Supprimer la cible sélectionnée" aria-label="Supprimer la cible">🗑</button>
+      <button class="topbar-btn" onclick="exportTargets()" title="Exporter toutes les cibles en JSON" aria-label="Exporter les cibles en JSON">⬇ JSON</button>
+      <label class="topbar-btn" title="Importer des cibles depuis un fichier JSON" aria-label="Importer des cibles depuis un JSON">⬆ JSON
+        <input type="file" accept="application/json,.json" onchange="importTargets(this)" style="display:none">
+      </label>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('identite', this)">Identité</button>
+    <button class="tab-btn" onclick="switchTab('pseudo', this)">Pseudo</button>
+    <button class="tab-btn" onclick="switchTab('domaine', this)">Domaine / IP</button>
+    <button class="tab-btn" onclick="switchTab('societe', this)">Société</button>
+    <button class="tab-btn" onclick="switchTab('perso', this)">Champs perso</button>
+  </div>
+
+  <!-- TAB IDENTITÉ -->
+  <div class="tab-panel active" id="tab-identite">
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="nom">Nom</label>
+        <input type="text" id="nom" placeholder="Dupont">
+      </div>
+      <div class="form-group">
+        <label for="prenom">Prénom</label>
+        <input type="text" id="prenom" placeholder="Jean">
+      </div>
+      <div class="form-group">
+        <label for="dateNaissance">Date de naissance <span class="hint">— optionnel</span></label>
+        <input type="date" id="dateNaissance">
+      </div>
+      <div class="form-group span2">
+        <label for="villes">Villes / Régions <span class="hint">— séparées par des virgules</span></label>
+        <input type="text" id="villes" placeholder="Paris, Reims, Île-de-France">
+      </div>
+      <div class="form-group">
+        <label for="dateDebut">Résultats après <span class="hint">— after:</span></label>
+        <input type="date" id="dateDebut">
+      </div>
+      <div class="form-group span2">
+        <label for="emails">Emails connus <span class="hint">— séparés par des virgules</span></label>
+        <input type="text" id="emails" placeholder="jean.dupont@gmail.com, jd@proton.me">
+      </div>
+      <div class="form-group">
+        <label for="dateFin">Résultats avant <span class="hint">— before:</span></label>
+        <input type="date" id="dateFin">
+      </div>
+      <div class="form-group span2">
+        <label for="telephones">Téléphones connus <span class="hint">— séparés par des virgules</span></label>
+        <input type="text" id="telephones" placeholder="0612345678, +33 6 12 34 56 78">
+      </div>
+      <div class="form-group full">
+        <label for="variations">Variations <span class="hint">— pseudos, formats, séparés par des virgules</span></label>
+        <input type="text" id="variations" placeholder="jean.dupont, jeandupont, jdup42">
+      </div>
+      <div class="form-group full">
+        <label for="exclusions">Sites à exclure <span class="hint">— séparés par des virgules</span></label>
+        <input type="text" id="exclusions" placeholder="monsite.com, autresite.fr">
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-generate" onclick="generate()">Générer les dorks</button>
+      <button class="btn-clear" onclick="clearTab('identite')">Clear</button>
+    </div>
+  </div>
+
+  <!-- TAB PSEUDO -->
+  <div class="tab-panel" id="tab-pseudo">
+    <div class="form-grid">
+      <div class="form-group span2">
+        <label for="pseudo">Pseudo principal</label>
+        <input type="text" id="pseudo" placeholder="xShadowKill3r">
+      </div>
+      <div class="form-group">
+        <label for="pseudoPlatforms">Plateformes <span class="hint">— séparées par des virgules</span></label>
+        <input type="text" id="pseudoPlatforms" placeholder="steam, discord, epic">
+      </div>
+      <div class="form-group full">
+        <label for="pseudoVariations">Variations du pseudo <span class="hint">— anciens pseudos, variantes, séparés par des virgules</span></label>
+        <input type="text" id="pseudoVariations" placeholder="shadow_killer, ShadowK, xSK42">
+      </div>
+      <div class="form-group span2">
+        <label for="pseudoEmails">Emails liés <span class="hint">— séparés par des virgules</span></label>
+        <input type="text" id="pseudoEmails" placeholder="shadow@gmail.com, xsk@proton.me">
+      </div>
+      <div class="form-group">
+        <label for="pseudoExclusions">Sites à exclure <span class="hint">— séparés par des virgules</span></label>
+        <input type="text" id="pseudoExclusions" placeholder="monsite.com">
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-generate" onclick="generatePseudo()">Générer les dorks pseudo</button>
+      <button class="btn-clear" onclick="clearTab('pseudo')">Clear</button>
+    </div>
+  </div>
+
+  <!-- TAB DOMAINE / IP -->
+  <div class="tab-panel" id="tab-domaine">
+    <div class="form-grid">
+      <div class="form-group span2">
+        <label for="domaine">Domaine <span class="hint">— ex: example.com</span></label>
+        <input type="text" id="domaine" placeholder="example.com">
+      </div>
+      <div class="form-group">
+        <label for="ip">Adresse IP <span class="hint">— optionnel</span></label>
+        <input type="text" id="ip" placeholder="192.168.1.1">
+      </div>
+      <div class="form-group full">
+        <label for="domaineExclusions">Sites à exclure <span class="hint">— séparés par des virgules</span></label>
+        <input type="text" id="domaineExclusions" placeholder="monsite.com">
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-generate" onclick="generateDomaine()">Générer les dorks domaine</button>
+      <button class="btn-clear" onclick="clearTab('domaine')">Clear</button>
+    </div>
+  </div>
+
+  <!-- TAB SOCIÉTÉ -->
+  <div class="tab-panel" id="tab-societe">
+    <div class="form-grid">
+      <div class="form-group full">
+        <label for="societe">Nom de la société</label>
+        <input type="text" id="societe" placeholder="Acme Corp">
+      </div>
+      <div class="form-group">
+        <label for="siren">SIREN / SIRET <span class="hint">— optionnel</span></label>
+        <input type="text" id="siren" placeholder="123456789">
+      </div>
+      <div class="form-group">
+        <label for="domaineSociete">Domaine web <span class="hint">— optionnel</span></label>
+        <input type="text" id="domaineSociete" placeholder="acme.fr">
+      </div>
+      <div class="form-group">
+        <label for="secteur">Secteur d'activité <span class="hint">— optionnel</span></label>
+        <input type="text" id="secteur" placeholder="BTP, finance, santé…">
+      </div>
+      <div class="form-group span2">
+        <label for="emailsSociete">Emails connus <span class="hint">— séparés par des virgules</span></label>
+        <input type="text" id="emailsSociete" placeholder="contact@acme.fr, direction@acme.fr">
+      </div>
+      <div class="form-group">
+        <label for="villeSociete">Ville / Région <span class="hint">— optionnel</span></label>
+        <input type="text" id="villeSociete" placeholder="Lyon, Île-de-France">
+      </div>
+      <div class="form-group span2">
+        <label for="telephonesSociete">Téléphones connus <span class="hint">— séparés par des virgules</span></label>
+        <input type="text" id="telephonesSociete" placeholder="0123456789, +33 1 23 45 67 89">
+      </div>
+      <div class="form-group full">
+        <label for="societeSociete">Sites à exclure <span class="hint">— séparés par des virgules</span></label>
+        <input type="text" id="societeSociete" placeholder="acme.fr">
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-generate" onclick="generateSociete()">Générer les dorks société</button>
+      <button class="btn-clear" onclick="clearTab('societe')">Clear</button>
+    </div>
+  </div>
+
+  <!-- TAB CHAMPS PERSO -->
+  <div class="tab-panel" id="tab-perso">
+    <div class="custom-layout">
+      <aside class="custom-guide">
+        <h3>Rappel des opérateurs</h3>
+        <ul>
+          <li><code>"…"</code> — expression exacte</li>
+          <li><code>OR</code> — l'un ou l'autre</li>
+          <li><code>-mot</code> — exclure un terme</li>
+          <li><code>site:</code> — limiter à un domaine</li>
+          <li><code>-site:</code> — exclure un domaine</li>
+          <li><code>intitle:</code> — dans le titre</li>
+          <li><code>inurl:</code> — dans l'URL</li>
+          <li><code>intext:</code> — dans le contenu</li>
+          <li><code>filetype:</code> — type de fichier</li>
+          <li><code>*</code> — joker (mot inconnu)</li>
+          <li><code>( )</code> — grouper des termes</li>
+          <li><code>..</code> — plage de nombres</li>
+          <li>Une ligne = un dork.</li>
+        </ul>
+      </aside>
+      <div class="custom-main">
+        <textarea id="customDorks" placeholder=""></textarea>
+        <div class="btn-row" style="margin-top:0.8rem">
+          <button class="btn-generate" onclick="generateCustom()">Rechercher</button>
+          <button class="btn-clear" onclick="clearTab('perso')">Clear</button>
+        </div>
+        <div class="export-zone">
+          <p>Exporter les dorks de tous les onglets remplis dans une archive ZIP — un fichier .txt par onglet (les onglets vides sont ignorés).</p>
+          <button class="btn-export-zip" onclick="exportAllZip()">📦 Exporter tout en ZIP</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="results">
+    <div class="empty-state">
+      <span class="prompt-char">_</span>
+      Remplissez le formulaire et lancez la génération.
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>

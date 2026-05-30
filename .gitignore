@@ -1,0 +1,13 @@
+# Outils internes (agents / config locale)
+.claude/
+.claude-flow/
+
+# Dépendances / build
+node_modules/
+
+# Fichiers non liés au projet
+*.pdf
+
+# OS / éditeurs
+.DS_Store
+*.swp
