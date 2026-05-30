@@ -22,6 +22,10 @@ collectée ni transmise par l'application.
   image, corrélation, champs personnalisés.
 - **Recoupement d'identifiants** : combine nom, pseudo, email, domaine, société
   et ville en requêtes croisées pour confirmer qu'ils visent la même cible.
+- **Mode enquête** : tableau de bord de couverture (sources vérifiées par
+  catégorie), priorisation des pistes, suggestion de prochaine étape, et cases
+  « vérifié » persistantes sur chaque résultat.
+- **Palette de commandes** (`Ctrl/Cmd + K`) : accès rapide à toutes les actions.
 - **Recherche par image** : recherche inversée à partir de l'URL d'une image
   (Google Lens, Yandex, Bing, TinEye…) et accès aux moteurs de recherche de
   visages à téléversement manuel.

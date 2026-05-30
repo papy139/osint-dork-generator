@@ -58,6 +58,9 @@
   // Internationalisation (détection navigateur + slider FR/EN)
   if (window.initI18n) window.initI18n();
 
+  // Palette de commandes (Ctrl/Cmd + K)
+  if (window.initPalette) window.initPalette();
+
   // Accessibilité + indication des raccourcis (Alt+N) sur les onglets
   document.querySelectorAll('.tab-btn').forEach(function(b, i) {
     b.setAttribute('role', 'tab');

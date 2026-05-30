@@ -38,6 +38,9 @@
     html += '</div>';
     html += '</div>';
 
+    renderResults._cats = categories;
+    html += buildDashboard(categories);
+
     // Distribute into 3 columns round-robin
     var cols = [[], [], []];
     categories.forEach(function(cat, ci) { cols[ci % 3].push({ cat: cat, ci: ci }); });
@@ -65,7 +68,8 @@
         cat.entries.forEach(function(entry, di) {
           var id = 'dork-' + ci + '-' + di;
           var raw = entry.url || entry.text;
-          html += '<div class="dork-item">';
+          html += '<div class="dork-item' + (isChecked(raw) ? ' checked' : '') + '">';
+          html += '<input type="checkbox" class="chk"' + (isChecked(raw) ? ' checked' : '') + ' data-raw="' + escapeHtml(raw) + '" title="' + escapeHtml(t('db.verify')) + '" aria-label="' + escapeHtml(t('db.verify')) + '">';
           html += '<div class="dork-query" id="' + id + '"' + (entry.url ? ' data-url="' + escapeHtml(entry.url) + '"' : '') + '>';
           html += '<span class="dork-text" data-raw="' + escapeHtml(raw) + '">' + escapeHtml(raw) + '</span>';
           if (entry.url) {
@@ -93,6 +97,14 @@
     html += '</div>';
 
     container.innerHTML = html;
+
+    document.querySelectorAll('.chk').forEach(function(c) {
+      c.addEventListener('change', function() {
+        var item = this.closest('.dork-item');
+        if (item) item.classList.toggle('checked', this.checked);
+        toggleChecked(this.getAttribute('data-raw'), this.checked);
+      });
+    });
 
     document.getElementById('btnCopyAll').addEventListener('click', function() {
       var text = allLines.join('\n\n');

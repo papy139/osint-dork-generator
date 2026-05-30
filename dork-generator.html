@@ -738,6 +738,47 @@
   }
   .correlation-intro strong { color: var(--accent); }
 
+  /* Tableau de bord d'enquête */
+  .dashboard {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.2rem;
+  }
+  .db-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem; }
+  .db-title { font-family: var(--font-mono); font-size: 0.9rem; color: var(--accent); font-weight: 600; }
+  .db-overall { font-size: 0.8rem; color: var(--text-secondary); }
+  .db-bar { height: 7px; background: var(--bg-input); border-radius: 4px; overflow: hidden; }
+  .db-bar-fill { height: 100%; background: var(--accent); transition: width 0.3s; }
+  .db-cats { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.3rem 1rem; margin: 0.8rem 0 0.3rem; }
+  .db-cat { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; }
+  .db-cat-name { flex: 1; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .db-cat-count { color: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .db-mini { width: 54px; height: 5px; background: var(--bg-input); border-radius: 3px; overflow: hidden; flex: none; }
+  .db-mini-fill { display: block; height: 100%; background: var(--accent); }
+  .db-prio { font-size: 0.6rem; line-height: 1; }
+  .db-prio-3 { color: var(--danger); }
+  .db-prio-2 { color: var(--warning); }
+  .db-prio-1 { color: var(--text-muted); }
+  .db-next { margin-top: 0.7rem; padding-top: 0.6rem; border-top: 1px solid var(--border); font-size: 0.82rem; color: var(--text-secondary); }
+  .db-next strong { color: var(--text-primary); }
+  .db-done { color: var(--accent); }
+
+  /* Case « vérifié » sur les résultats */
+  .dork-item .chk { flex: none; margin-right: 0.1rem; cursor: pointer; accent-color: var(--accent); width: 15px; height: 15px; }
+  .dork-item.checked { opacity: 0.55; }
+  .dork-item.checked .dork-text { text-decoration: line-through; }
+
+  /* Palette de commandes */
+  .cmdk { position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 11000; display: flex; align-items: flex-start; justify-content: center; padding-top: 12vh; }
+  .cmdk-box { width: min(560px, 92vw); background: var(--bg-surface); border: 1px solid var(--border-focus); border-radius: var(--radius); box-shadow: 0 12px 48px rgba(0,0,0,0.5); overflow: hidden; }
+  .cmdk-input { width: 100%; background: var(--bg-input); border: none; border-bottom: 1px solid var(--border); color: var(--text-primary); font-family: var(--font-body); font-size: 0.95rem; padding: 0.8rem 1rem; outline: none; }
+  .cmdk-list { max-height: 50vh; overflow-y: auto; }
+  .cmdk-item { padding: 0.55rem 1rem; font-size: 0.85rem; color: var(--text-secondary); cursor: pointer; }
+  .cmdk-item.active, .cmdk-item:hover { background: var(--accent-dim); color: var(--text-primary); }
+  .cmdk-empty { padding: 0.8rem 1rem; color: var(--text-muted); }
+
   /* Menus déroulants — style unifié (flèche personnalisée) */
   .topbar-select, .geo-select {
     -webkit-appearance: none;
@@ -1495,7 +1536,14 @@
       'r.results': 'résultats', 'r.copyall': 'Tout copier', 'r.exporttxt': 'Exporter .txt',
       'r.reporthtml': 'Rapport HTML', 'r.expand': 'Tout déplier', 'r.collapse': 'Tout replier',
       'r.filter': 'Filtrer…', 'r.copy': 'Copier', 'r.open': 'Ouvrir ↗', 'r.openall': 'Ouvrir tout',
-      'r.none': 'Aucun dork généré.'
+      'r.none': 'Aucun dork généré.',
+      'db.coverage': 'Couverture de l\'enquête', 'db.checked': 'vérifiées', 'db.next': 'Prochaine étape',
+      'db.prioHigh': 'priorité élevée', 'db.prioMed': 'priorité moyenne', 'db.prioLow': 'priorité faible',
+      'db.done': 'Enquête complète — toutes les sources ont été vérifiées.', 'db.verify': 'Marquer comme vérifié',
+      'pal.placeholder': 'Rechercher une commande…', 'cmd.gotab': 'Aller à l\'onglet', 'cmd.generate': 'Générer (onglet actuel)',
+      'cmd.copyall': 'Tout copier', 'cmd.filter': 'Filtrer les résultats', 'cmd.expand': 'Tout déplier / replier',
+      'cmd.zip': 'Exporter en ZIP', 'cmd.share': 'Copier le lien partageable', 'cmd.theme': 'Basculer le thème',
+      'cmd.lang': 'Basculer la langue'
     },
     en: {
       'app.subtitle': 'Generate Google dorks to audit a digital footprint.',
@@ -1537,7 +1585,14 @@
       'r.results': 'results', 'r.copyall': 'Copy all', 'r.exporttxt': 'Export .txt',
       'r.reporthtml': 'HTML report', 'r.expand': 'Expand all', 'r.collapse': 'Collapse all',
       'r.filter': 'Filter…', 'r.copy': 'Copy', 'r.open': 'Open ↗', 'r.openall': 'Open all',
-      'r.none': 'No dork generated.'
+      'r.none': 'No dork generated.',
+      'db.coverage': 'Investigation coverage', 'db.checked': 'checked', 'db.next': 'Next step',
+      'db.prioHigh': 'high priority', 'db.prioMed': 'medium priority', 'db.prioLow': 'low priority',
+      'db.done': 'Investigation complete — all sources have been checked.', 'db.verify': 'Mark as checked',
+      'pal.placeholder': 'Search a command…', 'cmd.gotab': 'Go to tab', 'cmd.generate': 'Generate (current tab)',
+      'cmd.copyall': 'Copy all', 'cmd.filter': 'Filter results', 'cmd.expand': 'Expand / collapse all',
+      'cmd.zip': 'Export as ZIP', 'cmd.share': 'Copy shareable link', 'cmd.theme': 'Toggle theme',
+      'cmd.lang': 'Toggle language'
     }
   };
 
@@ -1972,6 +2027,9 @@
     html += '</div>';
     html += '</div>';
 
+    renderResults._cats = categories;
+    html += buildDashboard(categories);
+
     // Distribute into 3 columns round-robin
     var cols = [[], [], []];
     categories.forEach(function(cat, ci) { cols[ci % 3].push({ cat: cat, ci: ci }); });
@@ -1999,7 +2057,8 @@
         cat.entries.forEach(function(entry, di) {
           var id = 'dork-' + ci + '-' + di;
           var raw = entry.url || entry.text;
-          html += '<div class="dork-item">';
+          html += '<div class="dork-item' + (isChecked(raw) ? ' checked' : '') + '">';
+          html += '<input type="checkbox" class="chk"' + (isChecked(raw) ? ' checked' : '') + ' data-raw="' + escapeHtml(raw) + '" title="' + escapeHtml(t('db.verify')) + '" aria-label="' + escapeHtml(t('db.verify')) + '">';
           html += '<div class="dork-query" id="' + id + '"' + (entry.url ? ' data-url="' + escapeHtml(entry.url) + '"' : '') + '>';
           html += '<span class="dork-text" data-raw="' + escapeHtml(raw) + '">' + escapeHtml(raw) + '</span>';
           if (entry.url) {
@@ -2027,6 +2086,14 @@
     html += '</div>';
 
     container.innerHTML = html;
+
+    document.querySelectorAll('.chk').forEach(function(c) {
+      c.addEventListener('change', function() {
+        var item = this.closest('.dork-item');
+        if (item) item.classList.toggle('checked', this.checked);
+        toggleChecked(this.getAttribute('data-raw'), this.checked);
+      });
+    });
 
     document.getElementById('btnCopyAll').addEventListener('click', function() {
       var text = allLines.join('\n\n');
@@ -2198,6 +2265,164 @@
   };
 
   // Icônes SVG par catégorie (Feather-style, stroke)
+
+  // ═══════════════════════════════════════
+  // TABLEAU DE BORD D'ENQUÊTE
+  // Suivi des sources vérifiées (cochées), couverture par catégorie,
+  // priorisation et suggestion de « prochaine étape ».
+  // ═══════════════════════════════════════
+
+  // État « vérifié » : ensemble de textes (dork/url) cochés, persisté.
+  var CHECKED = (function() {
+    try { return new Set(JSON.parse(localStorage.getItem('dork-checked') || '[]')); }
+    catch(e) { return new Set(); }
+  })();
+  function saveChecked() {
+    try { localStorage.setItem('dork-checked', JSON.stringify(Array.from(CHECKED))); } catch(e) {}
+  }
+  function isChecked(raw) { return CHECKED.has(raw); }
+  window.toggleChecked = function(raw, on) {
+    if (on) CHECKED.add(raw); else CHECKED.delete(raw);
+    saveChecked();
+    updateDashboard();
+  };
+
+  // Priorité d'une catégorie (3 = élevée, 2 = moyenne, 1 = faible) — par mots-clés du titre FR
+  function catPriority(title) {
+    var s = title.toLowerCase();
+    if (/fuite|pastebin|credential|breach|leak|sensibles|bases de données|exposition|\bcli\b|commandes/.test(s)) return 3;
+    if (/réseaux|social|document|code|dépôt|profil|forum|email|téléphone|telegram|registre|dirigeant|financ|infrastructure|liens directs|intitle|intext|inurl|sous-domaine|admin|api|recoupement/.test(s)) return 2;
+    return 1;
+  }
+
+  // Calcule l'état de couverture à partir des catégories rendues (avec .entries)
+  function coverage(categories) {
+    var total = 0, checked = 0, cats = [], next = null;
+    categories.forEach(function(cat) {
+      var tot = cat.entries.length;
+      var c = 0;
+      cat.entries.forEach(function(e) { if (isChecked(e.text)) c++; });
+      total += tot; checked += c;
+      var prio = catPriority(cat.title);
+      var row = { title: cat.title, total: tot, checked: c, prio: prio };
+      cats.push(row);
+      if (c < tot) {
+        if (!next || prio > next.prio || (prio === next.prio && (tot - c) > (next.total - next.checked))) next = row;
+      }
+    });
+    cats.sort(function(a, b) { return b.prio - a.prio || (b.total - b.checked) - (a.total - a.checked); });
+    return { total: total, checked: checked, cats: cats, next: next };
+  }
+
+  function pct(c, t) { return t ? Math.round(c / t * 100) : 0; }
+
+  function buildDashboard(categories) {
+    var cov = coverage(categories);
+    var prioLabel = { 3: t('db.prioHigh'), 2: t('db.prioMed'), 1: t('db.prioLow') };
+    var html = '<div id="dashboard" class="dashboard">';
+    html += '<div class="db-head"><span class="db-title">' + escapeHtml(t('db.coverage')) + '</span>'
+      + '<span class="db-overall">' + cov.checked + '/' + cov.total + ' ' + escapeHtml(t('db.checked'))
+      + ' · ' + pct(cov.checked, cov.total) + '%</span></div>';
+    html += '<div class="db-bar"><div class="db-bar-fill" style="width:' + pct(cov.checked, cov.total) + '%"></div></div>';
+    html += '<div class="db-cats">';
+    cov.cats.forEach(function(r) {
+      html += '<div class="db-cat">'
+        + '<span class="db-prio db-prio-' + r.prio + '" title="' + escapeHtml(prioLabel[r.prio]) + '">●</span>'
+        + '<span class="db-cat-name">' + tCat(r.title) + '</span>'
+        + '<span class="db-mini"><span class="db-mini-fill" style="width:' + pct(r.checked, r.total) + '%"></span></span>'
+        + '<span class="db-cat-count">' + r.checked + '/' + r.total + '</span>'
+        + '</div>';
+    });
+    html += '</div>';
+    if (cov.next) {
+      html += '<div class="db-next">' + escapeHtml(t('db.next')) + ' : <strong>' + tCat(cov.next.title)
+        + '</strong> <span class="db-prio db-prio-' + cov.next.prio + '">●</span> '
+        + escapeHtml(prioLabel[cov.next.prio]) + '</div>';
+    } else if (cov.total > 0) {
+      html += '<div class="db-next db-done">✓ ' + escapeHtml(t('db.done')) + '</div>';
+    }
+    html += '</div>';
+    return html;
+  }
+
+  // Met à jour le tableau de bord en place (sans re-rendre toute la grille)
+  function updateDashboard() {
+    var el = document.getElementById('dashboard');
+    if (!el || !renderResults._cats) return;
+    el.outerHTML = buildDashboard(renderResults._cats);
+  }
+
+  // ═══════════════════════════════════════
+  // PALETTE DE COMMANDES (Ctrl/Cmd + K)
+  // ═══════════════════════════════════════
+  window.initPalette = function() {
+    var overlay = document.createElement('div');
+    overlay.id = 'cmdk';
+    overlay.className = 'cmdk';
+    overlay.style.display = 'none';
+    overlay.innerHTML = '<div class="cmdk-box">'
+      + '<input id="cmdkInput" class="cmdk-input" type="text" autocomplete="off" spellcheck="false">'
+      + '<div id="cmdkList" class="cmdk-list"></div></div>';
+    document.body.appendChild(overlay);
+
+    var input = overlay.querySelector('#cmdkInput');
+    var list = overlay.querySelector('#cmdkList');
+    var sel = 0, filtered = [];
+
+    function commands() {
+      var cmds = [];
+      document.querySelectorAll('.tab-btn').forEach(function(b) {
+        var lbl = b.querySelector('.tab-label');
+        cmds.push({ label: t('cmd.gotab') + ' : ' + (lbl ? lbl.textContent : ''), run: function() { b.click(); } });
+      });
+      cmds.push({ label: t('cmd.generate'), run: function() {
+        var p = document.querySelector('.tab-panel.active'); if (!p) return;
+        var tab = p.id.replace('tab-', '');
+        if (GEN_FN[tab]) window[GEN_FN[tab]]();
+      } });
+      cmds.push({ label: t('cmd.copyall'), run: function() { var b = document.getElementById('btnCopyAll'); if (b) b.click(); } });
+      cmds.push({ label: t('cmd.filter'), run: function() { var f = document.getElementById('filterInput'); if (f) f.focus(); } });
+      cmds.push({ label: t('cmd.expand'), run: function() { var b = document.getElementById('btnToggleAll'); if (b) b.click(); } });
+      cmds.push({ label: t('cmd.zip'), run: function() { exportAllZip(); } });
+      cmds.push({ label: t('cmd.share'), run: function() { shareLink(); } });
+      cmds.push({ label: t('cmd.theme'), run: function() { var c = document.getElementById('themeToggle'); if (c) { c.checked = !c.checked; c.dispatchEvent(new Event('change')); } } });
+      cmds.push({ label: t('cmd.lang'), run: function() { var c = document.getElementById('langToggle'); if (c) { c.checked = !c.checked; c.dispatchEvent(new Event('change')); } } });
+      return cmds;
+    }
+
+    function render() {
+      list.innerHTML = filtered.length
+        ? filtered.map(function(c, i) { return '<div class="cmdk-item' + (i === sel ? ' active' : '') + '" data-i="' + i + '">' + escapeHtml(c.label) + '</div>'; }).join('')
+        : '<div class="cmdk-empty">—</div>';
+    }
+    function refilter() {
+      var q = input.value.toLowerCase();
+      filtered = commands().filter(function(c) { return c.label.toLowerCase().indexOf(q) !== -1; });
+      sel = 0; render();
+    }
+    function open() { overlay.style.display = 'flex'; input.value = ''; input.placeholder = t('pal.placeholder'); refilter(); input.focus(); }
+    function close() { overlay.style.display = 'none'; }
+    function run(i) { if (filtered[i]) { close(); filtered[i].run(); } }
+
+    input.addEventListener('input', refilter);
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowDown') { e.preventDefault(); sel = Math.min(sel + 1, filtered.length - 1); render(); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); sel = Math.max(sel - 1, 0); render(); }
+      else if (e.key === 'Enter') { e.preventDefault(); run(sel); }
+      else if (e.key === 'Escape') { close(); }
+    });
+    list.addEventListener('click', function(e) {
+      var it = e.target.closest('.cmdk-item');
+      if (it) run(parseInt(it.getAttribute('data-i'), 10));
+    });
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) close(); });
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+        e.preventDefault();
+        overlay.style.display === 'none' ? open() : close();
+      }
+    });
+  };
 
   function sanitizeName(s) {
     return s.replace(/[\/\\:*?"<>|\x00-\x1f]/g, '').replace(/\s+/g, ' ').trim();
@@ -3573,6 +3798,9 @@
 
   // Internationalisation (détection navigateur + slider FR/EN)
   if (window.initI18n) window.initI18n();
+
+  // Palette de commandes (Ctrl/Cmd + K)
+  if (window.initPalette) window.initPalette();
 
   // Accessibilité + indication des raccourcis (Alt+N) sur les onglets
   document.querySelectorAll('.tab-btn').forEach(function(b, i) {

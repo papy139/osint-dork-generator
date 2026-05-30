@@ -46,7 +46,14 @@
       'r.results': 'résultats', 'r.copyall': 'Tout copier', 'r.exporttxt': 'Exporter .txt',
       'r.reporthtml': 'Rapport HTML', 'r.expand': 'Tout déplier', 'r.collapse': 'Tout replier',
       'r.filter': 'Filtrer…', 'r.copy': 'Copier', 'r.open': 'Ouvrir ↗', 'r.openall': 'Ouvrir tout',
-      'r.none': 'Aucun dork généré.'
+      'r.none': 'Aucun dork généré.',
+      'db.coverage': 'Couverture de l\'enquête', 'db.checked': 'vérifiées', 'db.next': 'Prochaine étape',
+      'db.prioHigh': 'priorité élevée', 'db.prioMed': 'priorité moyenne', 'db.prioLow': 'priorité faible',
+      'db.done': 'Enquête complète — toutes les sources ont été vérifiées.', 'db.verify': 'Marquer comme vérifié',
+      'pal.placeholder': 'Rechercher une commande…', 'cmd.gotab': 'Aller à l\'onglet', 'cmd.generate': 'Générer (onglet actuel)',
+      'cmd.copyall': 'Tout copier', 'cmd.filter': 'Filtrer les résultats', 'cmd.expand': 'Tout déplier / replier',
+      'cmd.zip': 'Exporter en ZIP', 'cmd.share': 'Copier le lien partageable', 'cmd.theme': 'Basculer le thème',
+      'cmd.lang': 'Basculer la langue'
     },
     en: {
       'app.subtitle': 'Generate Google dorks to audit a digital footprint.',
@@ -88,7 +95,14 @@
       'r.results': 'results', 'r.copyall': 'Copy all', 'r.exporttxt': 'Export .txt',
       'r.reporthtml': 'HTML report', 'r.expand': 'Expand all', 'r.collapse': 'Collapse all',
       'r.filter': 'Filter…', 'r.copy': 'Copy', 'r.open': 'Open ↗', 'r.openall': 'Open all',
-      'r.none': 'No dork generated.'
+      'r.none': 'No dork generated.',
+      'db.coverage': 'Investigation coverage', 'db.checked': 'checked', 'db.next': 'Next step',
+      'db.prioHigh': 'high priority', 'db.prioMed': 'medium priority', 'db.prioLow': 'low priority',
+      'db.done': 'Investigation complete — all sources have been checked.', 'db.verify': 'Mark as checked',
+      'pal.placeholder': 'Search a command…', 'cmd.gotab': 'Go to tab', 'cmd.generate': 'Generate (current tab)',
+      'cmd.copyall': 'Copy all', 'cmd.filter': 'Filter results', 'cmd.expand': 'Expand / collapse all',
+      'cmd.zip': 'Export as ZIP', 'cmd.share': 'Copy shareable link', 'cmd.theme': 'Toggle theme',
+      'cmd.lang': 'Toggle language'
     }
   };
 

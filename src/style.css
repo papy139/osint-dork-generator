@@ -725,6 +725,47 @@
   }
   .correlation-intro strong { color: var(--accent); }
 
+  /* Tableau de bord d'enquête */
+  .dashboard {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.2rem;
+  }
+  .db-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem; }
+  .db-title { font-family: var(--font-mono); font-size: 0.9rem; color: var(--accent); font-weight: 600; }
+  .db-overall { font-size: 0.8rem; color: var(--text-secondary); }
+  .db-bar { height: 7px; background: var(--bg-input); border-radius: 4px; overflow: hidden; }
+  .db-bar-fill { height: 100%; background: var(--accent); transition: width 0.3s; }
+  .db-cats { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.3rem 1rem; margin: 0.8rem 0 0.3rem; }
+  .db-cat { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; }
+  .db-cat-name { flex: 1; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .db-cat-count { color: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .db-mini { width: 54px; height: 5px; background: var(--bg-input); border-radius: 3px; overflow: hidden; flex: none; }
+  .db-mini-fill { display: block; height: 100%; background: var(--accent); }
+  .db-prio { font-size: 0.6rem; line-height: 1; }
+  .db-prio-3 { color: var(--danger); }
+  .db-prio-2 { color: var(--warning); }
+  .db-prio-1 { color: var(--text-muted); }
+  .db-next { margin-top: 0.7rem; padding-top: 0.6rem; border-top: 1px solid var(--border); font-size: 0.82rem; color: var(--text-secondary); }
+  .db-next strong { color: var(--text-primary); }
+  .db-done { color: var(--accent); }
+
+  /* Case « vérifié » sur les résultats */
+  .dork-item .chk { flex: none; margin-right: 0.1rem; cursor: pointer; accent-color: var(--accent); width: 15px; height: 15px; }
+  .dork-item.checked { opacity: 0.55; }
+  .dork-item.checked .dork-text { text-decoration: line-through; }
+
+  /* Palette de commandes */
+  .cmdk { position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 11000; display: flex; align-items: flex-start; justify-content: center; padding-top: 12vh; }
+  .cmdk-box { width: min(560px, 92vw); background: var(--bg-surface); border: 1px solid var(--border-focus); border-radius: var(--radius); box-shadow: 0 12px 48px rgba(0,0,0,0.5); overflow: hidden; }
+  .cmdk-input { width: 100%; background: var(--bg-input); border: none; border-bottom: 1px solid var(--border); color: var(--text-primary); font-family: var(--font-body); font-size: 0.95rem; padding: 0.8rem 1rem; outline: none; }
+  .cmdk-list { max-height: 50vh; overflow-y: auto; }
+  .cmdk-item { padding: 0.55rem 1rem; font-size: 0.85rem; color: var(--text-secondary); cursor: pointer; }
+  .cmdk-item.active, .cmdk-item:hover { background: var(--accent-dim); color: var(--text-primary); }
+  .cmdk-empty { padding: 0.8rem 1rem; color: var(--text-muted); }
+
   /* Menus déroulants — style unifié (flèche personnalisée) */
   .topbar-select, .geo-select {
     -webkit-appearance: none;
