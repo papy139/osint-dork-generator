@@ -82,9 +82,9 @@
     return SEARCH_ENGINES[e] ? e : 'google';
   }
 
-  // Traduction best-effort des opérateurs Google vers DDG / Yandex.
-  // Imparfait sur les cas tordus (OR entre guillemets, parenthèses orphelines) —
-  // suffisant pour de l'OSINT exploratoire.
+  // Traduction approximative des opérateurs Google vers DuckDuckGo / Yandex.
+  // Certaines constructions complexes (OR entre guillemets, parenthèses
+  // imbriquées) ne sont pas couvertes ; suffisant pour une recherche exploratoire.
   function adaptDork(dork, engine) {
     if (engine === 'google' || !engine) return dork;
     var q = dork;
@@ -105,15 +105,15 @@
     return q.replace(/\s{2,}/g, ' ').trim();
   }
 
-  // Ouvre une requête dans le moteur courant (best-effort, dépend du navigateur)
+  // Ouvre une requête dans le moteur sélectionné (comportement dépendant du navigateur)
   function openSearch(query) {
     var engine = currentEngine();
     var url = SEARCH_ENGINES[engine].url + encodeURIComponent(adaptDork(query, engine));
     var w = window.open(url, '_blank');
-    // Ramène le focus sur l'onglet courant
+    // Conserve le focus sur l'onglet courant
     if (w) {
       window.focus();
-      // Certains navigateurs ignorent window.focus(), on blur+focus en fallback
+      // Certains navigateurs ignorent window.focus() ; blur + focus en repli
       try { w.blur(); window.focus(); } catch(e) {}
     }
     return !!w;

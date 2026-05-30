@@ -1,13 +1,60 @@
-# Outils internes (agents / config locale)
+# ===== Environnement =====
+.env
+.env.local
+.env.*.local
+
+# ===== Dépendances =====
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+
+# ===== Build =====
+dist/
+build/
+frontend/dist/
+frontend/build/
+backend/dist/
+
+# ===== Éditeurs & IDEs =====
+.vscode/
+.idea/
+*.swp
+*.swo
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# ===== OS =====
+.DS_Store
+.DS_Store?
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ===== Logs =====
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+logs/
+
+# ===== Coverage & tests =====
+coverage/
+.nyc_output/
+
+# ===== Docker =====
+.docker/
+
+# ===== Outils IA / Claude / MCP =====
+CLAUDE.md
 .claude/
 .claude-flow/
+.swarm/
+.mcp.json
+**/.mcp.json
+docs/superpowers/
 
-# Dépendances / build
-node_modules/
-
-# Fichiers non liés au projet
+# ===== Documents non liés au projet =====
 *.pdf
-
-# OS / éditeurs
-.DS_Store
-*.swp
