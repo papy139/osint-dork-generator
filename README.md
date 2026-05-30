@@ -65,7 +65,9 @@ collectée ni transmise par l'application.
 
 ## Utilisation
 
-Ouvrir `dork-generator.html` dans un navigateur :
+Télécharger `dork-generator.html` depuis la
+[dernière release](https://github.com/papy139/osint-dork-generator/releases/latest)
+(ou cloner le dépôt), puis l'ouvrir dans un navigateur :
 
 ```bash
 xdg-open dork-generator.html    # Linux
