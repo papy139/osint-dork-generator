@@ -88,7 +88,7 @@
   });
 
   // Garde-fou dev : signale un champ persistant oublié dans FIELDS
-  document.querySelectorAll('input[id]:not([type=checkbox]), textarea[id], select[id]').forEach(function(el) {
+  document.querySelectorAll('input[id]:not([type=checkbox]):not([type=file]), textarea[id], select[id]').forEach(function(el) {
     if (['engine', 'targetSelect'].indexOf(el.id) === -1 && FIELDS.indexOf(el.id) === -1)
       console.warn('[dork] champ non persistant (absent de FIELDS) : #' + el.id);
   });

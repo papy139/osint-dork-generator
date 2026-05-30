@@ -219,6 +219,10 @@
         <label for="imageUrl">URL de l'image <span class="hint">— lien direct vers le fichier image</span></label>
         <input type="text" id="imageUrl" placeholder="https://exemple.com/photo.jpg">
       </div>
+      <div class="form-group full">
+        <label for="imageFile">Ou importer une image <span class="hint">— hébergement temporaire pour la recherche par URL</span></label>
+        <input type="file" id="imageFile" accept="image/*" onchange="importImage(this)">
+      </div>
     </div>
     <div class="btn-row">
       <button class="btn-generate" onclick="generateImage()">Rechercher par image</button>

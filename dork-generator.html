@@ -928,6 +928,10 @@
         <label for="imageUrl">URL de l'image <span class="hint">— lien direct vers le fichier image</span></label>
         <input type="text" id="imageUrl" placeholder="https://exemple.com/photo.jpg">
       </div>
+      <div class="form-group full">
+        <label for="imageFile">Ou importer une image <span class="hint">— hébergement temporaire pour la recherche par URL</span></label>
+        <input type="file" id="imageFile" accept="image/*" onchange="importImage(this)">
+      </div>
     </div>
     <div class="btn-row">
       <button class="btn-generate" onclick="generateImage()">Rechercher par image</button>
@@ -2937,6 +2941,48 @@
     renderResults(categories);
   };
 
+  // Import d'image : upload temporaire sur litterbox (expiration 1h côté serveur)
+  // pour obtenir une URL exploitable par la recherche inversée. Effacement de
+  // l'interface au bout de 60 s.
+  var imgExpireTimer = null;
+  window.importImage = function(input) {
+    var file = input.files && input.files[0];
+    if (!file) return;
+    if (!/^image\//.test(file.type)) { showToast('Le fichier doit être une image.'); input.value = ''; return; }
+    if (file.size > 30 * 1024 * 1024) { showToast('Image trop volumineuse (max 30 Mo).'); input.value = ''; return; }
+
+    showToast('Envoi de l\'image…');
+    var fd = new FormData();
+    fd.append('reqtype', 'fileupload');
+    fd.append('time', '1h');
+    fd.append('fileToUpload', file);
+
+    fetch('https://litterbox.catbox.moe/resources/internals/api.php', { method: 'POST', body: fd })
+      .then(function(r) { return r.text(); })
+      .then(function(url) {
+        url = (url || '').trim();
+        if (!/^https?:\/\//.test(url)) throw new Error('réponse inattendue');
+        var target = document.getElementById('imageUrl');
+        target.value = url;
+        target.dispatchEvent(new Event('input', { bubbles: true }));
+        window.generateImage();
+        showToast('Image envoyée — recherche prête.');
+
+        if (imgExpireTimer) clearTimeout(imgExpireTimer);
+        imgExpireTimer = setTimeout(function() {
+          target.value = '';
+          target.dispatchEvent(new Event('input', { bubbles: true }));
+          var res = document.getElementById('results');
+          if (res) res.innerHTML = '<div class="empty-state"><span class="prompt-char">_</span>L\'image a été supprimée pour confidentialité, veuillez la réuploader.</div>';
+          showToast('Image supprimée pour confidentialité — réuploadez si besoin.');
+        }, 60000);
+      })
+      .catch(function() {
+        showToast('Échec de l\'envoi (réseau ou blocage CORS). Collez plutôt l\'URL d\'une image.');
+      })
+      .then(function() { input.value = ''; });
+  };
+
   window.generateImage = function(silent) {
     var imgUrl = val('imageUrl');
     if (!imgUrl) {
@@ -3073,7 +3119,7 @@
   });
 
   // Garde-fou dev : signale un champ persistant oublié dans FIELDS
-  document.querySelectorAll('input[id]:not([type=checkbox]), textarea[id], select[id]').forEach(function(el) {
+  document.querySelectorAll('input[id]:not([type=checkbox]):not([type=file]), textarea[id], select[id]').forEach(function(el) {
     if (['engine', 'targetSelect'].indexOf(el.id) === -1 && FIELDS.indexOf(el.id) === -1)
       console.warn('[dork] champ non persistant (absent de FIELDS) : #' + el.id);
   });
