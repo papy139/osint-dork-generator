@@ -66,6 +66,14 @@
     align-items: center;
     gap: 0.55rem;
   }
+  .lang-toggle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
   .toggle-label {
     font-family: var(--font-body);
     font-size: 0.78rem;

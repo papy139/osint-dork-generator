@@ -32,7 +32,7 @@
       document.getElementById(id).value = '';
     });
     saveFields();
-    document.getElementById('results').innerHTML = '<div class="empty-state"><span class="prompt-char">_</span>Remplissez le formulaire et lancez la génération.</div>';
+    document.getElementById('results').innerHTML = '<div class="empty-state"><span class="prompt-char">_</span>' + escapeHtml(t('es.fill')) + '</div>';
     showToast('Formulaire effacé.');
   };
 
@@ -54,6 +54,9 @@
 
   // Menus déroulants régions / départements / pays
   if (window.initGeoSelects) window.initGeoSelects();
+
+  // Internationalisation (détection navigateur + slider FR/EN)
+  if (window.initI18n) window.initI18n();
 
   // Accessibilité + indication des raccourcis (Alt+N) sur les onglets
   document.querySelectorAll('.tab-btn').forEach(function(b, i) {
@@ -161,7 +164,7 @@
     if (!sel) return;
     var targets = loadTargets();
     var names = Object.keys(targets).sort();
-    sel.innerHTML = '<option value="">— nouvelle cible —</option>'
+    sel.innerHTML = '<option value="">' + escapeHtml(t('tb.newtarget')) + '</option>'
       + names.map(function(n) {
           return '<option value="' + escapeHtml(n) + '">' + escapeHtml(n) + '</option>';
         }).join('');

@@ -1,5 +1,13 @@
 <div class="container">
   <header>
+    <div class="lang-toggle">
+      <span class="toggle-label">FR</span>
+      <label class="toggle-switch" title="Français / English">
+        <input type="checkbox" id="langToggle" aria-label="Changer la langue (FR / EN)">
+        <span class="toggle-slider"></span>
+      </label>
+      <span class="toggle-label">EN</span>
+    </div>
     <div class="theme-toggle">
       <span class="toggle-label" id="themeLabel">Light</span>
       <label class="toggle-switch" title="Basculer dark / light">
@@ -8,12 +16,12 @@
       </label>
     </div>
     <h1>DORK GENERATOR</h1>
-    <p>Génération de Google Dorks pour l'audit de l'empreinte numérique.</p>
+    <p data-i18n="app.subtitle">Génération de Google Dorks pour l'audit de l'empreinte numérique.</p>
   </header>
 
   <div class="topbar">
     <div class="topbar-group">
-      <label class="topbar-label" for="engine">Moteur</label>
+      <label class="topbar-label" for="engine" data-i18n="tb.engine">Moteur</label>
       <select id="engine" class="topbar-select" title="Moteur utilisé à l'ouverture des dorks">
         <option value="google">Google</option>
         <option value="duckduckgo">DuckDuckGo</option>
@@ -21,11 +29,11 @@
       </select>
     </div>
     <div class="topbar-group">
-      <label class="topbar-label" for="targetSelect">Cible</label>
+      <label class="topbar-label" for="targetSelect" data-i18n="tb.target">Cible</label>
       <select id="targetSelect" class="topbar-select" title="Charger une cible sauvegardée">
-        <option value="">— nouvelle cible —</option>
+        <option value="" data-i18n="tb.newtarget">— nouvelle cible —</option>
       </select>
-      <button class="topbar-btn" onclick="saveTarget()" title="Sauvegarder tous les champs sous un nom" aria-label="Sauvegarder la cible">💾 Sauver</button>
+      <button class="topbar-btn" onclick="saveTarget()" title="Sauvegarder tous les champs sous un nom" aria-label="Sauvegarder la cible" data-i18n="tb.save">💾 Sauver</button>
       <button class="topbar-btn" onclick="renameTarget()" title="Renommer la cible sélectionnée" aria-label="Renommer la cible">✏️</button>
       <button class="topbar-btn" onclick="deleteTarget()" title="Supprimer la cible sélectionnée" aria-label="Supprimer la cible">🗑</button>
       <button class="topbar-btn" onclick="exportTargets()" title="Exporter toutes les cibles en JSON" aria-label="Exporter les cibles en JSON">⬇ JSON</button>
@@ -34,7 +42,7 @@
       </label>
     </div>
     <div class="topbar-group">
-      <button class="topbar-btn" onclick="shareLink()" title="Copier un lien contenant le formulaire pré-rempli (les valeurs figurent dans l'URL)" aria-label="Copier un lien partageable">🔗 Lien</button>
+      <button class="topbar-btn" onclick="shareLink()" title="Copier un lien contenant le formulaire pré-rempli (les valeurs figurent dans l'URL)" aria-label="Copier un lien partageable" data-i18n="tb.link">🔗 Lien</button>
       <button class="topbar-btn btn-export-zip" onclick="exportAllZip()" title="Exporter les dorks de tous les onglets remplis dans une archive ZIP (un .txt par onglet)" aria-label="Exporter tout en ZIP">📦 ZIP</button>
     </div>
   </div>
@@ -42,31 +50,31 @@
   <div class="tabs" role="tablist">
     <button class="tab-btn active" onclick="switchTab('identite', this)">
       <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20c0-3.5 3.1-6 7-6s7 2.5 7 6"></path></svg>
-      <span class="tab-label">Identité</span>
+      <span class="tab-label" data-i18n="tab.identite">Identité</span>
     </button>
     <button class="tab-btn" onclick="switchTab('pseudo', this)">
       <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.5"></circle><path d="M15.5 12v1.5a2.5 2.5 0 0 0 5 0V12a8.5 8.5 0 1 0-3.3 6.7"></path></svg>
-      <span class="tab-label">Pseudo</span>
+      <span class="tab-label" data-i18n="tab.pseudo">Pseudo</span>
     </button>
     <button class="tab-btn" onclick="switchTab('domaine', this)">
       <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.5 3.8 5.7 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.7-3.8-9s1.3-6.5 3.8-9z"></path></svg>
-      <span class="tab-label">Domaine / IP</span>
+      <span class="tab-label" data-i18n="tab.domaine">Domaine / IP</span>
     </button>
     <button class="tab-btn" onclick="switchTab('societe', this)">
       <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V5a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v16"></path><path d="M15 9h4a1 1 0 0 1 1 1v11M3 21h18"></path><path d="M7.5 8h2M7.5 12h2M7.5 16h2"></path></svg>
-      <span class="tab-label">Société</span>
+      <span class="tab-label" data-i18n="tab.societe">Société</span>
     </button>
     <button class="tab-btn" onclick="switchTab('image', this)">
       <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="M5 17l4.5-4 3 2.5L16 12l3.5 3.5"></path></svg>
-      <span class="tab-label">Image</span>
+      <span class="tab-label" data-i18n="tab.image">Image</span>
     </button>
     <button class="tab-btn" onclick="switchTab('correlation', this)">
       <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="7" r="3.2"></circle><circle cx="17" cy="17" r="3.2"></circle><path d="M9.3 9.3l5.4 5.4M14 7h3M17 7v3"></path></svg>
-      <span class="tab-label">Corrélation</span>
+      <span class="tab-label" data-i18n="tab.correlation">Corrélation</span>
     </button>
     <button class="tab-btn" onclick="switchTab('perso', this)">
       <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"></path><circle cx="16" cy="7" r="2.2"></circle><circle cx="8" cy="17" r="2.2"></circle></svg>
-      <span class="tab-label">Champs perso</span>
+      <span class="tab-label" data-i18n="tab.perso">Champs perso</span>
     </button>
   </div>
 
@@ -74,50 +82,50 @@
   <div class="tab-panel active" id="tab-identite">
     <div class="form-grid">
       <div class="form-group">
-        <label for="nom">Nom</label>
-        <input type="text" id="nom" placeholder="Nom de famille">
+        <label for="nom"><span data-i18n="f.nom">Nom</span></label>
+        <input type="text" id="nom" placeholder="Nom de famille" data-i18n-ph="ph.nom">
       </div>
       <div class="form-group">
-        <label for="prenom">Prénom</label>
-        <input type="text" id="prenom" placeholder="Prénom">
+        <label for="prenom"><span data-i18n="f.prenom">Prénom</span></label>
+        <input type="text" id="prenom" placeholder="Prénom" data-i18n-ph="ph.prenom">
       </div>
       <div class="form-group">
-        <label for="dateNaissance">Date de naissance <span class="hint">— optionnel</span></label>
+        <label for="dateNaissance"><span data-i18n="f.dob">Date de naissance</span> <span class="hint" data-i18n="h.opt">— optionnel</span></label>
         <input type="date" id="dateNaissance">
       </div>
       <div class="form-group span2">
-        <label for="villes">Villes / Régions <span class="hint">— séparées par des virgules</span></label>
-        <input type="text" id="villes" placeholder="Ville, région">
+        <label for="villes"><span data-i18n="f.cities">Villes / Régions</span> <span class="hint" data-i18n="h.comma">— séparés par des virgules</span></label>
+        <input type="text" id="villes" placeholder="Ville, région" data-i18n-ph="ph.cities">
         <select class="geo-select" data-target="villes" aria-label="Ajouter une région, un département ou un pays"></select>
       </div>
       <div class="form-group">
-        <label for="dateDebut">Résultats après <span class="hint">— after:</span></label>
+        <label for="dateDebut"><span data-i18n="f.after">Résultats après</span> <span class="hint" data-i18n="h.after">— after:</span></label>
         <input type="date" id="dateDebut">
       </div>
       <div class="form-group span2">
-        <label for="emails">Emails connus <span class="hint">— séparés par des virgules</span></label>
-        <input type="text" id="emails" placeholder="adresse@domaine.com">
+        <label for="emails"><span data-i18n="f.emails">Emails connus</span> <span class="hint" data-i18n="h.comma">— séparés par des virgules</span></label>
+        <input type="text" id="emails" placeholder="adresse@domaine.com" data-i18n-ph="ph.email">
       </div>
       <div class="form-group">
-        <label for="dateFin">Résultats avant <span class="hint">— before:</span></label>
+        <label for="dateFin"><span data-i18n="f.before">Résultats avant</span> <span class="hint" data-i18n="h.before">— before:</span></label>
         <input type="date" id="dateFin">
       </div>
       <div class="form-group span2">
-        <label for="telephones">Téléphones connus <span class="hint">— séparés par des virgules</span></label>
-        <input type="text" id="telephones" placeholder="Numéro de téléphone">
+        <label for="telephones"><span data-i18n="f.phones">Téléphones connus</span> <span class="hint" data-i18n="h.comma">— séparés par des virgules</span></label>
+        <input type="text" id="telephones" placeholder="Numéro de téléphone" data-i18n-ph="ph.phone">
       </div>
       <div class="form-group full">
-        <label for="variations">Variations <span class="hint">— pseudos, formats, séparés par des virgules</span></label>
-        <input type="text" id="variations" placeholder="Variante, alias">
+        <label for="variations"><span data-i18n="f.variations">Variations</span> <span class="hint" data-i18n="h.varhint">— pseudos, formats, séparés par des virgules</span></label>
+        <input type="text" id="variations" placeholder="Variante, alias" data-i18n-ph="ph.variations">
       </div>
       <div class="form-group full">
-        <label for="exclusions">Sites à exclure <span class="hint">— séparés par des virgules</span></label>
-        <input type="text" id="exclusions" placeholder="domaine-à-exclure.com">
+        <label for="exclusions"><span data-i18n="f.exclude">Sites à exclure</span> <span class="hint" data-i18n="h.comma">— séparés par des virgules</span></label>
+        <input type="text" id="exclusions" placeholder="domaine-à-exclure.com" data-i18n-ph="ph.excl">
       </div>
     </div>
     <div class="btn-row">
-      <button class="btn-generate" onclick="generate()">Générer les dorks</button>
-      <button class="btn-clear" onclick="clearTab('identite')">Clear</button>
+      <button class="btn-generate" onclick="generate()" data-i18n="b.genIdent">Générer les dorks</button>
+      <button class="btn-clear" onclick="clearTab('identite')" data-i18n="b.clear">Clear</button>
     </div>
   </div>
 
@@ -125,29 +133,29 @@
   <div class="tab-panel" id="tab-pseudo">
     <div class="form-grid">
       <div class="form-group span2">
-        <label for="pseudo">Pseudo principal</label>
-        <input type="text" id="pseudo" placeholder="Nom d'utilisateur">
+        <label for="pseudo"><span data-i18n="f.pseudo">Pseudo principal</span></label>
+        <input type="text" id="pseudo" placeholder="Nom d'utilisateur" data-i18n-ph="ph.pseudo">
       </div>
       <div class="form-group">
-        <label for="pseudoPlatforms">Plateformes <span class="hint">— séparées par des virgules</span></label>
-        <input type="text" id="pseudoPlatforms" placeholder="Plateforme">
+        <label for="pseudoPlatforms"><span data-i18n="f.platforms">Plateformes</span> <span class="hint" data-i18n="h.comma">— séparés par des virgules</span></label>
+        <input type="text" id="pseudoPlatforms" placeholder="Plateforme" data-i18n-ph="ph.platform">
       </div>
       <div class="form-group full">
-        <label for="pseudoVariations">Variations du pseudo <span class="hint">— anciens pseudos, variantes, séparés par des virgules</span></label>
-        <input type="text" id="pseudoVariations" placeholder="Variante du pseudo">
+        <label for="pseudoVariations"><span data-i18n="f.pseudovar">Variations du pseudo</span> <span class="hint" data-i18n="h.pseudovarhint">— anciens pseudos, variantes, séparés par des virgules</span></label>
+        <input type="text" id="pseudoVariations" placeholder="Variante du pseudo" data-i18n-ph="ph.pseudovar">
       </div>
       <div class="form-group span2">
-        <label for="pseudoEmails">Emails liés <span class="hint">— séparés par des virgules</span></label>
-        <input type="text" id="pseudoEmails" placeholder="adresse@domaine.com">
+        <label for="pseudoEmails"><span data-i18n="f.linkedemails">Emails liés</span> <span class="hint" data-i18n="h.comma">— séparés par des virgules</span></label>
+        <input type="text" id="pseudoEmails" placeholder="adresse@domaine.com" data-i18n-ph="ph.email">
       </div>
       <div class="form-group">
-        <label for="pseudoExclusions">Sites à exclure <span class="hint">— séparés par des virgules</span></label>
-        <input type="text" id="pseudoExclusions" placeholder="domaine-à-exclure.com">
+        <label for="pseudoExclusions"><span data-i18n="f.exclude">Sites à exclure</span> <span class="hint" data-i18n="h.comma">— séparés par des virgules</span></label>
+        <input type="text" id="pseudoExclusions" placeholder="domaine-à-exclure.com" data-i18n-ph="ph.excl">
       </div>
     </div>
     <div class="btn-row">
-      <button class="btn-generate" onclick="generatePseudo()">Générer les dorks pseudo</button>
-      <button class="btn-clear" onclick="clearTab('pseudo')">Clear</button>
+      <button class="btn-generate" onclick="generatePseudo()" data-i18n="b.genPseudo">Générer les dorks pseudo</button>
+      <button class="btn-clear" onclick="clearTab('pseudo')" data-i18n="b.clear">Clear</button>
     </div>
   </div>
 
@@ -155,21 +163,21 @@
   <div class="tab-panel" id="tab-domaine">
     <div class="form-grid">
       <div class="form-group span2">
-        <label for="domaine">Domaine <span class="hint">— ex: example.com</span></label>
-        <input type="text" id="domaine" placeholder="exemple.com">
+        <label for="domaine"><span data-i18n="f.domain">Domaine</span> <span class="hint" data-i18n="h.exdom">— ex : exemple.com</span></label>
+        <input type="text" id="domaine" placeholder="exemple.com" data-i18n-ph="ph.domain">
       </div>
       <div class="form-group">
-        <label for="ip">Adresse IP <span class="hint">— optionnel</span></label>
-        <input type="text" id="ip" placeholder="Adresse IP">
+        <label for="ip"><span data-i18n="f.ip">Adresse IP</span> <span class="hint" data-i18n="h.opt">— optionnel</span></label>
+        <input type="text" id="ip" placeholder="Adresse IP" data-i18n-ph="ph.ip">
       </div>
       <div class="form-group full">
-        <label for="domaineExclusions">Sites à exclure <span class="hint">— séparés par des virgules</span></label>
-        <input type="text" id="domaineExclusions" placeholder="domaine-à-exclure.com">
+        <label for="domaineExclusions"><span data-i18n="f.exclude">Sites à exclure</span> <span class="hint" data-i18n="h.comma">— séparés par des virgules</span></label>
+        <input type="text" id="domaineExclusions" placeholder="domaine-à-exclure.com" data-i18n-ph="ph.excl">
       </div>
     </div>
     <div class="btn-row">
-      <button class="btn-generate" onclick="generateDomaine()">Générer les dorks domaine</button>
-      <button class="btn-clear" onclick="clearTab('domaine')">Clear</button>
+      <button class="btn-generate" onclick="generateDomaine()" data-i18n="b.genDomaine">Générer les dorks domaine</button>
+      <button class="btn-clear" onclick="clearTab('domaine')" data-i18n="b.clear">Clear</button>
     </div>
   </div>
 
@@ -177,42 +185,42 @@
   <div class="tab-panel" id="tab-societe">
     <div class="form-grid">
       <div class="form-group full">
-        <label for="societe">Nom de la société</label>
-        <input type="text" id="societe" placeholder="Raison sociale">
+        <label for="societe"><span data-i18n="f.company">Nom de la société</span></label>
+        <input type="text" id="societe" placeholder="Raison sociale" data-i18n-ph="ph.company">
       </div>
       <div class="form-group">
-        <label for="siren">SIREN / SIRET <span class="hint">— optionnel</span></label>
-        <input type="text" id="siren" placeholder="SIREN ou SIRET">
+        <label for="siren"><span data-i18n="f.siren">SIREN / SIRET</span> <span class="hint" data-i18n="h.opt">— optionnel</span></label>
+        <input type="text" id="siren" placeholder="SIREN ou SIRET" data-i18n-ph="ph.siren">
       </div>
       <div class="form-group">
-        <label for="domaineSociete">Domaine web <span class="hint">— optionnel</span></label>
-        <input type="text" id="domaineSociete" placeholder="exemple.com">
+        <label for="domaineSociete"><span data-i18n="f.webdomain">Domaine web</span> <span class="hint" data-i18n="h.opt">— optionnel</span></label>
+        <input type="text" id="domaineSociete" placeholder="exemple.com" data-i18n-ph="ph.domain">
       </div>
       <div class="form-group">
-        <label for="secteur">Secteur d'activité <span class="hint">— optionnel</span></label>
-        <input type="text" id="secteur" placeholder="Secteur d'activité">
+        <label for="secteur"><span data-i18n="f.industry">Secteur d'activité</span> <span class="hint" data-i18n="h.opt">— optionnel</span></label>
+        <input type="text" id="secteur" placeholder="Secteur d'activité" data-i18n-ph="ph.industry">
       </div>
       <div class="form-group span2">
-        <label for="emailsSociete">Emails connus <span class="hint">— séparés par des virgules</span></label>
-        <input type="text" id="emailsSociete" placeholder="adresse@domaine.com">
+        <label for="emailsSociete"><span data-i18n="f.emails">Emails connus</span> <span class="hint" data-i18n="h.comma">— séparés par des virgules</span></label>
+        <input type="text" id="emailsSociete" placeholder="adresse@domaine.com" data-i18n-ph="ph.email">
       </div>
       <div class="form-group">
-        <label for="villeSociete">Ville / Région <span class="hint">— optionnel</span></label>
-        <input type="text" id="villeSociete" placeholder="Ville, région">
+        <label for="villeSociete"><span data-i18n="f.cityregion">Ville / Région</span> <span class="hint" data-i18n="h.opt">— optionnel</span></label>
+        <input type="text" id="villeSociete" placeholder="Ville, région" data-i18n-ph="ph.cities">
         <select class="geo-select" data-target="villeSociete" aria-label="Ajouter une région, un département ou un pays"></select>
       </div>
       <div class="form-group span2">
-        <label for="telephonesSociete">Téléphones connus <span class="hint">— séparés par des virgules</span></label>
-        <input type="text" id="telephonesSociete" placeholder="Numéro de téléphone">
+        <label for="telephonesSociete"><span data-i18n="f.phones">Téléphones connus</span> <span class="hint" data-i18n="h.comma">— séparés par des virgules</span></label>
+        <input type="text" id="telephonesSociete" placeholder="Numéro de téléphone" data-i18n-ph="ph.phone">
       </div>
       <div class="form-group full">
-        <label for="societeSociete">Sites à exclure <span class="hint">— séparés par des virgules</span></label>
-        <input type="text" id="societeSociete" placeholder="domaine-à-exclure.com">
+        <label for="societeSociete"><span data-i18n="f.exclude">Sites à exclure</span> <span class="hint" data-i18n="h.comma">— séparés par des virgules</span></label>
+        <input type="text" id="societeSociete" placeholder="domaine-à-exclure.com" data-i18n-ph="ph.excl">
       </div>
     </div>
     <div class="btn-row">
-      <button class="btn-generate" onclick="generateSociete()">Générer les dorks société</button>
-      <button class="btn-clear" onclick="clearTab('societe')">Clear</button>
+      <button class="btn-generate" onclick="generateSociete()" data-i18n="b.genSociete">Générer les dorks société</button>
+      <button class="btn-clear" onclick="clearTab('societe')" data-i18n="b.clear">Clear</button>
     </div>
   </div>
 
@@ -220,27 +228,27 @@
   <div class="tab-panel" id="tab-image">
     <div class="form-grid">
       <div class="form-group full">
-        <label for="imageUrl">URL de l'image <span class="hint">— lien direct vers le fichier image</span></label>
-        <input type="text" id="imageUrl" placeholder="https://exemple.com/photo.jpg">
+        <label for="imageUrl"><span data-i18n="f.imgurl">URL de l'image</span> <span class="hint" data-i18n="h.imgurl">— lien direct vers le fichier image</span></label>
+        <input type="text" id="imageUrl" placeholder="https://exemple.com/photo.jpg" data-i18n-ph="ph.imgurl">
       </div>
       <div class="form-group full">
-        <label for="imageFile">Ou importer une image <span class="hint">— hébergement temporaire pour la recherche par URL</span></label>
+        <label for="imageFile"><span data-i18n="f.imgimport">Ou importer une image</span> <span class="hint" data-i18n="h.imgfile">— hébergement temporaire pour la recherche par URL</span></label>
         <input type="file" id="imageFile" accept="image/*" onchange="importImage(this)">
       </div>
     </div>
     <div class="btn-row">
-      <button class="btn-generate" onclick="generateImage()">Rechercher par image</button>
-      <button class="btn-clear" onclick="clearTab('image')">Clear</button>
+      <button class="btn-generate" onclick="generateImage()" data-i18n="b.genImage">Rechercher par image</button>
+      <button class="btn-clear" onclick="clearTab('image')" data-i18n="b.clear">Clear</button>
     </div>
   </div>
 
   <!-- TAB CORRÉLATION -->
   <div class="tab-panel" id="tab-correlation">
     <div class="correlation-intro">
-      <p>Combine les identifiants saisis dans les autres onglets (nom, pseudo, email, domaine, société, ville) pour générer des requêtes qui les <strong>recoupent</strong> — utile pour confirmer qu'ils désignent la même cible. Renseignez au moins deux identifiants.</p>
+      <p data-i18n="co.intro">Combine les identifiants saisis dans les autres onglets (nom, pseudo, email, domaine, société, ville) pour générer des requêtes qui les recoupent — utile pour confirmer qu'ils désignent la même cible. Renseignez au moins deux identifiants.</p>
     </div>
     <div class="btn-row">
-      <button class="btn-generate" onclick="generateCorrelation()">Générer le recoupement</button>
+      <button class="btn-generate" onclick="generateCorrelation()" data-i18n="b.genCorr">Générer le recoupement</button>
     </div>
   </div>
 
@@ -248,21 +256,21 @@
   <div class="tab-panel" id="tab-perso">
     <div class="custom-layout">
       <aside class="custom-guide">
-        <h3>Rappel des opérateurs</h3>
+        <h3 data-i18n="g.title">Rappel des opérateurs</h3>
         <ul>
-          <li><code>"…"</code> — expression exacte</li>
-          <li><code>OR</code> — l'un ou l'autre</li>
-          <li><code>-mot</code> — exclure un terme</li>
-          <li><code>site:</code> — limiter à un domaine</li>
-          <li><code>-site:</code> — exclure un domaine</li>
-          <li><code>intitle:</code> — dans le titre</li>
-          <li><code>inurl:</code> — dans l'URL</li>
-          <li><code>intext:</code> — dans le contenu</li>
-          <li><code>filetype:</code> — type de fichier</li>
-          <li><code>*</code> — joker (mot inconnu)</li>
-          <li><code>( )</code> — grouper des termes</li>
-          <li><code>..</code> — plage de nombres</li>
-          <li>Une ligne = un dork.</li>
+          <li><code>"…"</code> <span data-i18n="g.exact">— expression exacte</span></li>
+          <li><code>OR</code> <span data-i18n="g.or">— l'un ou l'autre</span></li>
+          <li><code>-mot</code> <span data-i18n="g.minus">— exclure un terme</span></li>
+          <li><code>site:</code> <span data-i18n="g.site">— limiter à un domaine</span></li>
+          <li><code>-site:</code> <span data-i18n="g.minussite">— exclure un domaine</span></li>
+          <li><code>intitle:</code> <span data-i18n="g.intitle">— dans le titre</span></li>
+          <li><code>inurl:</code> <span data-i18n="g.inurl">— dans l'URL</span></li>
+          <li><code>intext:</code> <span data-i18n="g.intext">— dans le contenu</span></li>
+          <li><code>filetype:</code> <span data-i18n="g.filetype">— type de fichier</span></li>
+          <li><code>*</code> <span data-i18n="g.wildcard">— joker (mot inconnu)</span></li>
+          <li><code>( )</code> <span data-i18n="g.group">— grouper des termes</span></li>
+          <li><code>..</code> <span data-i18n="g.range">— plage de nombres</span></li>
+          <li><span data-i18n="g.oneline">Une ligne = un dork.</span></li>
         </ul>
       </aside>
       <div class="custom-main">
@@ -282,8 +290,8 @@
         </div>
         <textarea id="customDorks" placeholder=""></textarea>
         <div class="btn-row" style="margin-top:0.8rem">
-          <button class="btn-generate" onclick="generateCustom()">Rechercher</button>
-          <button class="btn-clear" onclick="clearTab('perso')">Clear</button>
+          <button class="btn-generate" onclick="generateCustom()" data-i18n="b.search">Rechercher</button>
+          <button class="btn-clear" onclick="clearTab('perso')" data-i18n="b.clear">Clear</button>
         </div>
       </div>
     </div>
@@ -292,14 +300,14 @@
   <div id="results">
     <div class="empty-state">
       <span class="prompt-char">_</span>
-      Remplissez le formulaire et lancez la génération.
+      <span data-i18n="es.fill">Remplissez le formulaire et lancez la génération.</span>
     </div>
   </div>
 
   <footer class="app-footer">
     <a href="https://github.com/papy139/osint-dork-generator" target="_blank" rel="noopener" class="github-link" title="Code source sur GitHub" aria-label="Voir le code source sur GitHub">
       <svg viewBox="0 0 16 16" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
-      <span>Code source sur GitHub</span>
+      <span data-i18n="ft.source">Code source sur GitHub</span>
     </a>
   </footer>
 </div>

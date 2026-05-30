@@ -37,6 +37,8 @@ collectée ni transmise par l'application.
 - **Gestion de cibles** : enregistrement, renommage, import et export JSON des
   formulaires.
 - **Lien partageable** : formulaire encodé dans l'URL pour rejouer une recherche.
+- **Bilingue FR / EN** : détection de la langue du navigateur + bascule par
+  curseur (interface, onglets, résultats et titres de catégories traduits).
 - **Confort** : filtrage et surlignage des résultats, déduplication, copie par
   catégorie, menus déroulants régions / départements / pays (avec drapeaux),
   normalisation des domaines et des numéros, raccourcis clavier (`Alt+1` à

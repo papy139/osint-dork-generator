@@ -11,7 +11,7 @@ const fs = require('fs');
 const path = require('path');
 
 const srcDir = path.join(__dirname, '..', 'src', 'js');
-const code = ['helpers', 'links', 'geo', 'zip']
+const code = ['helpers', 'i18n', 'links', 'geo', 'zip']
   .map((f) => fs.readFileSync(path.join(srcDir, f + '.js'), 'utf8'))
   .join('\n\n');
 
@@ -22,7 +22,7 @@ const factory = new Function(
   code + '\n;return {' +
     'cleanDomain, phoneVariants, pseudoVariants, buildNameQuery,' +
     'buildEmailVariations, buildLocationQuery, crc32,' +
-    'sherlockLinks, domainLinks, ipLinks, societeLinks, identiteLinks, imageLinks, phoneLinks, md5, buildGeoOptions, SHERLOCK, GEO' +
+    'sherlockLinks, domainLinks, ipLinks, societeLinks, identiteLinks, imageLinks, phoneLinks, md5, buildGeoOptions, tCat, I18N, CAT_EN, SHERLOCK, GEO' +
   '};'
 );
 // Stub d'élément suffisant pour escapeHtml (textContent -> innerHTML échappé)
@@ -111,6 +111,12 @@ ok('buildGeoOptions optgroups', geoHtml.indexOf('<optgroup label="Pays">') !== -
 ok('buildGeoOptions drapeau pays', geoHtml.indexOf('🇫🇷 France') !== -1);
 ok('buildGeoOptions valeur = nom (sans code)', geoHtml.indexOf('value="France"') !== -1 && geoHtml.indexOf('value="Île-de-France"') !== -1);
 ok('GEO départements format "code nom"', /^\d{2,3} \S/.test(H.GEO.departements[0]));
+
+// i18n : cohérence des clés FR/EN
+var frKeys = Object.keys(H.I18N.fr).sort(), enKeys = Object.keys(H.I18N.en).sort();
+ok('i18n FR et EN ont les mêmes clés', JSON.stringify(frKeys) === JSON.stringify(enKeys));
+ok('i18n tCat fallback FR par défaut', H.tCat('Réseaux sociaux') === 'Réseaux sociaux');
+ok('i18n CAT_EN traduit les titres connus', H.CAT_EN['Réseaux sociaux'] === 'Social networks');
 
 console.log('\n' + pass + ' réussis, ' + fail + ' échoués');
 process.exit(fail ? 1 : 0);

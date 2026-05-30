@@ -1,5 +1,6 @@
   function renderResults(categories) {
     var container = document.getElementById('results');
+    renderResults._last = categories; // mémorisé pour re-rendre lors d'un changement de langue
 
     // Dédup inter-catégories : on garde la 1re occurrence de chaque dork.
     // Les catégories de liens directs (cat.links) ne sont ni dédupées ni concernées.
@@ -11,7 +12,7 @@
     }).filter(function(c) { return c.links ? c.links.length > 0 : c.dorks.length > 0; });
 
     if (categories.length === 0) {
-      container.innerHTML = '<div class="empty-state"><span class="prompt-char">_</span>Aucun dork généré.</div>';
+      container.innerHTML = '<div class="empty-state"><span class="prompt-char">_</span>' + escapeHtml(t('r.none')) + '</div>';
       return;
     }
 
@@ -27,13 +28,13 @@
     categories.forEach(function(c) { c.entries.forEach(function(e) { allLines.push(e.text); }); });
 
     var html = '<div class="results-header">';
-    html += '<h2>' + allLines.length + ' résultat' + (allLines.length > 1 ? 's' : '') + '</h2>';
+    html += '<h2>' + allLines.length + ' ' + escapeHtml(t('r.results')) + '</h2>';
     html += '<div style="display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center">';
-    html += '<input type="text" id="filterInput" class="filter-input" placeholder="Filtrer…" aria-label="Filtrer les résultats">';
-    html += '<button class="btn-copy-all" id="btnCopyAll">Tout copier</button>';
-    html += '<button class="btn-copy-all" id="btnExport">Exporter .txt</button>';
-    html += '<button class="btn-copy-all" id="btnExportHtml">Rapport HTML</button>';
-    html += '<button class="btn-copy-all" id="btnToggleAll">Tout déplier</button>';
+    html += '<input type="text" id="filterInput" class="filter-input" placeholder="' + escapeHtml(t('r.filter')) + '" aria-label="' + escapeHtml(t('r.filter')) + '">';
+    html += '<button class="btn-copy-all" id="btnCopyAll">' + escapeHtml(t('r.copyall')) + '</button>';
+    html += '<button class="btn-copy-all" id="btnExport">' + escapeHtml(t('r.exporttxt')) + '</button>';
+    html += '<button class="btn-copy-all" id="btnExportHtml">' + escapeHtml(t('r.reporthtml')) + '</button>';
+    html += '<button class="btn-copy-all" id="btnToggleAll">' + escapeHtml(t('r.expand')) + '</button>';
     html += '</div>';
     html += '</div>';
 
@@ -52,12 +53,12 @@
         html += '<div class="dork-category-header" onclick="handleToggle(this)">';
         html += '<svg class="cat-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + getCatIcon(cat.title) + '</svg>';
         html += '<span class="cat-title-wrap">';
-        html += '<span class="cat-title">' + cat.title + '</span>';
-        if (cat.desc) html += '<span class="cat-desc">' + cat.desc + '</span>';
+        html += '<span class="cat-title">' + tCat(cat.title) + '</span>';
+        if (cat.desc) html += '<span class="cat-desc">' + tDesc(cat.desc) + '</span>';
         html += '</span>';
         html += '<span class="cat-count">' + cat.entries.length + '</span>';
-        html += '<button class="btn-open-all" onclick="handleCopyCat(this); event.stopPropagation();" title="Copier les entrées de cette catégorie">Copier</button>';
-        html += '<button class="btn-open-all" onclick="handleOpenAll(this); event.stopPropagation();" title="Tout ouvrir dans des onglets">Ouvrir tout (' + cat.entries.length + ')</button>';
+        html += '<button class="btn-open-all" onclick="handleCopyCat(this); event.stopPropagation();" title="Copier les entrées de cette catégorie">' + escapeHtml(t('r.copy')) + '</button>';
+        html += '<button class="btn-open-all" onclick="handleOpenAll(this); event.stopPropagation();" title="Tout ouvrir dans des onglets">' + escapeHtml(t('r.openall')) + ' (' + cat.entries.length + ')</button>';
         html += '<span class="cat-chevron">▼</span>';
         html += '</div>';
         html += '<div class="dork-items">';
@@ -77,8 +78,8 @@
           }
           html += '</div>';
           html += '<div class="dork-actions">';
-          html += '<button class="btn-sm" onclick="handleCopy(\'' + id + '\', this)">Copier</button>';
-          html += '<button class="btn-sm" onclick="handleOpen(\'' + id + '\')">Ouvrir ↗</button>';
+          html += '<button class="btn-sm" onclick="handleCopy(\'' + id + '\', this)">' + escapeHtml(t('r.copy')) + '</button>';
+          html += '<button class="btn-sm" onclick="handleOpen(\'' + id + '\')">' + escapeHtml(t('r.open')) + '</button>';
           if (entry.url) {
             html += '<button class="btn-sm" onclick="handleArchive(\'' + id + '\')" title="Voir les archives Wayback Machine">📦</button>';
           }
@@ -98,8 +99,8 @@
       navigator.clipboard.writeText(text).then(function() {
         showToast('Tout copié !');
         var btn = document.getElementById('btnCopyAll');
-        btn.textContent = '✓ Copié';
-        setTimeout(function() { btn.textContent = 'Tout copier'; }, 1500);
+        btn.textContent = '✓';
+        setTimeout(function() { btn.textContent = t('r.copyall'); }, 1500);
       }).catch(function() { showToast('Erreur de copie'); });
     });
 
@@ -154,7 +155,7 @@
       var cats = document.querySelectorAll('.dork-category');
       var anyCollapsed = Array.prototype.some.call(cats, function(c) { return c.classList.contains('collapsed'); });
       cats.forEach(function(c) { c.classList.toggle('collapsed', !anyCollapsed); });
-      this.textContent = anyCollapsed ? 'Tout replier' : 'Tout déplier';
+      this.textContent = anyCollapsed ? t('r.collapse') : t('r.expand');
     });
 
     // Filtre live : masque les entrées non concordantes, surligne la correspondance
