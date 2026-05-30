@@ -1,5 +1,7 @@
 # OSINT Dork Generator
 
+[![CI](https://github.com/papy139/osint-dork-generator/actions/workflows/ci.yml/badge.svg)](https://github.com/papy139/osint-dork-generator/actions/workflows/ci.yml)
+
 Générateur de Google Dorks pour l'audit d'empreinte numérique. Application
 autonome, en un seul fichier HTML, sans dépendance ni serveur : elle s'ouvre
 directement dans un navigateur.
@@ -85,3 +87,7 @@ src/
 
 L'ensemble du JavaScript s'exécute dans une seule IIFE afin de fonctionner en
 `file://` sans serveur ni problème de CORS.
+
+## Licence
+
+Distribué sous licence MIT. Voir le fichier [LICENSE](LICENSE).

@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Tests unitaires
+        run: npm test
+
+      - name: Vérifier la syntaxe du fichier généré
+        run: |
+          awk '/<script>/{f=1;next}/<\/script>/{f=0}f' dork-generator.html > /tmp/g.js
+          node --check /tmp/g.js
+
+      - name: Vérifier que dork-generator.html est synchronisé avec src/
+        run: |
+          node build.js
+          if ! git diff --quiet -- dork-generator.html; then
+            echo "::error::dork-generator.html n'est pas synchronisé avec src/. Lancez 'node build.js' et committez le résultat."
+            git diff --stat -- dork-generator.html
+            exit 1
+          fi
