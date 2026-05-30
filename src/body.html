@@ -35,16 +35,35 @@
     </div>
     <div class="topbar-group">
       <button class="topbar-btn" onclick="shareLink()" title="Copier un lien contenant le formulaire pré-rempli (les valeurs figurent dans l'URL)" aria-label="Copier un lien partageable">🔗 Lien</button>
+      <button class="topbar-btn btn-export-zip" onclick="exportAllZip()" title="Exporter les dorks de tous les onglets remplis dans une archive ZIP (un .txt par onglet)" aria-label="Exporter tout en ZIP">📦 ZIP</button>
     </div>
   </div>
 
-  <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('identite', this)">Identité</button>
-    <button class="tab-btn" onclick="switchTab('pseudo', this)">Pseudo</button>
-    <button class="tab-btn" onclick="switchTab('domaine', this)">Domaine / IP</button>
-    <button class="tab-btn" onclick="switchTab('societe', this)">Société</button>
-    <button class="tab-btn" onclick="switchTab('image', this)">Image</button>
-    <button class="tab-btn" onclick="switchTab('perso', this)">Champs perso</button>
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" onclick="switchTab('identite', this)">
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20c0-3.5 3.1-6 7-6s7 2.5 7 6"></path></svg>
+      <span class="tab-label">Identité</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('pseudo', this)">
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.5"></circle><path d="M15.5 12v1.5a2.5 2.5 0 0 0 5 0V12a8.5 8.5 0 1 0-3.3 6.7"></path></svg>
+      <span class="tab-label">Pseudo</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('domaine', this)">
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.5 3.8 5.7 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.7-3.8-9s1.3-6.5 3.8-9z"></path></svg>
+      <span class="tab-label">Domaine / IP</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('societe', this)">
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V5a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v16"></path><path d="M15 9h4a1 1 0 0 1 1 1v11M3 21h18"></path><path d="M7.5 8h2M7.5 12h2M7.5 16h2"></path></svg>
+      <span class="tab-label">Société</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('image', this)">
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="M5 17l4.5-4 3 2.5L16 12l3.5 3.5"></path></svg>
+      <span class="tab-label">Image</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('perso', this)">
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"></path><circle cx="16" cy="7" r="2.2"></circle><circle cx="8" cy="17" r="2.2"></circle></svg>
+      <span class="tab-label">Champs perso</span>
+    </button>
   </div>
 
   <!-- TAB IDENTITÉ -->
@@ -231,10 +250,6 @@
         <div class="btn-row" style="margin-top:0.8rem">
           <button class="btn-generate" onclick="generateCustom()">Rechercher</button>
           <button class="btn-clear" onclick="clearTab('perso')">Clear</button>
-        </div>
-        <div class="export-zone">
-          <p>Exporter les dorks de tous les onglets remplis dans une archive ZIP — un fichier .txt par onglet (les onglets vides sont ignorés).</p>
-          <button class="btn-export-zip" onclick="exportAllZip()">📦 Exporter tout en ZIP</button>
         </div>
       </div>
     </div>

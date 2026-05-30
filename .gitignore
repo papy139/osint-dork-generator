@@ -58,3 +58,6 @@ docs/superpowers/
 
 # ===== Documents non liés au projet =====
 *.pdf
+
+# ===== Archives =====
+*.zip
