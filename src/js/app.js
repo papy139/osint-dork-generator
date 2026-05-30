@@ -55,6 +55,15 @@
   // Menus déroulants régions / départements / pays
   if (window.initGeoSelects) window.initGeoSelects();
 
+  // Accessibilité + indication des raccourcis (Alt+N) sur les onglets
+  document.querySelectorAll('.tab-btn').forEach(function(b, i) {
+    b.setAttribute('role', 'tab');
+    b.setAttribute('aria-selected', b.classList.contains('active') ? 'true' : 'false');
+    var lbl = b.querySelector('.tab-label');
+    b.title = (lbl ? lbl.textContent + ' — ' : '') + 'Alt+' + (i + 1);
+  });
+  document.querySelectorAll('.tab-panel').forEach(function(p) { p.setAttribute('role', 'tabpanel'); });
+
   // Pré-remplissage depuis un lien partageable (#d=<base64 JSON>) — prioritaire sur la restauration
   (function() {
     if (location.hash.indexOf('#d=') !== 0) return;

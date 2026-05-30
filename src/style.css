@@ -695,6 +695,15 @@
   /* Badge d'avertissement longueur de dork */
   .dork-warn { cursor: help; font-size: 0.85em; opacity: 0.9; }
 
+  /* Accessibilité : focus clavier visible */
+  .tab-btn:focus-visible, .btn-generate:focus-visible, .btn-clear:focus-visible,
+  .btn-sm:focus-visible, .btn-copy-all:focus-visible, .topbar-btn:focus-visible,
+  .btn-open-all:focus-visible, .github-link:focus-visible, .geo-select:focus-visible,
+  .topbar-select:focus-visible, input:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
+  }
+
   /* Intro de l'onglet Corrélation */
   .correlation-intro {
     background: var(--bg-card);

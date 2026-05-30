@@ -18,8 +18,10 @@ collectée ni transmise par l'application.
 
 ## Fonctionnalités
 
-- **Six contextes de recherche** : identité, pseudonyme, domaine / IP, société,
-  image, champs personnalisés.
+- **Sept contextes de recherche** : identité, pseudonyme, domaine / IP, société,
+  image, corrélation, champs personnalisés.
+- **Recoupement d'identifiants** : combine nom, pseudo, email, domaine, société
+  et ville en requêtes croisées pour confirmer qu'ils visent la même cible.
 - **Recherche par image** : recherche inversée à partir de l'URL d'une image
   (Google Lens, Yandex, Bing, TinEye…) et accès aux moteurs de recherche de
   visages à téléversement manuel.
@@ -35,9 +37,10 @@ collectée ni transmise par l'application.
 - **Gestion de cibles** : enregistrement, renommage, import et export JSON des
   formulaires.
 - **Lien partageable** : formulaire encodé dans l'URL pour rejouer une recherche.
-- **Confort** : filtrage et surlignage des résultats, déduplication,
-  normalisation des domaines et des numéros de téléphone, raccourcis clavier
-  (`Alt+1` à `Alt+5`), thème clair / sombre.
+- **Confort** : filtrage et surlignage des résultats, déduplication, copie par
+  catégorie, menus déroulants régions / départements / pays (avec drapeaux),
+  normalisation des domaines et des numéros, raccourcis clavier (`Alt+1` à
+  `Alt+7`), thème clair / sombre, focus clavier visible.
 
 ## Utilisation
 

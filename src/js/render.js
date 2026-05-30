@@ -56,6 +56,7 @@
         if (cat.desc) html += '<span class="cat-desc">' + cat.desc + '</span>';
         html += '</span>';
         html += '<span class="cat-count">' + cat.entries.length + '</span>';
+        html += '<button class="btn-open-all" onclick="handleCopyCat(this); event.stopPropagation();" title="Copier les entrées de cette catégorie">Copier</button>';
         html += '<button class="btn-open-all" onclick="handleOpenAll(this); event.stopPropagation();" title="Tout ouvrir dans des onglets">Ouvrir tout (' + cat.entries.length + ')</button>';
         html += '<span class="cat-chevron">▼</span>';
         html += '</div>';
@@ -202,6 +203,19 @@
       return;
     }
     openSearch(dorkTextOf(el));
+  };
+
+  // Copie toutes les entrées (dorks ou URLs) d'une catégorie
+  window.handleCopyCat = function(btn) {
+    var catEl = btn.closest('.dork-category');
+    var lines = [];
+    catEl.querySelectorAll('.dork-text').forEach(function(t) {
+      lines.push((t.getAttribute('data-raw') || t.textContent).trim());
+    });
+    if (lines.length === 0) return;
+    navigator.clipboard.writeText(lines.join('\n'))
+      .then(function() { showToast(lines.length + ' entrée(s) copiée(s).'); })
+      .catch(function() { showToast('Erreur de copie'); });
   };
 
   // Ouvre toutes les entrées d'une catégorie (confirmation si > 5)

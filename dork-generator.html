@@ -707,6 +707,15 @@
   /* Badge d'avertissement longueur de dork */
   .dork-warn { cursor: help; font-size: 0.85em; opacity: 0.9; }
 
+  /* Accessibilité : focus clavier visible */
+  .tab-btn:focus-visible, .btn-generate:focus-visible, .btn-clear:focus-visible,
+  .btn-sm:focus-visible, .btn-copy-all:focus-visible, .topbar-btn:focus-visible,
+  .btn-open-all:focus-visible, .github-link:focus-visible, .geo-select:focus-visible,
+  .topbar-select:focus-visible, input:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
+  }
+
   /* Intro de l'onglet Corrélation */
   .correlation-intro {
     background: var(--bg-card);
@@ -1101,6 +1110,7 @@
     document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
     document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
     btn.classList.add('active');
+    document.querySelectorAll('.tab-btn').forEach(function(b) { b.setAttribute('aria-selected', b === btn ? 'true' : 'false'); });
     document.getElementById('tab-' + tab).classList.add('active');
     // Les résultats sont conservés au changement d'onglet (effacés à la prochaine génération).
     try { localStorage.setItem('dork-tab', tab); } catch(e) {}
@@ -1752,6 +1762,7 @@
         if (cat.desc) html += '<span class="cat-desc">' + cat.desc + '</span>';
         html += '</span>';
         html += '<span class="cat-count">' + cat.entries.length + '</span>';
+        html += '<button class="btn-open-all" onclick="handleCopyCat(this); event.stopPropagation();" title="Copier les entrées de cette catégorie">Copier</button>';
         html += '<button class="btn-open-all" onclick="handleOpenAll(this); event.stopPropagation();" title="Tout ouvrir dans des onglets">Ouvrir tout (' + cat.entries.length + ')</button>';
         html += '<span class="cat-chevron">▼</span>';
         html += '</div>';
@@ -1898,6 +1909,19 @@
       return;
     }
     openSearch(dorkTextOf(el));
+  };
+
+  // Copie toutes les entrées (dorks ou URLs) d'une catégorie
+  window.handleCopyCat = function(btn) {
+    var catEl = btn.closest('.dork-category');
+    var lines = [];
+    catEl.querySelectorAll('.dork-text').forEach(function(t) {
+      lines.push((t.getAttribute('data-raw') || t.textContent).trim());
+    });
+    if (lines.length === 0) return;
+    navigator.clipboard.writeText(lines.join('\n'))
+      .then(function() { showToast(lines.length + ' entrée(s) copiée(s).'); })
+      .catch(function() { showToast('Erreur de copie'); });
   };
 
   // Ouvre toutes les entrées d'une catégorie (confirmation si > 5)
@@ -3307,6 +3331,15 @@
 
   // Menus déroulants régions / départements / pays
   if (window.initGeoSelects) window.initGeoSelects();
+
+  // Accessibilité + indication des raccourcis (Alt+N) sur les onglets
+  document.querySelectorAll('.tab-btn').forEach(function(b, i) {
+    b.setAttribute('role', 'tab');
+    b.setAttribute('aria-selected', b.classList.contains('active') ? 'true' : 'false');
+    var lbl = b.querySelector('.tab-label');
+    b.title = (lbl ? lbl.textContent + ' — ' : '') + 'Alt+' + (i + 1);
+  });
+  document.querySelectorAll('.tab-panel').forEach(function(p) { p.setAttribute('role', 'tabpanel'); });
 
   // Pré-remplissage depuis un lien partageable (#d=<base64 JSON>) — prioritaire sur la restauration
   (function() {

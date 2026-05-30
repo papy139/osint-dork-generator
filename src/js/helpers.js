@@ -57,6 +57,7 @@
     document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
     document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
     btn.classList.add('active');
+    document.querySelectorAll('.tab-btn').forEach(function(b) { b.setAttribute('aria-selected', b === btn ? 'true' : 'false'); });
     document.getElementById('tab-' + tab).classList.add('active');
     // Les résultats sont conservés au changement d'onglet (effacés à la prochaine génération).
     try { localStorage.setItem('dork-tab', tab); } catch(e) {}

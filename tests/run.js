@@ -22,12 +22,22 @@ const factory = new Function(
   code + '\n;return {' +
     'cleanDomain, phoneVariants, pseudoVariants, buildNameQuery,' +
     'buildEmailVariations, buildLocationQuery, crc32,' +
-    'sherlockLinks, domainLinks, ipLinks, societeLinks, identiteLinks, imageLinks, phoneLinks, md5, SHERLOCK, GEO' +
+    'sherlockLinks, domainLinks, ipLinks, societeLinks, identiteLinks, imageLinks, phoneLinks, md5, buildGeoOptions, SHERLOCK, GEO' +
   '};'
 );
+// Stub d'élément suffisant pour escapeHtml (textContent -> innerHTML échappé)
+function fakeEl() {
+  var el = {};
+  Object.defineProperty(el, 'textContent', {
+    set: function(v) { this._html = String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); },
+    get: function() { return this._t; }
+  });
+  Object.defineProperty(el, 'innerHTML', { get: function() { return this._html; } });
+  return el;
+}
 const H = factory(
   {},
-  { getElementById() { return { value: '' }; }, createElement() { return {}; } },
+  { getElementById() { return { value: '' }; }, createElement() { return fakeEl(); } },
   {}
 );
 
@@ -93,6 +103,12 @@ ok('GEO régions = 18', H.GEO.regions.length === 18);
 ok('GEO départements = 101', H.GEO.departements.length === 101);
 ok('GEO pays >= 190', H.GEO.pays.length >= 190);
 ok('GEO pays format "ISO2 nom"', H.GEO.pays.every(function(p){ return /^[A-Z]{2} \S/.test(p); }));
+
+// buildGeoOptions (rendu des <option>/<optgroup>)
+var geoHtml = H.buildGeoOptions();
+ok('buildGeoOptions optgroups', geoHtml.indexOf('<optgroup label="Pays">') !== -1 && geoHtml.indexOf('<optgroup label="Régions">') !== -1);
+ok('buildGeoOptions drapeau pays', geoHtml.indexOf('🇫🇷 France') !== -1);
+ok('buildGeoOptions valeur = nom (sans code)', geoHtml.indexOf('value="France"') !== -1 && geoHtml.indexOf('value="Île-de-France"') !== -1);
 ok('GEO départements format "code nom"', /^\d{2,3} \S/.test(H.GEO.departements[0]));
 
 console.log('\n' + pass + ' réussis, ' + fail + ' échoués');
