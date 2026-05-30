@@ -287,6 +287,7 @@
   }
   .filter-input:focus { outline: none; border-color: var(--border-focus); }
   .link-label { color: var(--text-secondary); font-size: 0.7rem; margin-left: 0.4rem; }
+  .dork-text mark { background: var(--accent-dim); color: var(--accent); border-radius: 2px; padding: 0 1px; }
   .btn-copy-all {
     background: var(--accent-dim);
     border: 1px solid rgba(0,229,160,0.25);

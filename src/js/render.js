@@ -33,6 +33,7 @@
     html += '<button class="btn-copy-all" id="btnCopyAll">Tout copier</button>';
     html += '<button class="btn-copy-all" id="btnExport">Exporter .txt</button>';
     html += '<button class="btn-copy-all" id="btnExportHtml">Rapport HTML</button>';
+    html += '<button class="btn-copy-all" id="btnToggleAll">Tout déplier</button>';
     html += '</div>';
     html += '</div>';
 
@@ -61,19 +62,19 @@
         html += '<div class="dork-items">';
         cat.entries.forEach(function(entry, di) {
           var id = 'dork-' + ci + '-' + di;
+          var raw = entry.url || entry.text;
           html += '<div class="dork-item">';
+          html += '<div class="dork-query" id="' + id + '"' + (entry.url ? ' data-url="' + escapeHtml(entry.url) + '"' : '') + '>';
+          html += '<span class="dork-text" data-raw="' + escapeHtml(raw) + '">' + escapeHtml(raw) + '</span>';
           if (entry.url) {
-            html += '<div class="dork-query" id="' + id + '" data-url="' + escapeHtml(entry.url) + '">' + escapeHtml(entry.url);
             if (entry.label) html += ' <span class="link-label">' + escapeHtml(entry.label) + '</span>';
-            html += '</div>';
           } else {
             var wc = dorkWordCount(entry.text);
-            html += '<div class="dork-query" id="' + id + '">' + escapeHtml(entry.text);
             if (wc > MAX_DORK_WORDS) {
               html += ' <span class="dork-warn" title="' + wc + ' mots — Google tronque au-delà de ' + MAX_DORK_WORDS + '">⚠️</span>';
             }
-            html += '</div>';
           }
+          html += '</div>';
           html += '<div class="dork-actions">';
           html += '<button class="btn-sm" onclick="handleCopy(\'' + id + '\', this)">Copier</button>';
           html += '<button class="btn-sm" onclick="handleOpen(\'' + id + '\')">Ouvrir ↗</button>';
@@ -144,16 +145,36 @@
       showToast('Rapport HTML téléchargé !');
     });
 
-    // Filtre live : masque les dorks (et les catégories vides) qui ne matchent pas
+    // Tout déplier / replier (bascule globale)
+    document.getElementById('btnToggleAll').addEventListener('click', function() {
+      var cats = document.querySelectorAll('.dork-category');
+      var anyCollapsed = Array.prototype.some.call(cats, function(c) { return c.classList.contains('collapsed'); });
+      cats.forEach(function(c) { c.classList.toggle('collapsed', !anyCollapsed); });
+      this.textContent = anyCollapsed ? 'Tout replier' : 'Tout déplier';
+    });
+
+    // Filtre live : masque les entrées non concordantes, surligne la correspondance
     var filterInput = document.getElementById('filterInput');
     filterInput.addEventListener('input', function() {
-      var q = this.value.toLowerCase();
+      var q = this.value.trim().toLowerCase();
       document.querySelectorAll('.dork-category').forEach(function(cat) {
         var anyVisible = false;
         cat.querySelectorAll('.dork-item').forEach(function(item) {
-          var match = item.textContent.toLowerCase().indexOf(q) !== -1;
+          var textEl = item.querySelector('.dork-text');
+          var raw = textEl ? (textEl.getAttribute('data-raw') || '') : item.textContent;
+          var idx = q ? raw.toLowerCase().indexOf(q) : -1;
+          var match = !q || idx !== -1;
           item.style.display = match ? '' : 'none';
           if (match) anyVisible = true;
+          if (textEl) {
+            if (q && idx !== -1) {
+              textEl.innerHTML = escapeHtml(raw.slice(0, idx)) + '<mark>'
+                + escapeHtml(raw.slice(idx, idx + q.length)) + '</mark>'
+                + escapeHtml(raw.slice(idx + q.length));
+            } else {
+              textEl.textContent = raw;
+            }
+          }
         });
         cat.style.display = anyVisible ? '' : 'none';
         if (q && anyVisible) cat.classList.remove('collapsed');
@@ -161,8 +182,10 @@
     });
   }
 
-  // Texte du dork sans le badge ⚠️ éventuel (firstChild = nœud texte du dork)
+  // Texte brut du dork/lien — lu depuis .dork-text[data-raw] (robuste au surlignage)
   function dorkTextOf(el) {
+    var t = el.querySelector ? el.querySelector('.dork-text') : null;
+    if (t) return (t.getAttribute('data-raw') || t.textContent).trim();
     return (el.firstChild ? el.firstChild.textContent : el.textContent).trim();
   }
 

@@ -4,9 +4,11 @@
 
   // Listes de sites partagées — source unique de vérité (évite la duplication entre générateurs)
   var SITES = {
-    paste:  'site:pastebin.com OR site:ghostbin.com OR site:rentry.co OR site:justpaste.it OR site:dpaste.org OR site:paste.ee OR site:hastebin.com',
-    breach: 'site:haveibeenpwned.com OR site:dehashed.com OR site:leakpeek.com OR site:intelx.io OR site:breachdirectory.org',
-    code:   'site:github.com OR site:gitlab.com OR site:bitbucket.org OR site:codeberg.org OR site:gist.github.com'
+    paste:      'site:pastebin.com OR site:ghostbin.com OR site:rentry.co OR site:justpaste.it OR site:dpaste.org OR site:paste.ee OR site:hastebin.com',
+    pasteShort: 'site:pastebin.com OR site:ghostbin.com OR site:rentry.co OR site:justpaste.it',
+    breach:     'site:haveibeenpwned.com OR site:dehashed.com OR site:leakpeek.com OR site:intelx.io OR site:breachdirectory.org',
+    code:       'site:github.com OR site:gitlab.com OR site:bitbucket.org OR site:codeberg.org OR site:gist.github.com',
+    repos:      'site:github.com OR site:gitlab.com OR site:gist.github.com'
   };
 
   // Extrait le nom d'hôte d'une saisie : retire le schéma, les identifiants,

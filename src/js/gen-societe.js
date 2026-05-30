@@ -104,8 +104,8 @@
 
     // ── 8. Fuites & pastebins ──
     var leakD = [
-      socQ + ' (site:pastebin.com OR site:ghostbin.com OR site:rentry.co OR site:justpaste.it)',
-      socQ + ' (site:github.com OR site:gitlab.com OR site:gist.github.com)',
+      socQ + ' (' + SITES.pasteShort + ')',
+      socQ + ' (' + SITES.repos + ')',
       socQ + ' (intext:"password" OR intext:"credentials" OR intext:"api_key" OR intext:"token") site:github.com',
     ];
     if (domSoc) {

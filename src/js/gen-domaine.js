@@ -113,8 +113,8 @@
     // ── 8. Fuites sur repos & pastebins ──
     if (domaine) {
       var leakD = [
-        '"' + domaine + '" (site:pastebin.com OR site:ghostbin.com OR site:rentry.co OR site:justpaste.it)',
-        '"' + domaine + '" (site:github.com OR site:gitlab.com OR site:gist.github.com)',
+        '"' + domaine + '" (' + SITES.pasteShort + ')',
+        '"' + domaine + '" (' + SITES.repos + ')',
         '"' + domaine + '" (intext:"password" OR intext:"token" OR intext:"api_key" OR intext:"secret") site:github.com',
         '"@' + domaine + '" (site:pastebin.com OR site:github.com OR site:gitlab.com)',
         '"' + domaine + '" (site:shodan.io OR site:ivre.rocks OR site:fofa.info)',

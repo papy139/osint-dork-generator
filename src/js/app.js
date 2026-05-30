@@ -51,6 +51,38 @@
   FIELDS.forEach(function(id) { document.getElementById(id).addEventListener('input', saveFields); });
   restoreFields();
 
+  // Pré-remplissage depuis un lien partageable (#d=<base64 JSON>) — prioritaire sur la restauration
+  (function() {
+    if (location.hash.indexOf('#d=') !== 0) return;
+    try {
+      var json = decodeURIComponent(escape(atob(location.hash.slice(3))));
+      var data = JSON.parse(json);
+      FIELDS.forEach(function(id) { if (data[id] != null) document.getElementById(id).value = data[id]; });
+      saveFields();
+      showToast('Formulaire chargé depuis le lien.');
+    } catch(e) {}
+  })();
+
+  // Génère un lien contenant le formulaire pré-rempli (les valeurs sont dans l'URL)
+  window.shareLink = function() {
+    var data = {};
+    FIELDS.forEach(function(id) { data[id] = document.getElementById(id).value; });
+    var encoded = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+    var url = location.href.split('#')[0] + '#d=' + encoded;
+    navigator.clipboard.writeText(url)
+      .then(function() { showToast('Lien partageable copié.'); })
+      .catch(function() { showToast('Copie impossible.'); });
+  };
+
+  // Raccourcis Alt+1..5 : bascule d'onglet
+  document.addEventListener('keydown', function(e) {
+    if (e.altKey && !e.ctrlKey && !e.metaKey && e.key >= '1' && e.key <= '5') {
+      var btns = document.querySelectorAll('.tab-btn');
+      var i = parseInt(e.key, 10) - 1;
+      if (btns[i]) { e.preventDefault(); btns[i].click(); }
+    }
+  });
+
   // Garde-fou dev : signale un champ persistant oublié dans FIELDS
   document.querySelectorAll('input[id]:not([type=checkbox]), textarea[id], select[id]').forEach(function(el) {
     if (['engine', 'targetSelect'].indexOf(el.id) === -1 && FIELDS.indexOf(el.id) === -1)
