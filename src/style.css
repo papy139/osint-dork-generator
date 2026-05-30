@@ -182,7 +182,7 @@
   }
   .form-group input:focus,
   .form-group textarea:focus {
-    border: none;
+    border-color: var(--text-secondary);
     box-shadow: none;
   }
   .form-group.full { grid-column: 1 / -1; }
@@ -215,8 +215,8 @@
     width: 100%;
   }
   input:focus, textarea:focus {
-    border-color: var(--border-focus);
-    box-shadow: 0 0 0 3px var(--accent-dim), 0 0 16px var(--accent-glow);
+    border-color: var(--text-secondary);
+    box-shadow: none;
   }
   input::placeholder, textarea::placeholder {
     color: var(--text-muted);
@@ -295,7 +295,7 @@
     font-family: var(--font-body);
     font-size: 0.88rem;
   }
-  .filter-input:focus { outline: none; border-color: var(--border-focus); }
+  .filter-input:focus { outline: none; border-color: var(--text-secondary); }
   .link-label { color: var(--text-secondary); font-size: 0.8rem; margin-left: 0.4rem; }
   .dork-text mark { background: var(--accent-dim); color: var(--accent); border-radius: 2px; padding: 0 1px; }
 
@@ -439,7 +439,7 @@
     font-weight: 800;
   }
 
-  .dork-items { padding: 0.5rem; }
+  .dork-items { padding: 0.5rem; max-height: 420px; overflow-y: auto; }
 
   .dork-item {
     display: flex;
@@ -707,7 +707,7 @@
   .tab-btn:focus-visible, .btn-generate:focus-visible, .btn-clear:focus-visible,
   .btn-sm:focus-visible, .btn-copy-all:focus-visible, .topbar-btn:focus-visible,
   .btn-open-all:focus-visible, .github-link:focus-visible, .geo-select:focus-visible,
-  .topbar-select:focus-visible, input:focus-visible, textarea:focus-visible {
+  .topbar-select:focus-visible {
     outline: 2px solid var(--border-focus);
     outline-offset: 2px;
   }
