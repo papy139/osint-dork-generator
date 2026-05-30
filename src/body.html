@@ -60,6 +60,10 @@
       <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="M5 17l4.5-4 3 2.5L16 12l3.5 3.5"></path></svg>
       <span class="tab-label">Image</span>
     </button>
+    <button class="tab-btn" onclick="switchTab('correlation', this)">
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="7" r="3.2"></circle><circle cx="17" cy="17" r="3.2"></circle><path d="M9.3 9.3l5.4 5.4M14 7h3M17 7v3"></path></svg>
+      <span class="tab-label">Corrélation</span>
+    </button>
     <button class="tab-btn" onclick="switchTab('perso', this)">
       <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"></path><circle cx="16" cy="7" r="2.2"></circle><circle cx="8" cy="17" r="2.2"></circle></svg>
       <span class="tab-label">Champs perso</span>
@@ -227,6 +231,16 @@
     <div class="btn-row">
       <button class="btn-generate" onclick="generateImage()">Rechercher par image</button>
       <button class="btn-clear" onclick="clearTab('image')">Clear</button>
+    </div>
+  </div>
+
+  <!-- TAB CORRÉLATION -->
+  <div class="tab-panel" id="tab-correlation">
+    <div class="correlation-intro">
+      <p>Combine les identifiants saisis dans les autres onglets (nom, pseudo, email, domaine, société, ville) pour générer des requêtes qui les <strong>recoupent</strong> — utile pour confirmer qu'ils désignent la même cible. Renseignez au moins deux identifiants.</p>
+    </div>
+    <div class="btn-row">
+      <button class="btn-generate" onclick="generateCorrelation()">Générer le recoupement</button>
     </div>
   </div>
 

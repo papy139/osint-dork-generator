@@ -707,6 +707,19 @@
   /* Badge d'avertissement longueur de dork */
   .dork-warn { cursor: help; font-size: 0.85em; opacity: 0.9; }
 
+  /* Intro de l'onglet Corrélation */
+  .correlation-intro {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.2rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+  .correlation-intro strong { color: var(--accent); }
+
   /* Menus déroulants — style unifié (flèche personnalisée) */
   .topbar-select, .geo-select {
     -webkit-appearance: none;
@@ -792,6 +805,10 @@
     <button class="tab-btn" onclick="switchTab('image', this)">
       <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="M5 17l4.5-4 3 2.5L16 12l3.5 3.5"></path></svg>
       <span class="tab-label">Image</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('correlation', this)">
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="7" r="3.2"></circle><circle cx="17" cy="17" r="3.2"></circle><path d="M9.3 9.3l5.4 5.4M14 7h3M17 7v3"></path></svg>
+      <span class="tab-label">Corrélation</span>
     </button>
     <button class="tab-btn" onclick="switchTab('perso', this)">
       <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"></path><circle cx="16" cy="7" r="2.2"></circle><circle cx="8" cy="17" r="2.2"></circle></svg>
@@ -960,6 +977,16 @@
     <div class="btn-row">
       <button class="btn-generate" onclick="generateImage()">Rechercher par image</button>
       <button class="btn-clear" onclick="clearTab('image')">Clear</button>
+    </div>
+  </div>
+
+  <!-- TAB CORRÉLATION -->
+  <div class="tab-panel" id="tab-correlation">
+    <div class="correlation-intro">
+      <p>Combine les identifiants saisis dans les autres onglets (nom, pseudo, email, domaine, société, ville) pour générer des requêtes qui les <strong>recoupent</strong> — utile pour confirmer qu'ils désignent la même cible. Renseignez au moins deux identifiants.</p>
+    </div>
+    <div class="btn-row">
+      <button class="btn-generate" onclick="generateCorrelation()">Générer le recoupement</button>
     </div>
   </div>
 
@@ -1211,6 +1238,48 @@
     return v;
   }
 
+  // MD5 (implémentation pure, sans dépendance) — utilisé pour les URL Gravatar
+  function md5(s) {
+    function rl(n, c) { return (n << c) | (n >>> (32 - c)); }
+    function au(x, y) { var l = (x & 0xFFFF) + (y & 0xFFFF); return (((x >> 16) + (y >> 16) + (l >> 16)) << 16) | (l & 0xFFFF); }
+    function cmn(q, a, b, x, s, t) { return au(rl(au(au(a, q), au(x, t)), s), b); }
+    function ff(a, b, c, d, x, s, t) { return cmn((b & c) | ((~b) & d), a, b, x, s, t); }
+    function gg(a, b, c, d, x, s, t) { return cmn((b & d) | (c & (~d)), a, b, x, s, t); }
+    function hh(a, b, c, d, x, s, t) { return cmn(b ^ c ^ d, a, b, x, s, t); }
+    function ii(a, b, c, d, x, s, t) { return cmn(c ^ (b | (~d)), a, b, x, s, t); }
+    function tb(str) {
+      str = unescape(encodeURIComponent(str));
+      var n = str.length, b = [], i;
+      for (i = 0; i < n; i++) b[i >> 2] |= (str.charCodeAt(i) & 0xff) << ((i % 4) * 8);
+      b[n >> 2] |= 0x80 << ((n % 4) * 8);
+      b[(((n + 8) >> 6) + 1) * 16 - 2] = n * 8;
+      return b;
+    }
+    function hex(num) { var s = '', j; for (j = 0; j < 4; j++) s += ('0' + ((num >> (j * 8)) & 0xff).toString(16)).slice(-2); return s; }
+    var x = tb(s), a = 1732584193, b = -271733879, c = -1732584194, d = 271733878, i;
+    for (i = 0; i < x.length; i += 16) {
+      var oa = a, ob = b, oc = c, od = d;
+      a = ff(a, b, c, d, x[i] || 0, 7, -680876936); d = ff(d, a, b, c, x[i + 1] || 0, 12, -389564586); c = ff(c, d, a, b, x[i + 2] || 0, 17, 606105819); b = ff(b, c, d, a, x[i + 3] || 0, 22, -1044525330);
+      a = ff(a, b, c, d, x[i + 4] || 0, 7, -176418897); d = ff(d, a, b, c, x[i + 5] || 0, 12, 1200080426); c = ff(c, d, a, b, x[i + 6] || 0, 17, -1473231341); b = ff(b, c, d, a, x[i + 7] || 0, 22, -45705983);
+      a = ff(a, b, c, d, x[i + 8] || 0, 7, 1770035416); d = ff(d, a, b, c, x[i + 9] || 0, 12, -1958414417); c = ff(c, d, a, b, x[i + 10] || 0, 17, -42063); b = ff(b, c, d, a, x[i + 11] || 0, 22, -1990404162);
+      a = ff(a, b, c, d, x[i + 12] || 0, 7, 1804603682); d = ff(d, a, b, c, x[i + 13] || 0, 12, -40341101); c = ff(c, d, a, b, x[i + 14] || 0, 17, -1502002290); b = ff(b, c, d, a, x[i + 15] || 0, 22, 1236535329);
+      a = gg(a, b, c, d, x[i + 1] || 0, 5, -165796510); d = gg(d, a, b, c, x[i + 6] || 0, 9, -1069501632); c = gg(c, d, a, b, x[i + 11] || 0, 14, 643717713); b = gg(b, c, d, a, x[i] || 0, 20, -373897302);
+      a = gg(a, b, c, d, x[i + 5] || 0, 5, -701558691); d = gg(d, a, b, c, x[i + 10] || 0, 9, 38016083); c = gg(c, d, a, b, x[i + 15] || 0, 14, -660478335); b = gg(b, c, d, a, x[i + 4] || 0, 20, -405537848);
+      a = gg(a, b, c, d, x[i + 9] || 0, 5, 568446438); d = gg(d, a, b, c, x[i + 14] || 0, 9, -1019803690); c = gg(c, d, a, b, x[i + 3] || 0, 14, -187363961); b = gg(b, c, d, a, x[i + 8] || 0, 20, 1163531501);
+      a = gg(a, b, c, d, x[i + 13] || 0, 5, -1444681467); d = gg(d, a, b, c, x[i + 2] || 0, 9, -51403784); c = gg(c, d, a, b, x[i + 7] || 0, 14, 1735328473); b = gg(b, c, d, a, x[i + 12] || 0, 20, -1926607734);
+      a = hh(a, b, c, d, x[i + 5] || 0, 4, -378558); d = hh(d, a, b, c, x[i + 8] || 0, 11, -2022574463); c = hh(c, d, a, b, x[i + 11] || 0, 16, 1839030562); b = hh(b, c, d, a, x[i + 14] || 0, 23, -35309556);
+      a = hh(a, b, c, d, x[i + 1] || 0, 4, -1530992060); d = hh(d, a, b, c, x[i + 4] || 0, 11, 1272893353); c = hh(c, d, a, b, x[i + 7] || 0, 16, -155497632); b = hh(b, c, d, a, x[i + 10] || 0, 23, -1094730640);
+      a = hh(a, b, c, d, x[i + 13] || 0, 4, 681279174); d = hh(d, a, b, c, x[i] || 0, 11, -358537222); c = hh(c, d, a, b, x[i + 3] || 0, 16, -722521979); b = hh(b, c, d, a, x[i + 6] || 0, 23, 76029189);
+      a = hh(a, b, c, d, x[i + 9] || 0, 4, -640364487); d = hh(d, a, b, c, x[i + 12] || 0, 11, -421815835); c = hh(c, d, a, b, x[i + 15] || 0, 16, 530742520); b = hh(b, c, d, a, x[i + 2] || 0, 23, -995338651);
+      a = ii(a, b, c, d, x[i] || 0, 6, -198630844); d = ii(d, a, b, c, x[i + 7] || 0, 10, 1126891415); c = ii(c, d, a, b, x[i + 14] || 0, 15, -1416354905); b = ii(b, c, d, a, x[i + 5] || 0, 21, -57434055);
+      a = ii(a, b, c, d, x[i + 12] || 0, 6, 1700485571); d = ii(d, a, b, c, x[i + 3] || 0, 10, -1894986606); c = ii(c, d, a, b, x[i + 10] || 0, 15, -1051523); b = ii(b, c, d, a, x[i + 1] || 0, 21, -2054922799);
+      a = ii(a, b, c, d, x[i + 8] || 0, 6, 1873313359); d = ii(d, a, b, c, x[i + 15] || 0, 10, -30611744); c = ii(c, d, a, b, x[i + 6] || 0, 15, -1560198380); b = ii(b, c, d, a, x[i + 13] || 0, 21, 1309151649);
+      a = ii(a, b, c, d, x[i + 4] || 0, 6, -145523070); d = ii(d, a, b, c, x[i + 11] || 0, 10, -1120210379); c = ii(c, d, a, b, x[i + 2] || 0, 15, 718787259); b = ii(b, c, d, a, x[i + 9] || 0, 21, -343485551);
+      a = au(a, oa); b = au(b, ob); c = au(c, oc); d = au(d, od);
+    }
+    return hex(a) + hex(b) + hex(c) + hex(d);
+  }
+
   function escapeHtml(s) {
     var d = document.createElement('div');
     d.textContent = s;
@@ -1458,10 +1527,28 @@
     }
     (emails || []).forEach(function(em) {
       var ee = encodeURIComponent(em);
+      var hash = md5(em.trim().toLowerCase());
       links.push({ label: 'HaveIBeenPwned — ' + em, url: 'https://haveibeenpwned.com/account/' + ee });
-      links.push({ label: 'EPIEOS — ' + em,         url: 'https://epieos.com/?q=' + ee });
+      links.push({ label: 'EPIEOS — ' + em,           url: 'https://epieos.com/?q=' + ee });
+      links.push({ label: 'IntelX — ' + em,           url: 'https://intelx.io/?s=' + ee });
+      links.push({ label: 'Gravatar profil — ' + em,  url: 'https://gravatar.com/' + hash });
+      links.push({ label: 'Gravatar avatar — ' + em,  url: 'https://www.gravatar.com/avatar/' + hash + '?d=404' });
     });
     return links;
+  }
+
+  // Annuaires inversés / recherche pour un numéro de téléphone
+  function phoneLinks(num) {
+    var d = num.replace(/\D/g, '');
+    var intl = (d.length === 10 && d[0] === '0') ? '33' + d.slice(1) : d;
+    var plus = '+' + intl;
+    return [
+      { label: 'Truecaller',                  url: 'https://www.truecaller.com/search/fr/' + encodeURIComponent(intl) },
+      { label: 'Sync.me',                      url: 'https://sync.me/search/?number=' + encodeURIComponent(plus) },
+      { label: 'Pages Jaunes (inversé)',       url: 'https://www.pagesjaunes.fr/pagesblanches/recherche?quoiqui=' + encodeURIComponent(d) },
+      { label: 'NumLookup',                    url: 'https://www.numlookup.com/' },
+      { label: 'Recherche Google',             url: 'https://www.google.com/search?q=' + encodeURIComponent(plus) }
+    ];
   }
 
   // ═══════════════════════════════════════
@@ -1912,6 +1999,7 @@
       { label: 'domaine', fn: window.generateDomaine },
       { label: 'société', fn: window.generateSociete },
       { label: 'image', fn: window.generateImage },
+      { label: 'recoupement', fn: window.generateCorrelation },
       { label: 'champs-perso', fn: window.generateCustom }
     ];
     var files = [];
@@ -2388,8 +2476,24 @@
     if (iLinks.length) {
       categories.push({
         icon: '🔗', title: 'Liens directs — recherche',
-        desc: 'Recherches pré-remplies (LinkedIn, Pages Jaunes, HIBP…) — ouvre directement',
+        desc: 'Recherches pré-remplies (LinkedIn, Pages Jaunes, HIBP, Gravatar…) — ouvre directement',
         links: iLinks
+      });
+    }
+
+    // ── Liens directs (annuaires inversés pour les numéros connus) ──
+    if (telephonesConnus.length > 0) {
+      var telLinks = [];
+      var multiTel = telephonesConnus.length > 1;
+      telephonesConnus.forEach(function(t) {
+        phoneLinks(t).forEach(function(l) {
+          telLinks.push(multiTel ? { label: l.label + ' · ' + t, url: l.url } : l);
+        });
+      });
+      categories.push({
+        icon: '📞', title: 'Liens directs — téléphone',
+        desc: 'Annuaires inversés et recherche pour les numéros connus',
+        links: telLinks
       });
     }
 
@@ -2451,7 +2555,12 @@
       categories.push({
         icon: '⌨️', title: 'Commandes CLI — vérification réseau',
         desc: 'À exécuter dans un terminal avec Sherlock ou Maigret installé — vérifie réellement l\'existence des comptes',
-        dorks: ['maigret ' + argList, 'sherlock ' + argList]
+        dorks: [
+          'maigret ' + argList + ' --timeout 10',
+          'maigret ' + argList + ' --html',
+          'sherlock ' + argList + ' --timeout 10',
+          'sherlock ' + argList + ' --csv'
+        ]
       });
     }
 
@@ -2981,6 +3090,22 @@
       });
     }
 
+    // ── Liens directs (annuaires inversés pour les numéros connus) ──
+    if (telsSoc.length > 0) {
+      var telLinksSoc = [];
+      var multiTelSoc = telsSoc.length > 1;
+      telsSoc.forEach(function(t) {
+        phoneLinks(t).forEach(function(l) {
+          telLinksSoc.push(multiTelSoc ? { label: l.label + ' · ' + t, url: l.url } : l);
+        });
+      });
+      categories.push({
+        icon: '📞', title: 'Liens directs — téléphone',
+        desc: 'Annuaires inversés et recherche pour les numéros connus',
+        links: telLinksSoc
+      });
+    }
+
     if (silent) return { categories: categories, values: [societe, siren].filter(Boolean) };
     renderResults(categories);
   };
@@ -3047,6 +3172,67 @@
         { label: 'Sogou Images',         url: 'https://pic.sogou.com/' }
       ]
     });
+
+    if (silent) return { categories: categories, values: [] };
+    renderResults(categories);
+  };
+
+  // Recoupement : combine les identifiants saisis dans les autres onglets
+  // (nom, pseudo, email, domaine, société, ville) pour trouver les pages qui
+  // les associent — confirme qu'ils désignent la même cible.
+  window.generateCorrelation = function(silent) {
+    var nom = val('nom'), prenom = val('prenom');
+    var names = [];
+    if (nom && prenom) { names.push('"' + prenom + ' ' + nom + '"', '"' + nom + ' ' + prenom + '"'); }
+    else if (nom) names.push('"' + nom + '"');
+    else if (prenom) names.push('"' + prenom + '"');
+    var nameQ = names.length ? '(' + names.join(' OR ') + ')' : '';
+
+    var pseudos = [val('pseudo')].concat(list('pseudoVariations')).filter(Boolean);
+    var pseudoQ = pseudos.length ? '(' + pseudos.map(function(p) { return '"' + p + '"'; }).join(' OR ') + ')' : '';
+
+    var emails = Array.from(new Set(list('emails').concat(list('pseudoEmails')).concat(list('emailsSociete'))));
+    var emailQ = emails.length ? '(' + emails.map(function(e) { return '"' + e + '"'; }).join(' OR ') + ')' : '';
+
+    var domaine = cleanDomain(val('domaine')) || cleanDomain(val('domaineSociete'));
+    var societe = val('societe');
+    var societeQ = societe ? '"' + societe + '"' : '';
+    var villes = Array.from(new Set(list('villes').concat(list('villeSociete'))));
+    var villeQ = villes.length ? '(' + villes.map(function(v) { return '"' + v + '"'; }).join(' OR ') + ')' : '';
+
+    var present = [nameQ, pseudoQ, emailQ, domaine, societeQ].filter(Boolean);
+    if (present.length < 2) {
+      if (silent) return null;
+      showToast('Renseignez au moins deux identifiants (nom, pseudo, email, domaine, société) dans les onglets.');
+      return;
+    }
+
+    var dorks = [];
+    function pair(a, b) { if (a && b) dorks.push(a + ' ' + b); }
+
+    pair(nameQ, pseudoQ);
+    pair(nameQ, emailQ);
+    pair(nameQ, societeQ);
+    pair(nameQ, villeQ);
+    if (nameQ && domaine) { dorks.push(nameQ + ' "' + domaine + '"'); dorks.push(nameQ + ' site:' + domaine); }
+
+    pair(pseudoQ, emailQ);
+    pair(pseudoQ, societeQ);
+    if (pseudoQ && domaine) dorks.push(pseudoQ + ' "' + domaine + '"');
+
+    pair(emailQ, societeQ);
+    if (emailQ && domaine) dorks.push(emailQ + ' "' + domaine + '"');
+
+    if (nameQ && pseudoQ && emailQ) dorks.push(nameQ + ' ' + pseudoQ + ' ' + emailQ);
+    if (nameQ && pseudoQ && villeQ) dorks.push(nameQ + ' ' + pseudoQ + ' ' + villeQ);
+
+    dorks = Array.from(new Set(dorks)).filter(Boolean);
+
+    var categories = [{
+      icon: '🧩', title: 'Recoupement d\'identifiants',
+      desc: 'Requêtes combinant plusieurs identifiants de la cible pour trouver les pages qui les associent',
+      dorks: dorks
+    }];
 
     if (silent) return { categories: categories, values: [] };
     renderResults(categories);
@@ -3147,7 +3333,7 @@
 
   // Raccourcis Alt+1..5 : bascule d'onglet
   document.addEventListener('keydown', function(e) {
-    if (e.altKey && !e.ctrlKey && !e.metaKey && e.key >= '1' && e.key <= '6') {
+    if (e.altKey && !e.ctrlKey && !e.metaKey && e.key >= '1' && e.key <= '7') {
       var btns = document.querySelectorAll('.tab-btn');
       var i = parseInt(e.key, 10) - 1;
       if (btns[i]) { e.preventDefault(); btns[i].click(); }
@@ -3161,7 +3347,7 @@
   });
 
   // Entrée dans un champ texte → lance la génération de l'onglet courant (sauf textarea)
-  var GEN_FN = { identite: 'generate', pseudo: 'generatePseudo', domaine: 'generateDomaine', societe: 'generateSociete', image: 'generateImage', perso: 'generateCustom' };
+  var GEN_FN = { identite: 'generate', pseudo: 'generatePseudo', domaine: 'generateDomaine', societe: 'generateSociete', image: 'generateImage', correlation: 'generateCorrelation', perso: 'generateCustom' };
   FIELDS.forEach(function(id) {
     var el = document.getElementById(id);
     if (el.tagName === 'TEXTAREA') return;

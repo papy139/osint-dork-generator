@@ -47,7 +47,12 @@
       categories.push({
         icon: '⌨️', title: 'Commandes CLI — vérification réseau',
         desc: 'À exécuter dans un terminal avec Sherlock ou Maigret installé — vérifie réellement l\'existence des comptes',
-        dorks: ['maigret ' + argList, 'sherlock ' + argList]
+        dorks: [
+          'maigret ' + argList + ' --timeout 10',
+          'maigret ' + argList + ' --html',
+          'sherlock ' + argList + ' --timeout 10',
+          'sherlock ' + argList + ' --csv'
+        ]
       });
     }
 

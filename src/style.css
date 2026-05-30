@@ -695,6 +695,19 @@
   /* Badge d'avertissement longueur de dork */
   .dork-warn { cursor: help; font-size: 0.85em; opacity: 0.9; }
 
+  /* Intro de l'onglet Corrélation */
+  .correlation-intro {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.2rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+  .correlation-intro strong { color: var(--accent); }
+
   /* Menus déroulants — style unifié (flèche personnalisée) */
   .topbar-select, .geo-select {
     -webkit-appearance: none;

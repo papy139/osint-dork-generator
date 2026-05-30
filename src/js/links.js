@@ -152,8 +152,26 @@
     }
     (emails || []).forEach(function(em) {
       var ee = encodeURIComponent(em);
+      var hash = md5(em.trim().toLowerCase());
       links.push({ label: 'HaveIBeenPwned — ' + em, url: 'https://haveibeenpwned.com/account/' + ee });
-      links.push({ label: 'EPIEOS — ' + em,         url: 'https://epieos.com/?q=' + ee });
+      links.push({ label: 'EPIEOS — ' + em,           url: 'https://epieos.com/?q=' + ee });
+      links.push({ label: 'IntelX — ' + em,           url: 'https://intelx.io/?s=' + ee });
+      links.push({ label: 'Gravatar profil — ' + em,  url: 'https://gravatar.com/' + hash });
+      links.push({ label: 'Gravatar avatar — ' + em,  url: 'https://www.gravatar.com/avatar/' + hash + '?d=404' });
     });
     return links;
+  }
+
+  // Annuaires inversés / recherche pour un numéro de téléphone
+  function phoneLinks(num) {
+    var d = num.replace(/\D/g, '');
+    var intl = (d.length === 10 && d[0] === '0') ? '33' + d.slice(1) : d;
+    var plus = '+' + intl;
+    return [
+      { label: 'Truecaller',                  url: 'https://www.truecaller.com/search/fr/' + encodeURIComponent(intl) },
+      { label: 'Sync.me',                      url: 'https://sync.me/search/?number=' + encodeURIComponent(plus) },
+      { label: 'Pages Jaunes (inversé)',       url: 'https://www.pagesjaunes.fr/pagesblanches/recherche?quoiqui=' + encodeURIComponent(d) },
+      { label: 'NumLookup',                    url: 'https://www.numlookup.com/' },
+      { label: 'Recherche Google',             url: 'https://www.google.com/search?q=' + encodeURIComponent(plus) }
+    ];
   }

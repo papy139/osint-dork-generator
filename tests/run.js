@@ -22,7 +22,7 @@ const factory = new Function(
   code + '\n;return {' +
     'cleanDomain, phoneVariants, pseudoVariants, buildNameQuery,' +
     'buildEmailVariations, buildLocationQuery, crc32,' +
-    'sherlockLinks, domainLinks, ipLinks, societeLinks, identiteLinks, imageLinks, SHERLOCK, GEO' +
+    'sherlockLinks, domainLinks, ipLinks, societeLinks, identiteLinks, imageLinks, phoneLinks, md5, SHERLOCK, GEO' +
   '};'
 );
 const H = factory(
@@ -75,6 +75,18 @@ ok('societeLinks pappers', H.societeLinks('ACME', null, null).some(function(l){ 
 ok('identiteLinks HIBP par email', H.identiteLinks('Dupont','Jean',['a@b.com']).some(function(l){ return l.label.indexOf('HaveIBeenPwned') !== -1; }));
 ok('imageLinks Google Lens', H.imageLinks('http://x/y.jpg')[0].url.indexOf('lens.google.com/uploadbyurl?url=') !== -1);
 ok('imageLinks encode l\'URL', H.imageLinks('http://x/y.jpg').some(function(l){ return l.url.indexOf('http%3A%2F%2Fx%2Fy.jpg') !== -1; }));
+
+// md5 (vecteurs de référence)
+eq('md5 chaîne vide', H.md5(''), 'd41d8cd98f00b204e9800998ecf8427e');
+eq('md5 "abc"', H.md5('abc'), '900150983cd24fb0d6963f7d28e17f72');
+eq('md5 email gravatar', H.md5('test@example.com'), '55502f40dc8b7c769880b10874abc9d0');
+
+// phoneLinks
+ok('phoneLinks Truecaller intl', H.phoneLinks('0612345678').some(function(l){ return l.url.indexOf('truecaller.com/search/fr/33612345678') !== -1; }));
+ok('phoneLinks 5 entrées', H.phoneLinks('0612345678').length === 5);
+
+// identiteLinks enrichi (Gravatar)
+ok('identiteLinks Gravatar', H.identiteLinks('Dupont','Jean',['a@b.com']).some(function(l){ return l.label.indexOf('Gravatar') !== -1; }));
 
 // données géographiques
 ok('GEO régions = 18', H.GEO.regions.length === 18);

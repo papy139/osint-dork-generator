@@ -176,6 +176,22 @@
       });
     }
 
+    // ── Liens directs (annuaires inversés pour les numéros connus) ──
+    if (telsSoc.length > 0) {
+      var telLinksSoc = [];
+      var multiTelSoc = telsSoc.length > 1;
+      telsSoc.forEach(function(t) {
+        phoneLinks(t).forEach(function(l) {
+          telLinksSoc.push(multiTelSoc ? { label: l.label + ' · ' + t, url: l.url } : l);
+        });
+      });
+      categories.push({
+        icon: '📞', title: 'Liens directs — téléphone',
+        desc: 'Annuaires inversés et recherche pour les numéros connus',
+        links: telLinksSoc
+      });
+    }
+
     if (silent) return { categories: categories, values: [societe, siren].filter(Boolean) };
     renderResults(categories);
   };

@@ -443,8 +443,24 @@
     if (iLinks.length) {
       categories.push({
         icon: '🔗', title: 'Liens directs — recherche',
-        desc: 'Recherches pré-remplies (LinkedIn, Pages Jaunes, HIBP…) — ouvre directement',
+        desc: 'Recherches pré-remplies (LinkedIn, Pages Jaunes, HIBP, Gravatar…) — ouvre directement',
         links: iLinks
+      });
+    }
+
+    // ── Liens directs (annuaires inversés pour les numéros connus) ──
+    if (telephonesConnus.length > 0) {
+      var telLinks = [];
+      var multiTel = telephonesConnus.length > 1;
+      telephonesConnus.forEach(function(t) {
+        phoneLinks(t).forEach(function(l) {
+          telLinks.push(multiTel ? { label: l.label + ' · ' + t, url: l.url } : l);
+        });
+      });
+      categories.push({
+        icon: '📞', title: 'Liens directs — téléphone',
+        desc: 'Annuaires inversés et recherche pour les numéros connus',
+        links: telLinks
       });
     }
 

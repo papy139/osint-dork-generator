@@ -80,7 +80,7 @@
 
   // Raccourcis Alt+1..5 : bascule d'onglet
   document.addEventListener('keydown', function(e) {
-    if (e.altKey && !e.ctrlKey && !e.metaKey && e.key >= '1' && e.key <= '6') {
+    if (e.altKey && !e.ctrlKey && !e.metaKey && e.key >= '1' && e.key <= '7') {
       var btns = document.querySelectorAll('.tab-btn');
       var i = parseInt(e.key, 10) - 1;
       if (btns[i]) { e.preventDefault(); btns[i].click(); }
@@ -94,7 +94,7 @@
   });
 
   // Entrée dans un champ texte → lance la génération de l'onglet courant (sauf textarea)
-  var GEN_FN = { identite: 'generate', pseudo: 'generatePseudo', domaine: 'generateDomaine', societe: 'generateSociete', image: 'generateImage', perso: 'generateCustom' };
+  var GEN_FN = { identite: 'generate', pseudo: 'generatePseudo', domaine: 'generateDomaine', societe: 'generateSociete', image: 'generateImage', correlation: 'generateCorrelation', perso: 'generateCustom' };
   FIELDS.forEach(function(id) {
     var el = document.getElementById(id);
     if (el.tagName === 'TEXTAREA') return;

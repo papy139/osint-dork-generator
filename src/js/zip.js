@@ -61,6 +61,7 @@
       { label: 'domaine', fn: window.generateDomaine },
       { label: 'société', fn: window.generateSociete },
       { label: 'image', fn: window.generateImage },
+      { label: 'recoupement', fn: window.generateCorrelation },
       { label: 'champs-perso', fn: window.generateCustom }
     ];
     var files = [];
