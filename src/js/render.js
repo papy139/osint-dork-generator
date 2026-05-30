@@ -32,6 +32,7 @@
     html += '<input type="text" id="filterInput" class="filter-input" placeholder="Filtrer…" aria-label="Filtrer les résultats">';
     html += '<button class="btn-copy-all" id="btnCopyAll">Tout copier</button>';
     html += '<button class="btn-copy-all" id="btnExport">Exporter .txt</button>';
+    html += '<button class="btn-copy-all" id="btnExportHtml">Rapport HTML</button>';
     html += '</div>';
     html += '</div>';
 
@@ -111,6 +112,36 @@
       a.click();
       setTimeout(function() { URL.revokeObjectURL(a.href); }, 100);
       showToast('Export téléchargé !');
+    });
+
+    document.getElementById('btnExportHtml').addEventListener('click', function() {
+      var parts = ['<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8">',
+        '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
+        '<title>Rapport OSINT</title>',
+        '<style>body{font-family:system-ui,-apple-system,sans-serif;max-width:900px;margin:2rem auto;padding:0 1rem;line-height:1.5;color:#1a1a1a}h1{border-bottom:2px solid #00a37a;padding-bottom:.4rem}h2{margin-top:2rem;color:#00795c}code{background:#f3f3f3;padding:.1rem .35rem;border-radius:3px;word-break:break-all;font-size:.85em}li{margin:.35rem 0}a{color:#0066cc}em{color:#555}</style></head><body>'];
+      parts.push('<h1>Rapport OSINT — ' + escapeHtml(new Date().toLocaleString('fr-FR')) + '</h1>');
+      categories.forEach(function(cat) {
+        parts.push('<h2>' + escapeHtml(cat.title) + '</h2>');
+        if (cat.desc) parts.push('<p><em>' + escapeHtml(cat.desc) + '</em></p>');
+        parts.push('<ul>');
+        cat.entries.forEach(function(e) {
+          if (e.url) {
+            parts.push('<li><a href="' + escapeHtml(e.url) + '" target="_blank" rel="noopener">'
+              + escapeHtml(e.label || e.url) + '</a> — <code>' + escapeHtml(e.url) + '</code></li>');
+          } else {
+            parts.push('<li><code>' + escapeHtml(e.text) + '</code></li>');
+          }
+        });
+        parts.push('</ul>');
+      });
+      parts.push('</body></html>');
+      var blob = new Blob([parts.join('\n')], { type: 'text/html' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'rapport-osint-' + new Date().toISOString().slice(0, 10) + '.html';
+      a.click();
+      setTimeout(function() { URL.revokeObjectURL(a.href); }, 100);
+      showToast('Rapport HTML téléchargé !');
     });
 
     // Filtre live : masque les dorks (et les catégories vides) qui ne matchent pas

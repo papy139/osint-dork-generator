@@ -9,6 +9,17 @@
     code:   'site:github.com OR site:gitlab.com OR site:bitbucket.org OR site:codeberg.org OR site:gist.github.com'
   };
 
+  // Extrait le nom d'hôte d'une saisie : retire le schéma, les identifiants,
+  // le chemin, la requête et le port (ex. "https://www.exemple.com/page" → "www.exemple.com")
+  function cleanDomain(raw) {
+    if (!raw) return '';
+    var d = raw.trim().replace(/^[a-z][a-z0-9+.-]*:\/\//i, '');
+    d = d.replace(/^[^@\/]*@/, '');
+    d = d.split(/[\/?#]/)[0];
+    d = d.replace(/:\d+$/, '');
+    return d.toLowerCase();
+  }
+
   // Normalise un numéro FR en plusieurs formats pour maximiser les correspondances Google
   function phoneVariants(raw) {
     var d = raw.replace(/\D/g, '');

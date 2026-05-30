@@ -1,5 +1,5 @@
   window.generateDomaine = function(silent) {
-    var domaine = val('domaine');
+    var domaine = cleanDomain(val('domaine'));
     var ip = val('ip');
     var excl = list('domaineExclusions');
 

@@ -1,0 +1,10 @@
+{
+  "name": "osint-dork-generator",
+  "version": "1.0.0",
+  "description": "Générateur de Google Dorks OSINT — application autonome en un seul fichier HTML, sans dépendance.",
+  "private": true,
+  "scripts": {
+    "build": "node build.js",
+    "test": "node tests/run.js"
+  }
+}

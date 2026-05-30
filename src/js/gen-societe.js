@@ -1,7 +1,7 @@
   window.generateSociete = function(silent) {
     var societe = val('societe');
     var siren = val('siren');
-    var domSoc = val('domaineSociete');
+    var domSoc = cleanDomain(val('domaineSociete'));
     var emailsSoc = list('emailsSociete');
     var telsSoc = list('telephonesSociete');
     var secteur = val('secteur');

@@ -41,6 +41,16 @@
       });
     }
 
+    // ── Commandes CLI (vérification réseau réelle via Sherlock / Maigret) ──
+    if (sherlockNames.length) {
+      var argList = sherlockNames.map(function(u) { return /\s/.test(u) ? '"' + u + '"' : u; }).join(' ');
+      categories.push({
+        icon: '⌨️', title: 'Commandes CLI — vérification réseau',
+        desc: 'À exécuter dans un terminal avec Sherlock ou Maigret installé — vérifie réellement l\'existence des comptes',
+        dorks: ['maigret ' + argList, 'sherlock ' + argList]
+      });
+    }
+
     // ── 1. Recherche générale ──
     categories.push({
       icon: '🔍', title: 'Recherche générale', dorks: [pseudoQ]

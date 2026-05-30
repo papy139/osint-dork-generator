@@ -911,6 +911,17 @@
     code:   'site:github.com OR site:gitlab.com OR site:bitbucket.org OR site:codeberg.org OR site:gist.github.com'
   };
 
+  // Extrait le nom d'hôte d'une saisie : retire le schéma, les identifiants,
+  // le chemin, la requête et le port (ex. "https://www.exemple.com/page" → "www.exemple.com")
+  function cleanDomain(raw) {
+    if (!raw) return '';
+    var d = raw.trim().replace(/^[a-z][a-z0-9+.-]*:\/\//i, '');
+    d = d.replace(/^[^@\/]*@/, '');
+    d = d.split(/[\/?#]/)[0];
+    d = d.replace(/:\d+$/, '');
+    return d.toLowerCase();
+  }
+
   // Normalise un numéro FR en plusieurs formats pour maximiser les correspondances Google
   function phoneVariants(raw) {
     var d = raw.replace(/\D/g, '');
@@ -1358,6 +1369,7 @@
     html += '<input type="text" id="filterInput" class="filter-input" placeholder="Filtrer…" aria-label="Filtrer les résultats">';
     html += '<button class="btn-copy-all" id="btnCopyAll">Tout copier</button>';
     html += '<button class="btn-copy-all" id="btnExport">Exporter .txt</button>';
+    html += '<button class="btn-copy-all" id="btnExportHtml">Rapport HTML</button>';
     html += '</div>';
     html += '</div>';
 
@@ -1437,6 +1449,36 @@
       a.click();
       setTimeout(function() { URL.revokeObjectURL(a.href); }, 100);
       showToast('Export téléchargé !');
+    });
+
+    document.getElementById('btnExportHtml').addEventListener('click', function() {
+      var parts = ['<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8">',
+        '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
+        '<title>Rapport OSINT</title>',
+        '<style>body{font-family:system-ui,-apple-system,sans-serif;max-width:900px;margin:2rem auto;padding:0 1rem;line-height:1.5;color:#1a1a1a}h1{border-bottom:2px solid #00a37a;padding-bottom:.4rem}h2{margin-top:2rem;color:#00795c}code{background:#f3f3f3;padding:.1rem .35rem;border-radius:3px;word-break:break-all;font-size:.85em}li{margin:.35rem 0}a{color:#0066cc}em{color:#555}</style></head><body>'];
+      parts.push('<h1>Rapport OSINT — ' + escapeHtml(new Date().toLocaleString('fr-FR')) + '</h1>');
+      categories.forEach(function(cat) {
+        parts.push('<h2>' + escapeHtml(cat.title) + '</h2>');
+        if (cat.desc) parts.push('<p><em>' + escapeHtml(cat.desc) + '</em></p>');
+        parts.push('<ul>');
+        cat.entries.forEach(function(e) {
+          if (e.url) {
+            parts.push('<li><a href="' + escapeHtml(e.url) + '" target="_blank" rel="noopener">'
+              + escapeHtml(e.label || e.url) + '</a> — <code>' + escapeHtml(e.url) + '</code></li>');
+          } else {
+            parts.push('<li><code>' + escapeHtml(e.text) + '</code></li>');
+          }
+        });
+        parts.push('</ul>');
+      });
+      parts.push('</body></html>');
+      var blob = new Blob([parts.join('\n')], { type: 'text/html' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'rapport-osint-' + new Date().toISOString().slice(0, 10) + '.html';
+      a.click();
+      setTimeout(function() { URL.revokeObjectURL(a.href); }, 100);
+      showToast('Rapport HTML téléchargé !');
     });
 
     // Filtre live : masque les dorks (et les catégories vides) qui ne matchent pas
@@ -2107,6 +2149,16 @@
       });
     }
 
+    // ── Commandes CLI (vérification réseau réelle via Sherlock / Maigret) ──
+    if (sherlockNames.length) {
+      var argList = sherlockNames.map(function(u) { return /\s/.test(u) ? '"' + u + '"' : u; }).join(' ');
+      categories.push({
+        icon: '⌨️', title: 'Commandes CLI — vérification réseau',
+        desc: 'À exécuter dans un terminal avec Sherlock ou Maigret installé — vérifie réellement l\'existence des comptes',
+        dorks: ['maigret ' + argList, 'sherlock ' + argList]
+      });
+    }
+
     // ── 1. Recherche générale ──
     categories.push({
       icon: '🔍', title: 'Recherche générale', dorks: [pseudoQ]
@@ -2286,7 +2338,7 @@
   };
 
   window.generateDomaine = function(silent) {
-    var domaine = val('domaine');
+    var domaine = cleanDomain(val('domaine'));
     var ip = val('ip');
     var excl = list('domaineExclusions');
 
@@ -2458,7 +2510,7 @@
   window.generateSociete = function(silent) {
     var societe = val('societe');
     var siren = val('siren');
-    var domSoc = val('domaineSociete');
+    var domSoc = cleanDomain(val('domaineSociete'));
     var emailsSoc = list('emailsSociete');
     var telsSoc = list('telephonesSociete');
     var secteur = val('secteur');
